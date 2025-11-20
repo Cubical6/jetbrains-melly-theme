@@ -31,6 +31,11 @@ enum class FontVariant(val schemeValue: Int) {
   BOLD(1), ITALIC(2), BOLD_ITALIC(3), NONE(0)
 }
 
+enum class TemplateType(val fileName: String) {
+  ONE_DARK("one-dark.template.xml"),
+  WINDOWS_TERMINAL("windows-terminal.template.xml")
+}
+
 data class ColorPalette(
   val variant: ColorVariant,
   val colors: Map<String, String>
@@ -38,7 +43,8 @@ data class ColorPalette(
 
 data class OneDarkThemeDefinition(
   val id: String,
-  val name: String
+  val name: String,
+  val templateType: TemplateType = TemplateType.ONE_DARK
 )
 
 open class ThemeConstructor : DefaultTask() {
@@ -103,18 +109,19 @@ open class ThemeConstructor : DefaultTask() {
   private fun constructNewTheme(
     newSettings: ThemeSettings,
     themeDefinition: OneDarkThemeDefinition
-  ) = buildScheme(newSettings, themeDefinition)
+  ) = buildScheme(newSettings, themeDefinition, themeDefinition.templateType)
 
   private fun buildScheme(
     themeSettings: ThemeSettings,
-    themeDefinition: OneDarkThemeDefinition
+    themeDefinition: OneDarkThemeDefinition,
+    templateType: TemplateType = TemplateType.ONE_DARK
   ) {
     val assetsDirectory = getAssetsDirectory()
     val newEditorSchemeFile = Paths.get(
       assetsDirectory.toAbsolutePath().toString(),
       "${createFileName(themeDefinition.name)}.xml"
     )
-    buildNewEditorScheme(themeSettings, newEditorSchemeFile, themeDefinition)
+    buildNewEditorScheme(themeSettings, newEditorSchemeFile, themeDefinition, templateType)
     buildThemeJson(themeDefinition, Paths.get(
       assetsDirectory.toAbsolutePath().toString(),
       "${createFileName(themeDefinition.name)}.theme.json"))
@@ -162,10 +169,11 @@ open class ThemeConstructor : DefaultTask() {
   private fun buildNewEditorScheme(
     themeSettings: ThemeSettings,
     newSchemeFile: Path,
-    oneDarkThemeDefinition: OneDarkThemeDefinition
+    oneDarkThemeDefinition: OneDarkThemeDefinition,
+    templateType: TemplateType = TemplateType.ONE_DARK
   ) {
     val colorPalette = getColorPalette(themeSettings)
-    val editorTemplate = getEditorXMLTemplate()
+    val editorTemplate = getEditorXMLTemplate(templateType)
     val updatedScheme = applySettingsToTemplate(
       editorTemplate,
       themeSettings,
@@ -284,12 +292,12 @@ open class ThemeConstructor : DefaultTask() {
     return Pair(end, replacementHexColor)
   }
 
-  private fun getEditorXMLTemplate(): Node =
+  private fun getEditorXMLTemplate(templateType: TemplateType = TemplateType.ONE_DARK): Node =
     Files.newInputStream(Paths.get(
       project.rootDir.absolutePath,
       "buildSrc",
       "templates",
-      "one-dark.template.xml"
+      templateType.fileName
     )).use { input ->
       val inputSource = InputSource(InputStreamReader(input, "UTF-8"))
       val parser = XmlParser(false, true, true)

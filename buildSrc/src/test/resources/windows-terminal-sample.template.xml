@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scheme name="Windows Terminal One Dark" parent_scheme="Darcula" version="142">
+  <metaInfo>
+    <property name="wtScheme">generated</property>
+  </metaInfo>
+  <colors>
+    <!-- Windows Terminal Core Colors -->
+    <option name="CONSOLE_BACKGROUND_KEY" value="$wt_background$"/>
+    <option name="CONSOLE_FOREGROUND_KEY" value="$wt_foreground$"/>
+    <option name="CARET_COLOR" value="$wt_cursorColor$"/>
+    <option name="SELECTION_BACKGROUND" value="$wt_selectionBackground$"/>
+
+    <!-- ANSI Colors (0-7) -->
+    <option name="CONSOLE_BLACK_OUTPUT" value="$wt_black$"/>
+    <option name="CONSOLE_RED_OUTPUT" value="$wt_red$"/>
+    <option name="CONSOLE_GREEN_OUTPUT" value="$wt_green$"/>
+    <option name="CONSOLE_YELLOW_OUTPUT" value="$wt_yellow$"/>
+    <option name="CONSOLE_BLUE_OUTPUT" value="$wt_blue$"/>
+    <option name="CONSOLE_MAGENTA_OUTPUT" value="$wt_purple$"/>
+    <option name="CONSOLE_CYAN_OUTPUT" value="$wt_cyan$"/>
+    <option name="CONSOLE_WHITE_OUTPUT" value="$wt_white$"/>
+
+    <!-- ANSI Bright Colors (8-15) -->
+    <option name="CONSOLE_DARKGRAY_OUTPUT" value="$wt_brightBlack$"/>
+    <option name="CONSOLE_RED_BRIGHT_OUTPUT" value="$wt_brightRed$"/>
+    <option name="CONSOLE_GREEN_BRIGHT_OUTPUT" value="$wt_brightGreen$"/>
+    <option name="CONSOLE_YELLOW_BRIGHT_OUTPUT" value="$wt_brightYellow$"/>
+    <option name="CONSOLE_BLUE_BRIGHT_OUTPUT" value="$wt_brightBlue$"/>
+    <option name="CONSOLE_MAGENTA_BRIGHT_OUTPUT" value="$wt_brightPurple$"/>
+    <option name="CONSOLE_CYAN_BRIGHT_OUTPUT" value="$wt_brightCyan$"/>
+    <option name="CONSOLE_WHITE_BRIGHT_OUTPUT" value="$wt_brightWhite$"/>
+
+    <!-- Editor Colors Using Windows Terminal Palette -->
+    <option name="GUTTER_BACKGROUND" value="$wt_background$"/>
+    <option name="LINE_NUMBERS_COLOR" value="$wt_brightBlack$"/>
+    <option name="CARET_ROW_COLOR" value="$wt_black$"/>
+    <option name="ADDED_LINES_COLOR" value="$wt_green$"/>
+    <option name="DELETED_LINES_COLOR" value="$wt_red$"/>
+    <option name="MODIFIED_LINES_COLOR" value="$wt_yellow$"/>
+  </colors>
+
+  <attributes>
+    <option name="DEFAULT_KEYWORD">
+      <value>
+        <option name="FOREGROUND" value="$wt_purple$"/>
+      </value>
+    </option>
+    <option name="DEFAULT_STRING">
+      <value>
+        <option name="FOREGROUND" value="$wt_green$"/>
+      </value>
+    </option>
+    <option name="DEFAULT_NUMBER">
+      <value>
+        <option name="FOREGROUND" value="$wt_yellow$"/>
+      </value>
+    </option>
+    <option name="DEFAULT_COMMENT">
+      <value>
+        <option name="FOREGROUND" value="$wt_brightBlack$"/>
+      </value>
+    </option>
+  </attributes>
+</scheme>

@@ -1,0 +1,492 @@
+{
+  "name": "$wt_name$",
+  "dark": true,
+  "author": "Windows Terminal Color Scheme Converter",
+  "editorScheme": "/themes/$wt_scheme_name$.xml",
+  "colors": {
+    "accentColor": "$wt_brightBlue$",
+    "backgroundColor": "$wt_background$",
+    "borderColor": "$wt_brightBlack$",
+    "infoForeground": "$wt_cyan$",
+    "foregroundColor": "$wt_foreground$",
+    "notificationBackground": "$wt_black$",
+    "selectionBackground": "$wt_selectionBackground$",
+    "selectionForeground": "$wt_brightWhite$"
+  },
+  "ui": {
+    "*": {
+      "background": "backgroundColor",
+      "foreground": "$wt_foreground$",
+
+      "infoForeground": "$wt_cyan$",
+
+      "selectionBackground": {
+        "os.default": "selectionBackground",
+        "os.windows": "selectionBackground",
+        "os.mac": "selectionBackground"
+      },
+      "selectionForeground": {
+        "os.default": "selectionForeground",
+        "os.windows": "selectionForeground",
+        "os.mac": "selectionForeground"
+      },
+      "selectionInactiveBackground": "$wt_black$",
+      "selectionBackgroundInactive": "$wt_black$",
+
+      "disabledBackground": "backgroundColor",
+      "inactiveBackground": "backgroundColor",
+
+      "acceleratorForeground": "$wt_brightWhite$",
+      "acceleratorSelectionForeground": "$wt_brightWhite$",
+
+      "errorForeground": "$wt_brightRed$",
+
+      "borderColor": "$wt_brightBlack$",
+      "disabledBorderColor": "$wt_black$",
+      "focusColor": "backgroundColor",
+      "focusedBorderColor": "accentColor",
+
+      "separatorColor": "$wt_brightBlack$"
+    },
+
+    "ActionButton": {
+      "hoverBackground": "$wt_black$",
+      "hoverBorderColor": "$wt_black$",
+      "pressedBackground": "$wt_brightBlack$",
+      "pressedBorderColor": "$wt_brightBlack$"
+    },
+
+    "BookmarkIcon.background": "$wt_yellow$",
+
+    "BookmarkMnemonicAssigned": {
+      "foreground": "$wt_brightWhite$",
+      "background": "$wt_blue$",
+      "borderColor": "$wt_blue$"
+    },
+
+    "BookmarkMnemonicAvailable": {
+      "borderColor": "borderColor",
+      "foreground": "$wt_white$",
+      "background": "$wt_black$"
+    },
+
+    "BookmarkMnemonicCurrent": {
+      "borderColor": "accentColor",
+      "foreground": "$wt_white$",
+      "background": "$wt_selectionBackground$"
+    },
+
+    "BookmarkMnemonicIcon": {
+      "foreground": "$wt_white$",
+      "background": "$wt_black$",
+      "borderColor": "accentColor"
+    },
+
+    "Button": {
+      "foreground": "$wt_white$",
+      "startBackground": "$wt_black$",
+      "endBackground": "$wt_black$",
+      "startBorderColor": "$wt_brightBlack$",
+      "endBorderColor": "$wt_brightBlack$",
+      "shadowColor": "backgroundColor",
+      "focusedBorderColor": "$wt_white$",
+
+      "default": {
+        "foreground": "$wt_brightWhite$",
+        "startBackground": "accentColor",
+        "endBackground": "accentColor",
+        "startBorderColor": "accentColor",
+        "endBorderColor": "accentColor",
+        "focusedBorderColor": "$wt_blue$",
+        "focusColor": "$wt_blue$"
+      }
+    },
+
+    "Borders": {
+      "color": "$wt_brightBlack$",
+      "ContrastBorderColor": "$wt_brightBlack$"
+    },
+
+    "ComboBox": {
+      "nonEditableBackground": "$wt_black$",
+      "background": "$wt_black$",
+      "selectionBackground": "$wt_blue$",
+      "ArrowButton": {
+        "iconColor": "$wt_foreground$",
+        "disabledIconColor": "$wt_brightBlack$",
+        "nonEditableBackground": "$wt_black$"
+      }
+    },
+
+    "ComboPopup.border": "1,1,1,1,$wt_brightBlack$",
+
+    "CompletionPopup":  {
+      "background": "$wt_black$",
+      "selectionBackground": "$wt_selectionBackground$",
+      "matchForeground": "accentColor"
+    },
+
+    "ComplexPopup": {
+      "Header": {
+        "background": "backgroundColor"
+      }
+    },
+
+    "Component": {
+      "errorFocusColor": "$wt_red$",
+      "inactiveErrorFocusColor": "$wt_red$",
+      "warningFocusColor": "$wt_yellow$",
+      "inactiveWarningFocusColor": "$wt_yellow$"
+    },
+
+    "Counter": {
+      "background": "$wt_black$",
+      "foreground": "$wt_foreground$"
+    },
+
+    "DefaultTabs": {
+      "underlineColor": "accentColor",
+      "inactiveUnderlineColor": "$wt_blue$",
+      "hoverBackground": "$wt_selectionBackground$"
+    },
+
+    "DragAndDrop": {
+      "areaForeground": "$wt_foreground$",
+      "areaBackground": "$wt_selectionBackground$",
+      "areaBorderColor": "$wt_brightBlack$"
+    },
+
+    "Editor": {
+      "background": "$wt_background$",
+      "foreground": "$wt_foreground$",
+      "SearchField": {
+        "background": "$wt_background$"
+      },
+      "shortcutForeground": "accentColor",
+      "ToolTip": {
+        "background": "$wt_black$"
+      }
+    },
+
+    "EditorPane.inactiveBackground": "$wt_background$",
+
+    "EditorTabs": {
+      "underlinedTabBackground": "$wt_black$"
+    },
+
+    "FileColor": {
+      "Yellow": "$wt_yellow$",
+      "Green": "$wt_green$",
+      "Blue": "$wt_blue$",
+      "Violet": "$wt_purple$",
+      "Orange": "$wt_yellow$",
+      "Rose": "$wt_red$"
+    },
+
+    "GotItTooltip" : {
+      "foreground" : "$wt_foreground$",
+      "background" : "$wt_black$",
+      "borderColor" : "$wt_brightBlack$",
+      "linkForeground" : "$wt_brightBlue$",
+      "shortcutForeground" : "infoForeground"
+    },
+
+    "Label": {
+      "infoForeground": "infoForeground",
+      "successForeground": "$wt_brightGreen$"
+    },
+
+    "Lesson": {
+      "Tooltip.background" : "$wt_black$",
+      "Tooltip.spanBackground" : "accentColor",
+      "Tooltip.foreground" : "$wt_brightWhite$"
+    },
+
+    "Link": {
+      "activeForeground": "$wt_brightBlue$",
+      "hoverForeground": "$wt_brightBlue$",
+      "pressedForeground": "$wt_brightBlue$",
+      "visitedForeground": "$wt_brightBlue$"
+    },
+
+    "List": {
+      "selectionBackground": "$wt_blue$",
+      "selectionForeground": "$wt_brightWhite$"
+    },
+
+    "MainToolbar": {
+      "inactiveBackground": "$wt_background$",
+      "background": "backgroundColor",
+      "Dropdown": {
+        "hoverBackground": "$wt_black$"
+      }
+    },
+
+    "MemoryIndicator": {
+      "allocatedBackground": "$wt_blue$",
+      "usedBackground": "$wt_brightBlue$"
+    },
+
+    "Notification": {
+      "background": "notificationBackground",
+      "borderColor": "$wt_brightBlack$",
+
+      "errorForeground": "$wt_foreground$",
+      "errorBackground": "$wt_red$",
+      "errorBorderColor": "$wt_brightRed$",
+
+      "MoreButton": {
+        "background": "$wt_black$",
+        "innerBorderColor": "$wt_brightBlack$"
+      },
+
+      "ToolWindow": {
+        "informativeForeground": "$wt_foreground$",
+        "informativeBackground": "$wt_cyan$",
+        "informativeBorderColor": "$wt_brightCyan$",
+
+        "warningForeground": "$wt_foreground$",
+        "warningBackground": "$wt_yellow$",
+        "warningBorderColor": "$wt_brightYellow$",
+
+        "errorForeground": "$wt_foreground$",
+        "errorBackground": "$wt_red$",
+        "errorBorderColor": "$wt_brightRed$"
+      }
+    },
+
+    "NotificationsToolwindow.newNotification.background" : "notificationBackground",
+    "NotificationsToolwindow.newNotification.hoverBackground" : "$wt_black$",
+    "NotificationsToolwindow.Notification.hoverBackground" : "$wt_black$",
+
+    "Panel.background": "backgroundColor",
+
+    "ParameterInfo": {
+      "background": "$wt_black$",
+      "foreground": "$wt_foreground$",
+      "infoForeground": "$wt_cyan$",
+      "currentParameterForeground": "$wt_brightWhite$"
+    },
+
+    "Plugins": {
+      "background": "backgroundColor",
+      "disabledForeground": "$wt_brightBlack$",
+      "hoverBackground": "$wt_selectionBackground$",
+      "lightSelectionBackground": "$wt_selectionBackground$",
+      "tagBackground": "$wt_black$",
+      "tagForeground": "$wt_foreground$",
+
+      "Button": {
+        "installForeground": "accentColor",
+        "installBorderColor":"accentColor",
+        "installFillForeground": "$wt_brightWhite$",
+        "installFillBackground": "accentColor",
+        "updateForeground":"$wt_brightWhite$",
+        "updateBackground": "accentColor",
+        "updateBorderColor": "accentColor"
+      },
+
+      "SearchField": {
+        "background": "$wt_background$",
+        "borderColor": "$wt_black$"
+      },
+
+      "SectionHeader.background": "$wt_black$",
+
+      "Tab": {
+        "selectedForeground": "$wt_foreground$",
+        "selectedBackground": "$wt_selectionBackground$",
+        "hoverBackground": "$wt_selectionBackground$"
+      }
+    },
+
+    "Popup": {
+      "background": "$wt_background$",
+      "paintBorder": false,
+      "borderColor": "$wt_background$",
+      "Toolbar.borderColor": "$wt_black$",
+      "Header.activeBackground": "$wt_black$",
+      "Header.inactiveBackground": "$wt_black$",
+      "Advertiser": {
+        "foreground": "$wt_cyan$",
+        "borderColor": "$wt_brightBlack$"
+      }
+    },
+
+    "ProgressBar": {
+      "trackColor": "$wt_black$",
+      "progressColor": "accentColor",
+      "indeterminateStartColor": "$wt_blue$",
+      "indeterminateEndColor": "accentColor",
+      "failedColor": "$wt_red$",
+      "failedEndColor": "$wt_brightRed$",
+      "passedColor": "$wt_green$",
+      "passedEndColor": "$wt_brightGreen$"
+    },
+
+    "RunWidget": {
+      "foreground": "$wt_brightWhite$",
+      "separatorColor": "$wt_brightWhite$",
+      "background": "accentColor"
+    },
+
+    "SearchEverywhere": {
+      "Advertiser.foreground": "$wt_cyan$",
+      "Header.background": "backgroundColor",
+
+      "SearchField":{
+        "background": "$wt_background$",
+        "borderColor": "$wt_black$"
+      },
+
+      "Tab": {
+        "selectedForeground": "$wt_foreground$",
+        "selectedBackground": "$wt_selectionBackground$"
+      }
+    },
+
+    "SearchMatch": {
+      "startBackground": "accentColor",
+      "endBackground": "accentColor"
+    },
+
+    "SidePanel.background": "backgroundColor",
+
+    "SpeedSearch": {
+      "foreground": "$wt_foreground$",
+      "borderColor": "$wt_black$",
+      "background": "$wt_black$",
+      "errorForeground": "$wt_brightRed$"
+    },
+
+    "Settings.Spotlight.borderColor": "accentColor",
+
+    "StatusBar.background": "backgroundColor",
+
+    "TabbedPane": {
+      "underlineColor": "accentColor",
+      "contentAreaColor": "$wt_selectionBackground$",
+      "hoverColor": "$wt_selectionBackground$"
+    },
+
+    "Table": {
+      "background": "$wt_background$",
+      "stripeColor": "$wt_black$",
+      "selectionForeground": "$wt_brightWhite$",
+      "foreground": "$wt_foreground$",
+      "dropLineColor": "$wt_foreground$",
+      "focusCellForeground": "$wt_foreground$",
+      "gridColor": "$wt_brightBlack$",
+      "lightSelectionInactiveForeground": "$wt_foreground$",
+      "lightSelectionForeground": "$wt_foreground$",
+      "selectionBackground": "$wt_black$",
+      "selectionInactiveForeground": "$wt_foreground$",
+      "lightSelectionBackground": "$wt_black$",
+      "lightSelectionInactiveBackground": "$wt_selectionBackground$"
+    },
+
+    "Tag.background": "$wt_black$",
+
+    "TextArea": {
+      "background": "$wt_background$",
+      "selectionBackground": "$wt_selectionBackground$"
+    },
+
+    "TextField": {
+      "background": "$wt_background$",
+      "selectionBackground": "$wt_selectionBackground$"
+    },
+
+    "ToggleButton": {
+      "onForeground": "$wt_brightWhite$",
+      "onBackground": "accentColor",
+      "offForeground": "$wt_white$",
+      "offBackground": "$wt_black$",
+      "borderColor":  "$wt_black$",
+      "buttonColor": "$wt_brightBlack$"
+    },
+
+    "ToolTip": {
+      "background": "$wt_black$"
+    },
+
+    "ToolWindow": {
+      "background": "backgroundColor",
+      "Button": {
+        "hoverBackground": "$wt_selectionBackground$",
+        "selectedBackground": "$wt_black$",
+        "selectedForeground": "$wt_foreground$"
+      },
+
+      "Header": {
+        "background": "$wt_black$",
+        "inactiveBackground": "$wt_selectionBackground$"
+      },
+
+      "HeaderTab": {
+        "hoverBackground": "$wt_selectionBackground$",
+        "hoverInactiveBackground": "$wt_black$",
+        "selectedBackground": "$wt_selectionBackground$",
+        "selectedInactiveBackground": "$wt_black$"
+      }
+    },
+
+    "TitlePane" : {
+      "infoForeground": "infoForeground",
+      "inactiveInfoForeground": "$wt_cyan$"
+    },
+
+    "Tree": {
+      "selectionBackground": "$wt_blue$",
+      "modifiedItemForeground": "accentColor",
+      "selectionInactiveForeground": "foregroundColor",
+      "rowHeight": 20
+    },
+
+    "ValidationTooltip": {
+      "errorBackground": "$wt_red$",
+      "errorBorderColor": "$wt_red$",
+      "warningBackground": "$wt_yellow$",
+      "warningBorderColor": "$wt_yellow$"
+    },
+
+    "VersionControl": {
+      "Log.Commit": {
+        "currentBranchBackground": "$wt_background$",
+        "hoveredBackground": "$wt_black$",
+        "unmatchedForeground": "$wt_brightBlack$"
+      },
+
+      "RefLabel": {
+        "backgroundBrightness": 0.3,
+        "backgroundBase": "$wt_brightBlack$",
+        "foreground": "$wt_foreground$"
+      }
+    },
+
+    "WelcomeScreen": {
+      "borderColor": "borderColor",
+      "Projects": {
+        "actions.background": "$wt_selectionBackground$",
+        "selectionInactiveBackground": "$wt_black$"
+      },
+      "separatorColor": "$wt_black$",
+      "SidePanel.background": "$wt_background$",
+      "Details.background": "backgroundColor"
+    }
+  },
+
+  "icons": {
+    "ColorPalette": {
+      "Checkbox.Background.Default.Dark": "$wt_background$",
+      "Checkbox.Border.Default.Dark": "$wt_black$",
+      "Checkbox.Foreground.Selected.Dark": "$wt_foreground$",
+      "Checkbox.Focus.Wide.Dark": "$wt_brightBlue$",
+      "Checkbox.Focus.Thin.Default.Dark": "$wt_brightBlue$",
+      "Checkbox.Focus.Thin.Selected.Dark": "$wt_brightBlue$",
+      "Checkbox.Background.Disabled.Dark": "$wt_background$",
+      "Checkbox.Border.Disabled.Dark": "$wt_black$",
+      "Checkbox.Foreground.Disabled.Dark": "$wt_brightBlack$"
+    }
+  }
+}
