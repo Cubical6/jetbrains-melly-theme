@@ -1,5 +1,7 @@
 package colorschemes
 
+import utils.ColorUtils
+
 /**
  * Data class representing a Windows Terminal color scheme.
  *
@@ -168,7 +170,7 @@ data class WindowsTerminalColorScheme(
 
             // Optional colors with fallbacks
             put("wt_cursorColor", cursorColor ?: foreground)
-            put("wt_selectionBackground", selectionBackground ?: blendColors(background, foreground, 0.2))
+            put("wt_selectionBackground", selectionBackground ?: ColorUtils.blend(background, foreground, 0.2))
         }
     }
 
@@ -207,33 +209,5 @@ data class WindowsTerminalColorScheme(
             96 to brightCyan,
             97 to brightWhite
         )
-    }
-
-    /**
-     * Simple color blending for fallback selection background.
-     * Blends color1 and color2 with the given ratio (0.0 = all color1, 1.0 = all color2).
-     */
-    private fun blendColors(color1: String, color2: String, ratio: Double): String {
-        fun hexToRgb(hex: String): Triple<Int, Int, Int> {
-            val cleanHex = hex.removePrefix("#")
-            return Triple(
-                cleanHex.substring(0, 2).toInt(16),
-                cleanHex.substring(2, 4).toInt(16),
-                cleanHex.substring(4, 6).toInt(16)
-            )
-        }
-
-        fun rgbToHex(r: Int, g: Int, b: Int): String {
-            return "#%02x%02x%02x".format(r, g, b)
-        }
-
-        val (r1, g1, b1) = hexToRgb(color1)
-        val (r2, g2, b2) = hexToRgb(color2)
-
-        val r = (r1 * (1 - ratio) + r2 * ratio).toInt().coerceIn(0, 255)
-        val g = (g1 * (1 - ratio) + g2 * ratio).toInt().coerceIn(0, 255)
-        val b = (b1 * (1 - ratio) + b2 * ratio).toInt().coerceIn(0, 255)
-
-        return rgbToHex(r, g, b)
     }
 }

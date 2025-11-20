@@ -1,6 +1,6 @@
 package colorschemes
 
-import kotlin.math.pow
+import utils.ColorUtils
 
 /**
  * Advanced validator for Windows Terminal color schemes.
@@ -66,7 +66,7 @@ class SchemaValidator {
         val warnings = mutableListOf<String>()
 
         // Check foreground/background contrast
-        val fgBgRatio = calculateContrastRatio(scheme.foreground, scheme.background)
+        val fgBgRatio = ColorUtils.calculateContrastRatio(scheme.foreground, scheme.background)
         if (fgBgRatio < MINIMUM_CONTRAST) {
             warnings.add("Low contrast between foreground and background: ${"%.2f".format(fgBgRatio)} (minimum: $MINIMUM_CONTRAST)")
         } else if (fgBgRatio < WCAG_AA_NORMAL) {
@@ -75,7 +75,7 @@ class SchemaValidator {
 
         // Check cursor color contrast if present
         scheme.cursorColor?.let { cursor ->
-            val cursorRatio = calculateContrastRatio(cursor, scheme.background)
+            val cursorRatio = ColorUtils.calculateContrastRatio(cursor, scheme.background)
             if (cursorRatio < MINIMUM_CONTRAST) {
                 warnings.add("Low contrast between cursor and background: ${"%.2f".format(cursorRatio)}")
             }
@@ -91,7 +91,7 @@ class SchemaValidator {
         val warnings = mutableListOf<String>()
         val colors = scheme.getAllColors()
 
-        val luminances = colors.map { calculateLuminance(it) }
+        val luminances = colors.map { ColorUtils.calculateLuminance(it) }
         val darkCount = luminances.count { it < 100 }
         val brightCount = luminances.count { it > 155 }
 
@@ -121,7 +121,7 @@ class SchemaValidator {
         }
 
         // Check for high contrast
-        val fgBgRatio = calculateContrastRatio(scheme.foreground, scheme.background)
+        val fgBgRatio = ColorUtils.calculateContrastRatio(scheme.foreground, scheme.background)
         if (fgBgRatio >= WCAG_AAA) {
             edgeCases.add(EdgeCase.HIGH_CONTRAST)
         }
@@ -144,7 +144,7 @@ class SchemaValidator {
      */
     private fun isMonochrome(scheme: WindowsTerminalColorScheme): Boolean {
         val colors = scheme.getAllColors()
-        val luminances = colors.map { calculateLuminance(it) }
+        val luminances = colors.map { ColorUtils.calculateLuminance(it) }
 
         val minLuminance = luminances.minOrNull() ?: 0.0
         val maxLuminance = luminances.maxOrNull() ?: 0.0
@@ -155,87 +155,22 @@ class SchemaValidator {
 
     /**
      * Checks if the color scheme has a limited palette (few unique hues).
+     * Filters out grayscale colors to avoid false positives.
      */
     private fun hasLimitedPalette(scheme: WindowsTerminalColorScheme): Boolean {
         val colors = scheme.getAllColors()
-        val uniqueHues = colors.map { extractHue(it) }.toSet()
+
+        // Filter out grayscale colors to avoid false positives
+        // (all grayscale colors would have hue = 0, which would skew the count)
+        val chromaticColors = colors.filterNot { ColorUtils.isGrayscale(it) }
+
+        // If no chromatic colors, it's definitely a limited palette
+        if (chromaticColors.isEmpty()) return true
+
+        val uniqueHues = chromaticColors.map { ColorUtils.extractHue(it).toInt() }.toSet()
 
         // Consider limited if less than 3 distinct hues
         return uniqueHues.size < 3
-    }
-
-    /**
-     * Calculates WCAG contrast ratio between two colors.
-     */
-    private fun calculateContrastRatio(color1: String, color2: String): Double {
-        val l1 = calculateRelativeLuminance(color1)
-        val l2 = calculateRelativeLuminance(color2)
-
-        val lighter = maxOf(l1, l2)
-        val darker = minOf(l1, l2)
-
-        return (lighter + 0.05) / (darker + 0.05)
-    }
-
-    /**
-     * Calculates relative luminance for WCAG contrast calculation.
-     */
-    private fun calculateRelativeLuminance(hexColor: String): Double {
-        val (r, g, b) = hexToRgb(hexColor)
-
-        val sR = r / 255.0
-        val sG = g / 255.0
-        val sB = b / 255.0
-
-        // Apply gamma correction
-        val rLin = if (sR <= 0.03928) sR / 12.92 else ((sR + 0.055) / 1.055).pow(2.4)
-        val gLin = if (sG <= 0.03928) sG / 12.92 else ((sG + 0.055) / 1.055).pow(2.4)
-        val bLin = if (sB <= 0.03928) sB / 12.92 else ((sB + 0.055) / 1.055).pow(2.4)
-
-        return 0.2126 * rLin + 0.7152 * gLin + 0.0722 * bLin
-    }
-
-    /**
-     * Calculates perceived luminance (simpler than relative luminance).
-     */
-    private fun calculateLuminance(hexColor: String): Double {
-        val (r, g, b) = hexToRgb(hexColor)
-        return 0.299 * r + 0.587 * g + 0.114 * b
-    }
-
-    /**
-     * Extracts hue from a hex color (simplified HSV conversion).
-     */
-    private fun extractHue(hexColor: String): Int {
-        val (r, g, b) = hexToRgb(hexColor)
-
-        val max = maxOf(r, g, b).toDouble()
-        val min = minOf(r, g, b).toDouble()
-        val delta = max - min
-
-        if (delta == 0.0) return 0  // Grayscale (no hue)
-
-        val hue = when (max) {
-            r.toDouble() -> ((g - b) / delta % 6) * 60
-            g.toDouble() -> ((b - r) / delta + 2) * 60
-            else -> ((r - g) / delta + 4) * 60
-        }
-
-        return ((hue + 360) % 360).toInt()
-    }
-
-    /**
-     * Converts hex color to RGB components.
-     */
-    private fun hexToRgb(hex: String): Triple<Int, Int, Int> {
-        val cleanHex = hex.removePrefix("#")
-        require(cleanHex.length == 6) { "Invalid hex color: $hex" }
-
-        val r = cleanHex.substring(0, 2).toInt(16)
-        val g = cleanHex.substring(2, 4).toInt(16)
-        val b = cleanHex.substring(4, 6).toInt(16)
-
-        return Triple(r, g, b)
     }
 }
 

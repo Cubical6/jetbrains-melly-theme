@@ -179,7 +179,7 @@ data class ParseSummary(
     fun toReport(): String {
         return buildString {
             appendLine("Windows Terminal Color Scheme Parsing Summary")
-            appendLine("=" .repeat(50))
+            appendLine("=".repeat(50))
             appendLine("Total files:      $totalFiles")
             appendLine("Successful:       $successCount")
             appendLine("Failed:           $failureCount")

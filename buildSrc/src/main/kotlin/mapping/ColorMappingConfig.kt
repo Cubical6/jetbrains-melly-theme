@@ -1,5 +1,7 @@
 package mapping
 
+import utils.ColorUtils
+
 /**
  * Configuration for mapping Windows Terminal color properties to IntelliJ attributes.
  *
@@ -162,14 +164,17 @@ object ColorMappingConfig {
         "ERRORS_ATTRIBUTES" to SyntaxRule(
             priority = Priority.HIGH,
             preferredSources = listOf("red", "brightRed"),
-            hueRange = 350.0..20.0,  // Red spectrum (wraps around)
+            // TODO: Red spectrum wraps around (350-360° and 0-20°). Current ClosedFloatingPointRange
+            //       cannot represent this. Need custom hue matching logic in Sprint 2.
+            hueRange = null,  // Was 350.0..20.0 (invalid - doesn't match any hues)
             luminanceClass = null
         ),
 
         "WRONG_REFERENCES_ATTRIBUTES" to SyntaxRule(
             priority = Priority.HIGH,
             preferredSources = listOf("red", "brightRed"),
-            hueRange = 350.0..20.0,
+            // TODO: Same wrap-around issue as ERRORS_ATTRIBUTES
+            hueRange = null,  // Was 350.0..20.0 (invalid - doesn't match any hues)
             effectType = EffectType.WAVE_UNDERSCORE,
             inheritFrom = "ERRORS_ATTRIBUTES"
         ),
@@ -273,34 +278,7 @@ object ColorMappingConfig {
      */
     fun getFallbackSelectionBackground(background: String, foreground: String): String {
         // Simple blend: 80% background + 20% foreground
-        return blendColors(background, foreground, 0.2)
-    }
-
-    /**
-     * Simple color blending for fallbacks
-     */
-    private fun blendColors(color1: String, color2: String, ratio: Double): String {
-        fun hexToRgb(hex: String): Triple<Int, Int, Int> {
-            val cleanHex = hex.removePrefix("#")
-            return Triple(
-                cleanHex.substring(0, 2).toInt(16),
-                cleanHex.substring(2, 4).toInt(16),
-                cleanHex.substring(4, 6).toInt(16)
-            )
-        }
-
-        fun rgbToHex(r: Int, g: Int, b: Int): String {
-            return "#%02x%02x%02x".format(r, g, b)
-        }
-
-        val (r1, g1, b1) = hexToRgb(color1)
-        val (r2, g2, b2) = hexToRgb(color2)
-
-        val r = (r1 * (1 - ratio) + r2 * ratio).toInt().coerceIn(0, 255)
-        val g = (g1 * (1 - ratio) + g2 * ratio).toInt().coerceIn(0, 255)
-        val b = (b1 * (1 - ratio) + b2 * ratio).toInt().coerceIn(0, 255)
-
-        return rgbToHex(r, g, b)
+        return ColorUtils.blend(background, foreground, 0.2)
     }
 
     /**
