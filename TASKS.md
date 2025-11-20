@@ -91,11 +91,13 @@ This repository will be refactored to create an automated system that converts *
   - Status: Completed via subagent search
   - Key finding: No existing Windows Terminal → IntelliJ converter
 
-- [ ] **TASK-005**: Create project roadmap and task list (this document)
+- [x] **TASK-005**: Create project roadmap and task list (this document)
+  - Status: Completed
   - Priority: HIGH
   - Deliverable: TASKS.md
 
-- [ ] **TASK-006**: Create Git feature branch for development
+- [x] **TASK-006**: Create Git feature branch for development
+  - Status: Completed
   - Branch name: `feature/windows-terminal-integration`
   - Priority: HIGH
 
@@ -472,6 +474,967 @@ This repository will be refactored to create an automated system that converts *
   - Format: `v2.0.0-windows-terminal`
   - Priority: HIGH
   - Dependencies: TASK-907
+
+---
+
+## Critical Task Refinements & Missing Tasks
+
+Based on deep code analysis, the following refinements and additional tasks are recommended:
+
+### NEW CRITICAL TASKS
+
+- [ ] **TASK-050**: Define and validate Windows Terminal to IntelliJ color mapping specification
+  - Location: `docs/COLOR_MAPPING_SPEC.yaml`
+  - Priority: **CRITICAL** (Blocking for TASK-201, TASK-202, TASK-203)
+  - Sprint: 1
+  - Dependencies: TASK-001, TASK-002
+  - Deliverable: Complete YAML/JSON specification with:
+    - All 21 Windows Terminal properties → IntelliJ attributes mappings
+    - Edge case handling rules (monochrome, high contrast, low contrast)
+    - Validation rules for hex colors and brightness ratios
+    - Fallback strategies for missing colors
+
+- [ ] **TASK-100**: Define theme versioning and compatibility strategy
+  - Location: `docs/VERSIONING_STRATEGY.md`
+  - Priority: HIGH
+  - Sprint: 1
+  - Dependencies: None
+  - Deliverable: Document covering:
+    - Theme ID generation strategy (UUID vs. hash-based)
+    - Backward compatibility with existing One Dark themes
+    - Migration path for users
+    - IntelliJ version compatibility matrix
+
+- [ ] **TASK-203a**: Define and document syntax color inference algorithm
+  - Location: `docs/SYNTAX_INFERENCE_ALGORITHM.md`
+  - Priority: **CRITICAL** (Blocking for TASK-203)
+  - Sprint: 2
+  - Dependencies: TASK-050, TASK-202
+  - Deliverable: Algorithm specification with:
+    - Pseudocode for 16 ANSI colors → 100+ IntelliJ attributes
+    - Color classification (luminance-based: DARK/MID/BRIGHT)
+    - Semantic mapping rules (keywords, strings, comments, etc.)
+    - Edge case handling (monochrome, limited palette)
+    - Fallback strategies (font styles when colors insufficient)
+
+- [ ] **TASK-102a**: Implement Windows Terminal schema validator
+  - Location: `buildSrc/src/main/kotlin/colorschemes/SchemaValidator.kt`
+  - Priority: HIGH
+  - Sprint: 1
+  - Dependencies: TASK-102
+  - Functionality:
+    - Validate against official Windows Terminal schema
+    - Check required properties (name, background, foreground)
+    - Validate hex color format (#RRGGBB)
+    - Check brightness ratios and contrast
+    - Provide clear error messages for malformed schemes
+
+- [ ] **TASK-402a**: Implement robust error handling in generation task
+  - Location: Update `buildSrc/src/main/kotlin/tasks/GenerateThemesFromWindowsTerminal.kt`
+  - Priority: MEDIUM
+  - Sprint: 3
+  - Dependencies: TASK-402
+  - Functionality:
+    - Continue generation even if single scheme fails
+    - Log detailed error messages per scheme
+    - Generate summary report (X successful, Y failed)
+    - Create .failed marker files for failed schemes
+
+- [ ] **TASK-404a**: Add directory validation & fallback strategies
+  - Location: Update `buildSrc/src/main/kotlin/tasks/` task classes
+  - Priority: MEDIUM
+  - Sprint: 3
+  - Dependencies: TASK-404
+  - Functionality:
+    - Check write permissions on output directories
+    - Verify disk space availability
+    - Implement fallback to temp directories
+    - Clear error messages for permission issues
+
+- [ ] **TASK-503a**: Implement version compatibility checks
+  - Location: `buildSrc/src/main/kotlin/generators/ThemeMetadataGenerator.kt`
+  - Priority: MEDIUM
+  - Sprint: 4
+  - Dependencies: TASK-503, TASK-100
+  - Functionality:
+    - Generate semantic version for each theme
+    - Check compatibility with IntelliJ version ranges
+    - Add metadata: created_date, source_scheme, generator_version
+    - Implement theme fingerprinting for duplicate detection
+
+- [ ] **TASK-205a**: Add unit tests for ColorUtils
+  - Location: `buildSrc/src/test/kotlin/utils/ColorUtilsTest.kt`
+  - Priority: MEDIUM
+  - Sprint: 2
+  - Dependencies: TASK-205
+  - Test cases:
+    - Hex to RGB conversion (valid/invalid formats)
+    - RGB to hex conversion (edge cases: 0, 255)
+    - Color lightening/darkening (percentage-based)
+    - Contrast ratio calculation (WCAG compliance)
+    - Color blending/interpolation (edge colors)
+
+- [ ] **TASK-604a**: Implement regression tests for backward compatibility
+  - Location: `buildSrc/src/test/kotlin/integration/RegressionTest.kt`
+  - Priority: HIGH
+  - Sprint: 4
+  - Dependencies: TASK-604
+  - Test cases:
+    - Verify existing One Dark themes still generate correctly
+    - Check build.gradle changes don't break legacy generation
+    - Validate plugin.xml updates produce valid XML
+    - Test theme loading in IntelliJ (automated via plugin verifier)
+
+- [ ] **TASK-605a**: Create manual testing checklist & acceptance criteria
+  - Location: `docs/MANUAL_TESTING_CHECKLIST.md`
+  - Priority: HIGH
+  - Sprint: 4
+  - Dependencies: TASK-605
+  - Deliverable: Structured checklist with:
+    - Theme loading verification steps
+    - Console color matching criteria (exact RGB or visual similarity?)
+    - Syntax highlighting test matrix (5+ languages)
+    - Accessibility checks (contrast ratios)
+    - Multi-IDE testing (IntelliJ, PhpStorm, PyCharm)
+    - Screenshot comparison templates
+
+- [ ] **TASK-702a**: Document syntax color inference algorithm with examples
+  - Location: Update `docs/COLOR_MAPPING.md`
+  - Priority: MEDIUM
+  - Sprint: 4
+  - Dependencies: TASK-203a, TASK-702
+  - Deliverable: Extended documentation with:
+    - Pseudocode from TASK-203a
+    - Worked examples (3 different Windows Terminal schemes)
+    - Edge case handling examples
+    - Visual color mapping diagrams
+
+- [ ] **TASK-701b**: Create contributor guide for Windows Terminal schemes
+  - Location: `docs/CONTRIBUTING_SCHEMES.md`
+  - Priority: MEDIUM
+  - Sprint: 4
+  - Dependencies: TASK-701
+  - Deliverable: Guide covering:
+    - How to submit new Windows Terminal schemes
+    - Quality assurance checklist
+    - Testing requirements
+    - PR review process
+    - Licensing and attribution
+
+- [ ] **TASK-902a**: Establish build performance baseline and profiling
+  - Location: `docs/PERFORMANCE_METRICS.md`
+  - Priority: MEDIUM
+  - Sprint: 4
+  - Dependencies: TASK-402
+  - Deliverable:
+    - Current build time measurements (4 themes)
+    - Projected build time for 50 themes
+    - Profiling report (identify bottlenecks)
+    - Optimization recommendations
+
+- [ ] **TASK-700**: Design user migration strategy
+  - Location: `docs/MIGRATION_GUIDE.md`
+  - Priority: MEDIUM
+  - Sprint: 5
+  - Dependencies: TASK-100
+  - Deliverable: Migration guide covering:
+    - Existing One Dark users → Windows Terminal themes
+    - How to handle 4 themes → 50+ themes transition
+    - Theme cleanup procedures
+    - Conflict resolution strategies
+
+---
+
+## Refined Task Breakdown with Executable Steps
+
+### Phase 1 Refinements: Project Setup & Planning
+
+#### TASK-101: Create Windows Terminal color scheme data class (REFINED)
+
+**Executable Steps:**
+1. Create file: `buildSrc/src/main/kotlin/colorschemes/WindowsTerminalColorScheme.kt`
+2. Define data class with properties:
+   ```kotlin
+   data class WindowsTerminalColorScheme(
+     val name: String,
+     val background: String,
+     val foreground: String,
+     val cursorColor: String? = null,
+     val selectionBackground: String? = null,
+     // ANSI colors (8 normal)
+     val black: String,
+     val red: String,
+     val green: String,
+     val yellow: String,
+     val blue: String,
+     val purple: String,
+     val cyan: String,
+     val white: String,
+     // ANSI bright colors (8 bright)
+     val brightBlack: String,
+     val brightRed: String,
+     val brightGreen: String,
+     val brightYellow: String,
+     val brightBlue: String,
+     val brightPurple: String,
+     val brightCyan: String,
+     val brightWhite: String
+   )
+   ```
+3. Add validation functions:
+   - `fun isValidHexColor(color: String): Boolean`
+   - `fun validate(): List<String>` (returns validation errors)
+4. Add helper functions:
+   - `fun toColorPalette(): Map<String, String>` (converts to format used by ThemeConstructor)
+   - `fun getAllColors(): List<String>` (returns all 21 colors)
+5. Add unit test: `buildSrc/src/test/kotlin/colorschemes/WindowsTerminalColorSchemeTest.kt`
+
+**Acceptance Criteria:**
+- Data class compiles without errors
+- All properties have correct types
+- Validation functions correctly identify invalid hex colors
+- Unit tests pass
+
+---
+
+#### TASK-102: Implement JSON parser for Windows Terminal color schemes (REFINED)
+
+**Executable Steps:**
+1. Create file: `buildSrc/src/main/kotlin/colorschemes/ColorSchemeParser.kt`
+2. Add Gson dependency to `buildSrc/build.gradle.kts` (already present: gson:2.8.9)
+3. Implement parser class:
+   ```kotlin
+   class ColorSchemeParser {
+     private val gson = GsonBuilder()
+       .setNumberToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+       .create()
+
+     fun parse(jsonPath: Path): Result<WindowsTerminalColorScheme> {
+       // 1. Read JSON file
+       // 2. Parse with Gson
+       // 3. Validate required properties
+       // 4. Validate hex colors
+       // 5. Return Result.success or Result.failure
+     }
+
+     fun parseDirectory(dirPath: Path): List<Result<WindowsTerminalColorScheme>> {
+       // Parse all .json files in directory
+     }
+   }
+   ```
+4. Implement error handling:
+   - File not found
+   - Invalid JSON syntax
+   - Missing required properties
+   - Invalid hex color format
+5. Add detailed error messages with line numbers (if possible)
+6. Create test fixtures: `buildSrc/src/test/resources/test-schemes/`
+   - `valid-scheme.json`
+   - `invalid-json.json`
+   - `missing-properties.json`
+   - `invalid-colors.json`
+
+**Acceptance Criteria:**
+- Parser correctly handles valid Windows Terminal JSON
+- Parser rejects invalid JSON with clear error messages
+- All test cases pass
+- Parser handles optional properties (cursorColor, selectionBackground)
+
+---
+
+#### TASK-201: Create color mapping configuration (REFINED)
+
+**Executable Steps:**
+1. Create file: `buildSrc/src/main/kotlin/mapping/ColorMappingConfig.kt`
+2. Define mapping configuration as data structures:
+   ```kotlin
+   object ColorMappingConfig {
+     // Windows Terminal → IntelliJ Console Colors
+     val consoleColorMappings = mapOf(
+       "background" to "CONSOLE_BACKGROUND_KEY",
+       "foreground" to listOf("CONSOLE_NORMAL_OUTPUT", "FOREGROUND"),
+       "cursorColor" to listOf("CARET_COLOR", "CONSOLE_CURSOR"),
+       "selectionBackground" to "CONSOLE_SELECTION_BACKGROUND",
+       "black" to "CONSOLE_BLACK_OUTPUT",
+       "red" to "CONSOLE_RED_OUTPUT",
+       // ... all 16 ANSI colors
+     )
+
+     // Windows Terminal → IntelliJ Syntax Colors (inference rules)
+     val syntaxInferenceRules = mapOf(
+       "red" to listOf("ERRORS_ATTRIBUTES", "WRONG_REFERENCES_ATTRIBUTES"),
+       "green" to listOf("STRING_TEXT", "VALID_STRING_ESCAPE"),
+       "blue" to listOf("KEYWORD", "RESERVED_WORD"),
+       // ... etc
+     )
+
+     // Brightness thresholds for edge case handling
+     const val MONOCHROME_THRESHOLD = 0.05  // 5% brightness variation
+     const val HIGH_CONTRAST_RATIO = 3.0
+     const val LOW_CONTRAST_RATIO = 1.5
+   }
+   ```
+3. Add helper functions:
+   - `fun getIntelliJAttribute(wtProperty: String): List<String>`
+   - `fun isMonochromePalette(colors: List<String>): Boolean`
+   - `fun calculateContrastRatio(color1: String, color2: String): Double`
+4. Load configuration from external YAML file (optional, for flexibility)
+5. Add unit tests for mapping lookups
+
+**Acceptance Criteria:**
+- All 21 Windows Terminal properties have mappings
+- Console color mappings are 1:1 or 1:many
+- Syntax inference rules cover at least 50% of IntelliJ attributes
+- Helper functions work correctly
+
+---
+
+#### TASK-202: Implement console color mapper (REFINED)
+
+**Executable Steps:**
+1. Create file: `buildSrc/src/main/kotlin/mapping/ConsoleColorMapper.kt`
+2. Implement mapper class:
+   ```kotlin
+   class ConsoleColorMapper(private val config: ColorMappingConfig) {
+     fun mapToConsoleColors(scheme: WindowsTerminalColorScheme): Map<String, String> {
+       val result = mutableMapOf<String, String>()
+
+       // Map all ANSI colors
+       result["CONSOLE_BLACK_OUTPUT"] = scheme.black
+       result["CONSOLE_RED_OUTPUT"] = scheme.red
+       // ... all 16 ANSI
+
+       // Map special colors
+       result["CONSOLE_BACKGROUND_KEY"] = scheme.background
+       result["CONSOLE_NORMAL_OUTPUT"] = scheme.foreground
+
+       // Handle optional colors with fallbacks
+       result["CARET_COLOR"] = scheme.cursorColor ?: scheme.foreground
+       result["CONSOLE_SELECTION_BACKGROUND"] = scheme.selectionBackground
+         ?: calculateSelectionColor(scheme.background, scheme.foreground)
+
+       return result
+     }
+
+     private fun calculateSelectionColor(bg: String, fg: String): String {
+       // Blend background and foreground with 20% opacity
+     }
+   }
+   ```
+3. Implement fallback strategies for optional colors
+4. Add color format conversion (ensure all colors are in #RRGGBB format)
+5. Add unit tests with multiple test schemes
+
+**Acceptance Criteria:**
+- All 16 ANSI colors + 4 special colors are mapped
+- Fallback strategies work when optional colors are missing
+- Output format is consistent (#RRGGBB)
+- All unit tests pass
+
+---
+
+### Phase 3 Refinements: Color Mapping Engine
+
+#### TASK-203: Implement intelligent syntax color inference (REFINED)
+
+**Executable Steps:**
+
+**Phase 1: Color Classification**
+1. Create file: `buildSrc/src/main/kotlin/mapping/SyntaxColorInference.kt`
+2. Implement luminance calculation:
+   ```kotlin
+   private fun calculateLuminance(hexColor: String): Double {
+     val (r, g, b) = hexToRgb(hexColor)
+     return 0.299 * r + 0.587 * g + 0.114 * b
+   }
+
+   private fun classifyColor(hexColor: String): ColorClass {
+     val luminance = calculateLuminance(hexColor)
+     return when {
+       luminance < 100 -> ColorClass.DARK
+       luminance < 155 -> ColorClass.MID
+       else -> ColorClass.BRIGHT
+     }
+   }
+   ```
+
+**Phase 2: Semantic Mapping**
+3. Implement mapping rules based on algorithm from TASK-203a:
+   ```kotlin
+   fun inferSyntaxColors(scheme: WindowsTerminalColorScheme): Map<String, String> {
+     val result = mutableMapOf<String, String>()
+
+     // Classify all colors
+     val darkColors = scheme.getAllColors().filter { classifyColor(it) == ColorClass.DARK }
+     val midColors = scheme.getAllColors().filter { classifyColor(it) == ColorClass.MID }
+     val brightColors = scheme.getAllColors().filter { classifyColor(it) == ColorClass.BRIGHT }
+
+     // Map to IntelliJ attributes
+     result["COMMENT"] = darkColors.firstOrNull() ?: scheme.brightBlack
+     result["KEYWORD"] = brightColors.find { isBluish(it) } ?: scheme.blue
+     result["STRING"] = midColors.find { isGreenish(it) } ?: scheme.green
+     // ... etc for 100+ attributes
+
+     return result
+   }
+   ```
+
+**Phase 3: Edge Case Handling**
+4. Implement monochrome palette detection:
+   ```kotlin
+   private fun isMonochrome(scheme: WindowsTerminalColorScheme): Boolean {
+     val luminances = scheme.getAllColors().map { calculateLuminance(it) }
+     val range = luminances.maxOrNull()!! - luminances.minOrNull()!!
+     return range < 255 * 0.05  // Less than 5% variation
+   }
+   ```
+5. Implement fallback strategy for monochrome (use font styles)
+6. Implement high/low contrast handling
+
+**Phase 4: Testing**
+7. Create test schemes in `buildSrc/src/test/resources/`:
+   - `monochrome-test.json`
+   - `high-contrast-test.json`
+   - `limited-palette-test.json`
+8. Add comprehensive unit tests
+
+**Acceptance Criteria:**
+- Algorithm correctly classifies colors by luminance
+- Syntax colors are inferred for at least 50 common IntelliJ attributes
+- Monochrome palettes are detected and handled with font styles
+- High/low contrast palettes are adjusted appropriately
+- All unit tests pass
+
+---
+
+#### TASK-205: Implement color utility functions (REFINED)
+
+**Executable Steps:**
+1. Create file: `buildSrc/src/main/kotlin/utils/ColorUtils.kt`
+2. Implement hex/RGB conversion:
+   ```kotlin
+   object ColorUtils {
+     fun hexToRgb(hex: String): Triple<Int, Int, Int> {
+       val cleanHex = hex.removePrefix("#")
+       require(cleanHex.length == 6) { "Invalid hex color: $hex" }
+       val r = cleanHex.substring(0, 2).toInt(16)
+       val g = cleanHex.substring(2, 4).toInt(16)
+       val b = cleanHex.substring(4, 6).toInt(16)
+       return Triple(r, g, b)
+     }
+
+     fun rgbToHex(r: Int, g: Int, b: Int): String {
+       require(r in 0..255 && g in 0..255 && b in 0..255) { "RGB values must be 0-255" }
+       return "#%02x%02x%02x".format(r, g, b)
+     }
+   }
+   ```
+3. Implement color lightening/darkening:
+   ```kotlin
+   fun lighten(hex: String, percentage: Double): String {
+     val (r, g, b) = hexToRgb(hex)
+     val newR = (r + (255 - r) * percentage).toInt().coerceIn(0, 255)
+     val newG = (g + (255 - g) * percentage).toInt().coerceIn(0, 255)
+     val newB = (b + (255 - b) * percentage).toInt().coerceIn(0, 255)
+     return rgbToHex(newR, newG, newB)
+   }
+
+   fun darken(hex: String, percentage: Double): String {
+     val (r, g, b) = hexToRgb(hex)
+     val newR = (r * (1 - percentage)).toInt().coerceIn(0, 255)
+     val newG = (g * (1 - percentage)).toInt().coerceIn(0, 255)
+     val newB = (b * (1 - percentage)).toInt().coerceIn(0, 255)
+     return rgbToHex(newR, newG, newB)
+   }
+   ```
+4. Implement contrast ratio calculation (WCAG):
+   ```kotlin
+   fun calculateContrastRatio(color1: String, color2: String): Double {
+     val l1 = calculateRelativeLuminance(color1)
+     val l2 = calculateRelativeLuminance(color2)
+     val lighter = maxOf(l1, l2)
+     val darker = minOf(l1, l2)
+     return (lighter + 0.05) / (darker + 0.05)
+   }
+
+   private fun calculateRelativeLuminance(hex: String): Double {
+     val (r, g, b) = hexToRgb(hex)
+     val sR = r / 255.0
+     val sG = g / 255.0
+     val sB = b / 255.0
+     // Apply gamma correction
+     val rLin = if (sR <= 0.03928) sR / 12.92 else ((sR + 0.055) / 1.055).pow(2.4)
+     val gLin = if (sG <= 0.03928) sG / 12.92 else ((sG + 0.055) / 1.055).pow(2.4)
+     val bLin = if (sB <= 0.03928) sB / 12.92 else ((sB + 0.055) / 1.055).pow(2.4)
+     return 0.2126 * rLin + 0.7152 * gLin + 0.0722 * bLin
+   }
+   ```
+5. Implement color blending/interpolation:
+   ```kotlin
+   fun blend(color1: String, color2: String, ratio: Double = 0.5): String {
+     val (r1, g1, b1) = hexToRgb(color1)
+     val (r2, g2, b2) = hexToRgb(color2)
+     val r = (r1 * (1 - ratio) + r2 * ratio).toInt()
+     val g = (g1 * (1 - ratio) + g2 * ratio).toInt()
+     val b = (b1 * (1 - ratio) + b2 * ratio).toInt()
+     return rgbToHex(r, g, b)
+   }
+   ```
+6. Add comprehensive unit tests (TASK-205a)
+
+**Acceptance Criteria:**
+- All conversion functions handle edge cases (0, 255, invalid input)
+- Lightening/darkening produces expected results
+- Contrast ratio calculation matches WCAG standards
+- Blending produces visually correct colors
+- All unit tests pass
+
+---
+
+### Phase 4 Refinements: Template System Refactoring
+
+#### TASK-301: Create new base template for Windows Terminal themes (REFINED)
+
+**Executable Steps:**
+1. Copy existing template:
+   ```bash
+   cp buildSrc/templates/one-dark.template.xml buildSrc/templates/windows-terminal.template.xml
+   ```
+2. Update template placeholders:
+   - Replace `$green$` → `$wt_green$`
+   - Replace `$coral$` → `$wt_red$`
+   - Map all existing placeholders to Windows Terminal equivalents
+3. Add Windows Terminal specific console colors:
+   ```xml
+   <option name="CONSOLE_BLACK_OUTPUT" value="$wt_black$"/>
+   <option name="CONSOLE_RED_OUTPUT" value="$wt_red$"/>
+   <!-- ... all 16 ANSI colors -->
+   <option name="CONSOLE_BACKGROUND_KEY" value="$wt_background$"/>
+   <option name="CONSOLE_NORMAL_OUTPUT" value="$wt_foreground$"/>
+   ```
+4. Update scheme name in template: `<scheme name="$SCHEME_NAME$" parent_scheme="Darcula" version="142">`
+5. Review all 2462 lines to ensure no orphaned placeholders
+6. Validate XML syntax: `xmllint --noout windows-terminal.template.xml`
+7. Create documentation: `docs/WINDOWS_TERMINAL_TEMPLATE.md` explaining all placeholders
+
+**Acceptance Criteria:**
+- Template is valid XML
+- All placeholders use `$wt_*$` naming convention
+- Console colors section is complete (16 ANSI + 4 special)
+- Documentation lists all placeholders with descriptions
+
+---
+
+#### TASK-302: Update ThemeConstructor to support multiple template types (REFINED)
+
+**Executable Steps:**
+1. Open `buildSrc/src/main/kotlin/themes/ThemeConstructor.kt`
+2. Add enum for template types:
+   ```kotlin
+   enum class TemplateType {
+     ONE_DARK,
+     WINDOWS_TERMINAL
+   }
+   ```
+3. Update `getEditorXMLTemplate()` to accept template type:
+   ```kotlin
+   private fun getEditorXMLTemplate(templateType: TemplateType): Node {
+     val templateName = when (templateType) {
+       TemplateType.ONE_DARK -> "one-dark.template.xml"
+       TemplateType.WINDOWS_TERMINAL -> "windows-terminal.template.xml"
+     }
+     return Files.newInputStream(Paths.get(
+       project.rootDir.absolutePath,
+       "buildSrc/templates/$templateName"
+     )).use { /* existing parsing logic */ }
+   }
+   ```
+4. Update `buildScheme()` to pass template type parameter
+5. Update task registration in `one-dark-theme-plugin.gradle.kts` to support both types
+6. Add configuration property to select template type
+7. Test with existing One Dark themes (ensure backward compatibility)
+
+**Acceptance Criteria:**
+- ThemeConstructor can generate themes from both template types
+- Existing One Dark theme generation still works
+- Template type can be selected via configuration
+- No code duplication between template types
+
+---
+
+### Phase 5 Refinements: Build System Integration
+
+#### TASK-401: Create new Gradle task: importWindowsTerminalSchemes (REFINED)
+
+**Executable Steps:**
+1. Create file: `buildSrc/src/main/kotlin/tasks/ImportWindowsTerminalSchemes.kt`
+2. Implement task class:
+   ```kotlin
+   open class ImportWindowsTerminalSchemes : DefaultTask() {
+     @InputDirectory
+     val inputDir = project.objects.directoryProperty()
+       .convention(project.layout.projectDirectory.dir("windows-terminal-schemes"))
+
+     @OutputFile
+     val validationReport = project.objects.fileProperty()
+       .convention(project.layout.buildDirectory.file("reports/wt-scheme-validation.txt"))
+
+     init {
+       group = "themes"
+       description = "Import and validate Windows Terminal color schemes"
+     }
+
+     @TaskAction
+     fun run() {
+       val parser = ColorSchemeParser()
+       val validator = SchemaValidator()
+       val schemes = mutableListOf<WindowsTerminalColorScheme>()
+       val errors = mutableListOf<String>()
+
+       inputDir.get().asFileTree.filter { it.extension == "json" }.forEach { file ->
+         val result = parser.parse(file.toPath())
+         result.fold(
+           onSuccess = { scheme ->
+             val validationErrors = validator.validate(scheme)
+             if (validationErrors.isEmpty()) {
+               schemes.add(scheme)
+               logger.lifecycle("✓ Imported: ${scheme.name}")
+             } else {
+               errors.add("${file.name}: ${validationErrors.joinToString(", ")}")
+               logger.error("✗ Failed: ${file.name}")
+             }
+           },
+           onFailure = { error ->
+             errors.add("${file.name}: ${error.message}")
+             logger.error("✗ Parse error: ${file.name}")
+           }
+         )
+       }
+
+       // Write validation report
+       validationReport.get().asFile.writeText(
+         """
+         Windows Terminal Schemes Import Report
+         =======================================
+         Total schemes: ${schemes.size + errors.size}
+         Successfully imported: ${schemes.size}
+         Failed: ${errors.size}
+
+         Errors:
+         ${errors.joinToString("\n")}
+         """.trimIndent()
+       )
+
+       logger.lifecycle("Import complete: ${schemes.size} schemes validated")
+     }
+   }
+   ```
+3. Register task in `one-dark-theme-plugin.gradle.kts`
+4. Add to dependency chain: `tasks.generateThemesFromWindowsTerminal.dependsOn("importWindowsTerminalSchemes")`
+5. Test with sample schemes
+
+**Acceptance Criteria:**
+- Task scans input directory for .json files
+- All schemes are validated
+- Validation report is generated
+- Build fails if critical validation errors found (configurable)
+
+---
+
+#### TASK-402: Create new Gradle task: generateThemesFromWindowsTerminal (REFINED)
+
+**Executable Steps:**
+1. Create file: `buildSrc/src/main/kotlin/tasks/GenerateThemesFromWindowsTerminal.kt`
+2. Implement task class:
+   ```kotlin
+   open class GenerateThemesFromWindowsTerminal : DefaultTask() {
+     @InputDirectory
+     val inputDir = project.objects.directoryProperty()
+       .convention(project.layout.projectDirectory.dir("windows-terminal-schemes"))
+
+     @OutputDirectory
+     val outputDir = project.objects.directoryProperty()
+       .convention(project.layout.projectDirectory.dir("src/main/resources/themes"))
+
+     @Input
+     val generateVariants = project.objects.property<Boolean>().convention(false)
+
+     init {
+       group = "themes"
+       description = "Generate IntelliJ themes from Windows Terminal schemes"
+     }
+
+     @TaskAction
+     fun run() {
+       val parser = ColorSchemeParser()
+       val consoleMapper = ConsoleColorMapper(ColorMappingConfig)
+       val syntaxInference = SyntaxColorInference()
+       val xmlGenerator = ColorSchemeGenerator()
+       val jsonGenerator = UIThemeGenerator()
+
+       val successCount = AtomicInteger(0)
+       val failureCount = AtomicInteger(0)
+
+       inputDir.get().asFileTree.filter { it.extension == "json" }.forEach { file ->
+         try {
+           val scheme = parser.parse(file.toPath()).getOrThrow()
+
+           // Map colors
+           val consoleColors = consoleMapper.mapToConsoleColors(scheme)
+           val syntaxColors = syntaxInference.inferSyntaxColors(scheme)
+           val allColors = consoleColors + syntaxColors
+
+           // Generate files
+           val xmlOutput = outputDir.get().file("${scheme.name.toLowerCase().replace(" ", "_")}.xml")
+           val jsonOutput = outputDir.get().file("${scheme.name.toLowerCase().replace(" ", "_")}.theme.json")
+
+           xmlGenerator.generate(scheme, allColors, xmlOutput.asFile.toPath())
+           jsonGenerator.generate(scheme, allColors, jsonOutput.asFile.toPath())
+
+           logger.lifecycle("✓ Generated theme: ${scheme.name}")
+           successCount.incrementAndGet()
+
+           // Generate variants (italic, etc.) if enabled
+           if (generateVariants.get()) {
+             generateVariant(scheme, allColors, "Italic")
+           }
+
+         } catch (e: Exception) {
+           logger.error("✗ Failed to generate theme from ${file.name}: ${e.message}")
+           failureCount.incrementAndGet()
+
+           // Create .failed marker file for debugging
+           outputDir.get().file("${file.nameWithoutExtension}.failed").asFile.writeText(
+             "Error: ${e.message}\n${e.stackTraceToString()}"
+           )
+         }
+       }
+
+       logger.lifecycle("Generation complete: ${successCount.get()} successful, ${failureCount.get()} failed")
+
+       if (failureCount.get() > 0) {
+         logger.warn("Some themes failed to generate. Check .failed files in output directory.")
+       }
+     }
+
+     private fun generateVariant(scheme: WindowsTerminalColorScheme, colors: Map<String, String>, variant: String) {
+       // Generate italic/bold variants
+     }
+   }
+   ```
+3. Implement error handling (TASK-402a)
+4. Add incremental build support (TASK-405)
+5. Register task and dependencies
+6. Test with multiple schemes
+
+**Acceptance Criteria:**
+- Task generates XML and JSON files for each scheme
+- Error handling allows build to continue on single failures
+- Detailed logging shows progress
+- Generated files are valid and loadable in IntelliJ
+- Incremental builds only regenerate changed schemes
+
+---
+
+## Optimized Sprint Planning (REVISED)
+
+### Sprint 1: Foundation (Weeks 1-2) - REVISED
+
+**Critical Path:**
+1. TASK-006: Create feature branch ✓
+2. **TASK-050**: Define color mapping specification [NEW - CRITICAL]
+3. **TASK-100**: Define versioning strategy [NEW]
+4. TASK-101: Data model (with refined steps)
+5. TASK-102: JSON parser (with refined steps)
+6. **TASK-102a**: Schema validator [NEW]
+7. TASK-205: Color utilities (with refined steps)
+8. **TASK-205a**: ColorUtils tests [NEW]
+
+**Parallel Track:**
+- TASK-201: Color mapping config (depends on TASK-050)
+
+**Deliverables:**
+- Color mapping specification document
+- WindowsTerminalColorScheme data class
+- JSON parser with validation
+- ColorUtils with WCAG contrast calculation
+- All unit tests passing
+
+---
+
+### Sprint 2: Core Conversion (Weeks 3-4) - REVISED
+
+**Critical Path:**
+1. **TASK-203a**: Define syntax inference algorithm [NEW - CRITICAL]
+2. TASK-202: Console color mapper (with refined steps)
+3. TASK-301: Base template (with refined steps)
+4. TASK-302: Update ThemeConstructor (with refined steps)
+5. TASK-303: Template processor
+
+**Parallel Tracks:**
+- TASK-203: Syntax color inference (depends on TASK-203a)
+- TASK-204: Palette expander
+- TASK-304: UI theme JSON template
+- TASK-104: Unit tests for parsing
+- TASK-206: Unit tests for mapping
+
+**Deliverables:**
+- Syntax inference algorithm document
+- Working console color mapper
+- Windows Terminal template
+- Updated ThemeConstructor supporting both template types
+- Comprehensive unit tests
+
+---
+
+### Sprint 3: Build Integration (Weeks 5-6) - REVISED
+
+**Critical Path:**
+1. TASK-103: Color scheme registry
+2. TASK-401: Import task (with refined steps, error handling)
+3. TASK-402: Generate task (with refined steps, error handling)
+4. **TASK-402a**: Robust error handling [NEW]
+5. TASK-403: Update build.gradle
+6. TASK-404: Directory configuration
+7. **TASK-404a**: Directory validation [NEW]
+8. TASK-501: XML generator
+9. TASK-502: JSON generator
+
+**Parallel Tracks:**
+- TASK-601: Create input directory
+- TASK-602: Import 10-15 popular schemes (MVP scope)
+- TASK-603: Create test schemes
+
+**Deliverables:**
+- Working Gradle tasks for import and generation
+- Generated themes from Windows Terminal JSON
+- Test data set (5 edge case schemes)
+- Integration with existing build pipeline
+
+---
+
+### Sprint 4: Testing & Documentation (Weeks 7-8) - REVISED
+
+**Critical Path:**
+1. TASK-604: E2E integration test
+2. **TASK-604a**: Regression tests [NEW]
+3. TASK-605: Manual testing
+4. **TASK-605a**: Manual testing checklist [NEW]
+5. TASK-503: Metadata generator
+6. **TASK-503a**: Version compatibility checks [NEW]
+7. TASK-504: Plugin XML updater
+
+**Parallel Tracks:**
+- TASK-701: Windows Terminal README
+- **TASK-701b**: Contributor guide [NEW]
+- TASK-702: Color mapping documentation
+- **TASK-702a**: Algorithm documentation [NEW]
+- TASK-704: Update main README
+- **TASK-902a**: Performance baseline [NEW]
+
+**Deliverables:**
+- Complete test suite (unit + integration + regression)
+- Manual testing checklist
+- Comprehensive documentation
+- Performance metrics and baseline
+
+---
+
+### Sprint 5: Polish & Release (Weeks 9-10) - REVISED
+
+**Critical Path:**
+1. **TASK-700**: Migration strategy [NEW]
+2. TASK-901: Code review and refactoring
+3. TASK-903: Accessibility audit (with WCAG criteria)
+4. TASK-902: Performance optimization
+5. TASK-904: Create changelog
+6. TASK-905: Update plugin version
+7. TASK-906: Create release notes
+8. TASK-907: Build final plugin
+9. TASK-908: Tag release
+
+**Parallel Tracks:**
+- TASK-602: Import remaining schemes (50+ for full release)
+- TASK-705: User guide with screenshots
+
+**Deliverables:**
+- Fully tested and documented plugin
+- 50+ Windows Terminal themes
+- Migration guide for users
+- Release artifacts
+- Git tag and release notes
+
+---
+
+## Critical Dependencies Graph
+
+```
+SPRINT 1:
+  TASK-050 (Spec) ─────┬─> TASK-201 (Mapping Config)
+  TASK-100 (Versioning)│   └─> TASK-202 (Console Mapper)
+                       │
+  TASK-101 (Data Model)├─> TASK-102 (Parser)
+                       │   └─> TASK-102a (Validator)
+                       │       └─> TASK-401 (Import Task)
+                       │
+                       └─> TASK-205 (ColorUtils)
+                           └─> TASK-205a (Tests)
+
+SPRINT 2:
+  TASK-202 ──> TASK-203a (Algorithm Spec)
+              └─> TASK-203 (Syntax Inference)
+                  └─> TASK-204 (Palette Expander)
+
+  TASK-301 (Template) ──> TASK-302 (ThemeConstructor)
+                          └─> TASK-303 (Template Processor)
+
+SPRINT 3:
+  TASK-401 ──> TASK-402 (Generate Task)
+              └─> TASK-402a (Error Handling)
+
+  TASK-402 ──┬─> TASK-501 (XML Generator)
+             ├─> TASK-502 (JSON Generator)
+             └─> TASK-604 (E2E Test)
+
+SPRINT 4:
+  TASK-604 ──> TASK-604a (Regression Tests)
+              └─> TASK-605 (Manual Testing)
+                  └─> TASK-605a (Test Checklist)
+
+  TASK-203a ──> TASK-702a (Algorithm Docs)
+
+SPRINT 5:
+  TASK-100 ──> TASK-700 (Migration Strategy)
+  ALL TASKS ──> TASK-901 (Code Review)
+               └─> TASK-903 (Accessibility)
+                   └─> TASK-907 (Build Plugin)
+                       └─> TASK-908 (Tag Release)
+```
+
+---
+
+## Success Metrics (UPDATED)
+
+### Minimum Viable Product (MVP) - End of Sprint 3
+- ✅ Parse Windows Terminal JSON with schema validation
+- ✅ Generate IntelliJ .xml color schemes with console colors (direct mapping)
+- ✅ Generate .theme.json UI themes
+- ✅ Basic syntax color inference (50% coverage minimum)
+- ✅ Build process creates installable plugin
+- ✅ At least 10 working Windows Terminal schemes converted
+- ✅ All unit tests passing
+- ✅ E2E integration test passing
+
+### Full Release - End of Sprint 5
+- ✅ All MVP criteria
+- ✅ Advanced syntax color inference (100% attribute coverage)
+- ✅ Edge case handling (monochrome, high/low contrast)
+- ✅ 50+ Windows Terminal schemes included
+- ✅ Comprehensive documentation (user + contributor guides)
+- ✅ All tests (unit + integration + regression) passing
+- ✅ Accessibility audit passed (WCAG AA minimum)
+- ✅ Performance target met (< 30 seconds for 50 schemes)
+- ✅ Migration guide for existing users
 
 ---
 
