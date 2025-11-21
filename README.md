@@ -1,16 +1,16 @@
-# JetBrains One Dark Theme
+# Windows Terminal & PowerShell Themes for JetBrains IDEs
 
 [![JetBrains plugin version](https://img.shields.io/jetbrains/plugin/v/11938-one-dark-theme.svg)](https://plugins.jetbrains.com/plugin/11938-one-dark-theme)
 [![JetBrains plugin downloads](https://img.shields.io/jetbrains/plugin/d/11938-one-dark-theme.svg)](https://plugins.jetbrains.com/plugin/11938-one-dark-theme)
 [![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg)](#contributors)
 
-> [One Dark](https://github.com/atom/one-dark-syntax) theme for JetBrains.
+> Import any Windows Terminal color scheme as a complete JetBrains IDE theme with matching console colors!
 
 ![Code example](https://github.com/one-dark/jetbrains-one-dark-theme/raw/master/docs/screenshots/default.png)
 
-## Windows Terminal Integration
+## Overview
 
-This plugin now supports automatic conversion of Windows Terminal color schemes to IntelliJ themes! Bring your favorite terminal color schemes to your IDE with full ANSI color support and intelligent syntax highlighting.
+This plugin automatically converts Windows Terminal and PowerShell color schemes to IntelliJ themes! Bring your favorite terminal color schemes to your IDE with full ANSI color support and intelligent syntax highlighting.
 
 ### Features
 
@@ -22,7 +22,7 @@ This plugin now supports automatic conversion of Windows Terminal color schemes 
 
 ### Available Themes
 
-The plugin includes these popular Windows Terminal color schemes:
+The plugin includes **60+ popular Windows Terminal color schemes**:
 
 **Dark Themes:**
 - Dracula - Vibrant purple and pink accents
@@ -34,14 +34,17 @@ The plugin includes these popular Windows Terminal color schemes:
 - GitHub Dark - GitHub's official dark scheme
 - Material - Google's Material Design palette
 - Solarized Dark - Classic scientifically-designed colors
-- One Half Dark - Based on Atom's One Dark
 - Breeze - KDE Plasma's terminal scheme
+- And 50+ more!
 
 **Light Themes:**
 - Gruvbox Light - Retro groove with warm light colors
 - Solarized Light - Perfect for daylight use
-- One Half Light - Based on Atom's One Light
+- Ayu Light - Minimalist light theme
 - Atom One Light - Atom editor's popular light theme
+- And more!
+
+See [windows-terminal-schemes/SCHEMES.md](windows-terminal-schemes/SCHEMES.md) for the complete list.
 
 ### Quick Start
 
@@ -81,7 +84,7 @@ If that does not fix your problem, please [submit an issue](https://github.com/o
 
 ## Setup
 
-After installing the theme, go to `Preferences | Appearance & Behavior | Appearance` and select one of the new themes in the theme dropdown. Once you have selected one of the theme options, click the **OK** button to apply the changes so you can start enjoying One Dark Theme!
+After installing the plugin, go to `Preferences | Appearance & Behavior | Appearance` and select one of the Windows Terminal themes in the theme dropdown. Once you have selected a theme, click the **OK** button to apply the changes!
 
 ![Configuration example](https://github.com/one-dark/jetbrains-one-dark-theme/raw/master/docs/screenshots/configuration.png)
 

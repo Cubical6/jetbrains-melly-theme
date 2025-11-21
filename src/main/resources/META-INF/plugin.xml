@@ -1,22 +1,21 @@
 <idea-plugin>
   <id>com.markskelton.one-dark-theme</id>
-  <name>One Dark Theme</name>
+  <name>Windows Terminal Theme for JetBrains</name>
   <version>@version@</version>
   <vendor email="one-dark@mskelton.dev"
           url="https://github.com/one-dark/jetbrains-one-dark-theme">Mark Skelton
   </vendor>
 
   <description><![CDATA[
-    <h2>One Dark Theme for JetBrains IDEs</h2>
-    <p>The iconic One Dark color scheme from Atom, now with 60+ Windows Terminal color schemes!</p>
+    <h2>Windows Terminal & PowerShell Themes for JetBrains IDEs</h2>
+    <p>Import any Windows Terminal color scheme as a complete IntelliJ theme with matching console colors!</p>
 
     <h3>Features</h3>
     <ul>
-      <li><strong>Classic One Dark Themes:</strong> Regular, Italic, Vivid, and Vivid Italic variants</li>
-      <li><strong>60+ Windows Terminal Themes:</strong> Popular schemes including Dracula, Nord, Tokyo Night, Gruvbox, Catppuccin, and more</li>
-      <li><strong>Full ANSI Color Support:</strong> All 16 console colors perfectly mapped</li>
+      <li><strong>60+ Windows Terminal Themes:</strong> Popular schemes including Dracula, Nord, Tokyo Night, Gruvbox, Catppuccin, Solarized, and more</li>
+      <li><strong>Full ANSI Color Support:</strong> All 16 console colors perfectly mapped from Windows Terminal</li>
       <li><strong>Intelligent Syntax Highlighting:</strong> Automatic color inference for 100+ language attributes</li>
-      <li><strong>Consistent Colors:</strong> Match your terminal and IDE for a unified experience</li>
+      <li><strong>Consistent Colors:</strong> Match your PowerShell terminal and IDE for a unified experience</li>
       <li><strong>Accessibility Focused:</strong> All themes audited for WCAG AA compliance</li>
       <li><strong>Custom Scheme Support:</strong> Import your own Windows Terminal color schemes</li>
     </ul>
@@ -27,26 +26,25 @@
       <li><strong>Light:</strong> Solarized Light, Gruvbox Light, Ayu Light, Atom One Light</li>
     </ul>
 
-    <h3>What's New in 6.0.0</h3>
+    <h3>What's New in 7.0.0</h3>
     <ul>
-      <li>60 new Windows Terminal color schemes</li>
-      <li>60-70% faster build performance</li>
-      <li>WCAG AA accessibility audit</li>
+      <li><strong>Minimal Repository:</strong> Focused exclusively on Windows Terminal/PowerShell themes</li>
+      <li>60+ Windows Terminal color schemes</li>
+      <li>Improved build performance and accessibility</li>
       <li>Comprehensive documentation</li>
-      <li>100% backward compatible</li>
     </ul>
 
     <p>See the <a href="https://github.com/one-dark/jetbrains-one-dark-theme">GitHub repository</a> for documentation, screenshots, and contribution guidelines.</p>
   ]]></description>
 
   <change-notes><![CDATA[
-    <h3>Version 6.0.0 - Windows Terminal Integration</h3>
+    <h3>Version 7.0.0 - Windows Terminal Focus</h3>
     <ul>
-      <li><strong>60 New Themes:</strong> Import Windows Terminal color schemes as complete IntelliJ themes</li>
-      <li><strong>Performance:</strong> 60-70% faster builds with parallel processing and caching</li>
+      <li><strong>Repository Cleanup:</strong> Removed One Dark theme-specific code, now focused on Windows Terminal themes</li>
+      <li><strong>60+ Windows Terminal Themes:</strong> Import any Windows Terminal color scheme</li>
+      <li><strong>Performance:</strong> Optimized build process with parallel processing and caching</li>
       <li><strong>Accessibility:</strong> All themes audited for WCAG AA compliance</li>
-      <li><strong>Documentation:</strong> Comprehensive guides including migration, color mapping, and contributing</li>
-      <li><strong>Backward Compatible:</strong> All existing One Dark themes continue to work unchanged</li>
+      <li><strong>Breaking Change:</strong> One Dark theme variants removed - Windows Terminal themes only</li>
     </ul>
     <p>See <a href="https://github.com/one-dark/jetbrains-one-dark-theme/blob/master/CHANGELOG.md">CHANGELOG.md</a> for complete release notes.</p>
   ]]></change-notes>
@@ -61,11 +59,6 @@
     <applicationService serviceImplementation="com.markskelton.settings.ThemeSettings"/>
     <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e"
                   implementation="com.markskelton.integrations.ErrorReporter"/>
-    <notificationGroup displayType="BALLOON" id="One Dark Theme" icon="OneDarkIcons.LOGO" isLogByDefault="false" toolWindowId="One Dark Theme"  />
-    <postStartupActivity implementation="com.markskelton.OneDarkTheme"/>
-    <themeProvider id="f92a0fa7-1a98-47cd-b5cb-78ff67e6f4f3" path="/themes/one_dark.theme.json"/>
-    <themeProvider id="1a92aa6f-c2f1-4994-ae01-6a78e43eeb24" path="/themes/one_dark_italic.theme.json"/>
-    <themeProvider id="4b6007f7-b596-4ee2-96f9-968d3d3eb392" path="/themes/one_dark_vivid.theme.json"/>
-    <themeProvider id="4f556d32-83cb-4b8b-9932-c4eccc4ce3af" path="/themes/one_dark_vivid_italic.theme.json"/>
+    <notificationGroup displayType="BALLOON" id="Windows Terminal Theme" isLogByDefault="false" toolWindowId="Windows Terminal Theme"  />
   </extensions>
 </idea-plugin>

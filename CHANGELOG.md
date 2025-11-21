@@ -1,5 +1,36 @@
 # Changelog
 
+## 7.0.0 - Repository Minimization & Cleanup
+
+**Release Date:** 2025-11-22
+
+### ⚠️ Breaking Changes
+- **Removed One Dark theme variants** (Regular, Italic, Vivid, Vivid Italic)
+- Plugin now focuses **exclusively on Windows Terminal themes**
+- Plugin name changed to "Windows Terminal Theme for JetBrains"
+
+### ❌ Removed
+- One Dark theme-specific Kotlin code (`OneDarkTheme.kt`, `OneDarkThemeManager.kt`, `OneDarkIcons.kt`)
+- One Dark theme templates and palettes
+- Deprecated code files (`Extensions.kt`, `ThemeConstructor.kt`)
+- 40+ deprecated documentation files (~500KB savings)
+- One Dark Gradle plugin and build configuration
+- One Dark example terminal schemes
+
+### 🔄 Changed
+- Updated plugin.xml to focus on Windows Terminal themes only
+- Refactored settings and notifications to be generic
+- Updated README.md to focus on Windows Terminal and PowerShell themes
+- Repository is now minimal and focused on Windows PowerShell themes exclusively
+
+### 📦 Migration Guide
+If you were using One Dark theme variants:
+- Version 7.0.0 removes the original One Dark themes
+- Consider using "One Half Dark" Windows Terminal scheme as an alternative
+- See [MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md) for more details
+
+---
+
 ## 6.0.0 - Windows Terminal Integration
 
 **Release Date:** 2025-11-21
