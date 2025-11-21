@@ -34,6 +34,11 @@ class XMLColorSchemeGenerator(
     private val consoleColorMapper: ConsoleColorMapper = ConsoleColorMapper(ColorMappingConfig)
 ) {
 
+    // Template cache to avoid re-reading the file for each theme
+    @Volatile
+    private var cachedTemplate: String? = null
+    private val cacheLock = Any()
+
     companion object {
         /**
          * Expected template placeholders and their meanings
@@ -100,20 +105,32 @@ class XMLColorSchemeGenerator(
     }
 
     /**
-     * Reads the template file.
+     * Reads the template file with caching for performance.
+     * Uses double-checked locking to ensure thread-safe lazy initialization.
      *
      * @return Template content as a string
      * @throws IllegalStateException if the template file is missing or cannot be read
      */
     private fun readTemplate(): String {
-        require(Files.exists(templatePath)) {
-            "Template file not found: $templatePath"
-        }
+        // Fast path: return cached template if available
+        cachedTemplate?.let { return it }
 
-        return try {
-            Files.readString(templatePath)
-        } catch (e: Exception) {
-            throw IllegalStateException("Failed to read template file: $templatePath", e)
+        // Slow path: read template with synchronization
+        return synchronized(cacheLock) {
+            // Double-check after acquiring lock
+            cachedTemplate?.let { return it }
+
+            require(Files.exists(templatePath)) {
+                "Template file not found: $templatePath"
+            }
+
+            try {
+                val template = Files.readString(templatePath)
+                cachedTemplate = template
+                template
+            } catch (e: Exception) {
+                throw IllegalStateException("Failed to read template file: $templatePath", e)
+            }
         }
     }
 

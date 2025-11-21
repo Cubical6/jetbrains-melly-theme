@@ -49,6 +49,10 @@ class UIThemeGenerator {
         .setPrettyPrinting()
         .create()
 
+    // Template cache to avoid re-reading the file for each theme (thread-safe)
+    private val templateCache = mutableMapOf<String, String>()
+    private val cacheLock = Any()
+
     companion object {
         /**
          * Default template path relative to buildSrc directory
@@ -200,29 +204,42 @@ class UIThemeGenerator {
     }
 
     /**
-     * Reads the UI theme template file.
+     * Reads the UI theme template file with caching for performance.
+     * Uses synchronized access to ensure thread-safe caching.
      *
      * @param templatePath Path to template file relative to buildSrc directory
      * @return Template content as string
      * @throws IllegalStateException if template file is missing or cannot be read
      */
     private fun readTemplate(templatePath: String): String {
-        // Try to resolve template path relative to buildSrc
+        // Check cache first (synchronized for thread safety)
+        synchronized(cacheLock) {
+            templateCache[templatePath]?.let { return it }
+        }
+
+        // Template not cached, read from disk
         val buildSrcPath = Path.of("buildSrc", templatePath)
 
-        if (buildSrcPath.exists()) {
-            return buildSrcPath.readText()
+        val template = if (buildSrcPath.exists()) {
+            buildSrcPath.readText()
+        } else {
+            // Try as absolute path
+            val absolutePath = Path.of(templatePath)
+            if (absolutePath.exists()) {
+                absolutePath.readText()
+            } else {
+                throw IllegalStateException(
+                    "Template file not found: $templatePath (tried: $buildSrcPath, $absolutePath)"
+                )
+            }
         }
 
-        // Try as absolute path
-        val absolutePath = Path.of(templatePath)
-        if (absolutePath.exists()) {
-            return absolutePath.readText()
+        // Cache the template (synchronized for thread safety)
+        synchronized(cacheLock) {
+            templateCache[templatePath] = template
         }
 
-        throw IllegalStateException(
-            "Template file not found: $templatePath (tried: $buildSrcPath, $absolutePath)"
-        )
+        return template
     }
 
     /**

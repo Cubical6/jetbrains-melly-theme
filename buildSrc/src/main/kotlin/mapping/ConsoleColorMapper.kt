@@ -105,18 +105,4 @@ class ConsoleColorMapper(private val config: ColorMappingConfig) {
         // Return lowercase for consistency
         return normalized.lowercase()
     }
-
-    /**
-     * Calculates a selection background color by blending background and foreground.
-     * This is used as a fallback when selectionBackground is not provided.
-     *
-     * Strategy: 80% background + 20% foreground for subtle selection highlight.
-     *
-     * @param background Background color in hex format
-     * @param foreground Foreground color in hex format
-     * @return Blended selection color in #RRGGBB format
-     */
-    private fun calculateSelectionColor(background: String, foreground: String): String {
-        return ColorUtils.blend(background, foreground, 0.2)
-    }
 }
