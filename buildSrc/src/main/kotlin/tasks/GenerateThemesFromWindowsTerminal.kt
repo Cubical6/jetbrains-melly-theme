@@ -20,6 +20,9 @@ import java.nio.file.StandardOpenOption
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.io.path.nameWithoutExtension
+import kotlinx.coroutines.*
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Gradle task to generate IntelliJ themes from Windows Terminal color schemes.
@@ -147,56 +150,73 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
         logger.lifecycle("Generating themes...")
         logger.lifecycle("-".repeat(70))
 
-        // Generation tracking
-        var successCount = 0
-        var failureCount = 0
-        val failedSchemes = mutableListOf<FailureRecord>()
+        // Generation tracking (thread-safe for parallel processing)
+        val successCount = AtomicInteger(0)
+        val failureCount = AtomicInteger(0)
+        val failedSchemes = ConcurrentHashMap<String, FailureRecord>()
 
-        // Generate themes for each scheme
-        schemes.forEach { scheme ->
-            try {
-                generateThemeForScheme(
-                    scheme = scheme,
-                    outputDirectory = outputDirectory,
-                    consoleColorMapper = consoleColorMapper,
-                    xmlGenerator = xmlGenerator,
-                    uiThemeGenerator = uiThemeGenerator,
-                    generateVariants = shouldGenerateVariants
-                )
+        // Measure generation time
+        val startTime = System.currentTimeMillis()
 
-                logger.lifecycle("  ✓ ${scheme.name}")
-                successCount++
+        // Generate themes in parallel using coroutines
+        runBlocking {
+            val parallelism = Runtime.getRuntime().availableProcessors()
+            logger.lifecycle("Using parallel generation with $parallelism threads")
+            logger.lifecycle("")
 
-            } catch (e: Exception) {
-                logger.lifecycle("  ✗ ${scheme.name}")
-                logger.error("    Error: ${e.message}")
-                failureCount++
+            schemes.map { scheme ->
+                async(Dispatchers.Default) {
+                    try {
+                        generateThemeForScheme(
+                            scheme = scheme,
+                            outputDirectory = outputDirectory,
+                            consoleColorMapper = consoleColorMapper,
+                            xmlGenerator = xmlGenerator,
+                            uiThemeGenerator = uiThemeGenerator,
+                            generateVariants = shouldGenerateVariants
+                        )
 
-                // Record failure for summary
-                failedSchemes.add(
-                    FailureRecord(
-                        schemeName = scheme.name,
-                        errorMessage = e.message ?: "Unknown error",
-                        stackTrace = e.stackTraceToString()
-                    )
-                )
+                        synchronized(logger) {
+                            logger.lifecycle("  ✓ ${scheme.name}")
+                        }
+                        successCount.incrementAndGet()
 
-                // Create .failed marker file for debugging
-                createFailedMarkerFile(
-                    outputDirectory = outputDirectory,
-                    scheme = scheme,
-                    error = e
-                )
-            }
+                    } catch (e: Exception) {
+                        synchronized(logger) {
+                            logger.lifecycle("  ✗ ${scheme.name}")
+                            logger.error("    Error: ${e.message}")
+                        }
+                        failureCount.incrementAndGet()
+
+                        // Record failure for summary
+                        failedSchemes[scheme.name] = FailureRecord(
+                            schemeName = scheme.name,
+                            errorMessage = e.message ?: "Unknown error",
+                            stackTrace = e.stackTraceToString()
+                        )
+
+                        // Create .failed marker file for debugging
+                        createFailedMarkerFile(
+                            outputDirectory = outputDirectory,
+                            scheme = scheme,
+                            error = e
+                        )
+                    }
+                }
+            }.awaitAll()
         }
+
+        val endTime = System.currentTimeMillis()
+        val durationSeconds = (endTime - startTime) / 1000.0
 
         // Print summary
         printSummary(
             totalSchemes = schemes.size,
-            successCount = successCount,
-            failureCount = failureCount,
-            failedSchemes = failedSchemes,
-            outputDirectory = outputDirectory
+            successCount = successCount.get(),
+            failureCount = failureCount.get(),
+            failedSchemes = failedSchemes.values.toList(),
+            outputDirectory = outputDirectory,
+            durationSeconds = durationSeconds
         )
     }
 
@@ -404,7 +424,8 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
         successCount: Int,
         failureCount: Int,
         failedSchemes: List<FailureRecord>,
-        outputDirectory: Path
+        outputDirectory: Path,
+        durationSeconds: Double
     ) {
         logger.lifecycle("-".repeat(70))
         logger.lifecycle("")
@@ -416,6 +437,16 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
         if (successCount > 0) {
             val successRate = (successCount.toDouble() / totalSchemes * 100)
             logger.lifecycle("  Success rate:            ${"%.1f".format(successRate)}%")
+        }
+
+        logger.lifecycle("")
+        logger.lifecycle("Performance:")
+        logger.lifecycle("  Total time:              ${"%.2f".format(durationSeconds)} seconds")
+        if (successCount > 0) {
+            val avgTime = durationSeconds / successCount
+            logger.lifecycle("  Average per theme:       ${"%.2f".format(avgTime)} seconds")
+            val throughput = successCount / durationSeconds
+            logger.lifecycle("  Throughput:              ${"%.1f".format(throughput)} themes/second")
         }
 
         logger.lifecycle("")

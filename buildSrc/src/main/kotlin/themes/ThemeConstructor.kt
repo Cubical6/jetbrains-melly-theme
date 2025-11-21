@@ -47,6 +47,17 @@ data class OneDarkThemeDefinition(
   val templateType: TemplateType = TemplateType.ONE_DARK
 )
 
+/**
+ * @deprecated This class is deprecated and will be removed in Sprint 6.
+ * Use the new Windows Terminal theme generation tasks instead:
+ * - GenerateThemesFromWindowsTerminal
+ * - GenerateThemesWithMetadata
+ * See CODE_REVIEW_REPORT.md HIGH-002 for details.
+ */
+@Deprecated(
+  message = "Use GenerateThemesFromWindowsTerminal or GenerateThemesWithMetadata instead",
+  level = DeprecationLevel.WARNING
+)
 open class ThemeConstructor : DefaultTask() {
   companion object {
     private val gson = GsonBuilder()
@@ -102,7 +113,7 @@ open class ThemeConstructor : DefaultTask() {
         GroupStyling.ITALIC.value,
         GroupStyling.ITALIC.value
       )
-      else -> throw IllegalArgumentException("Bro, I don't know what theme is $themeName")
+      else -> throw IllegalArgumentException("Unknown theme: $themeName. Valid themes are: ${THEMES.values.joinToString(", ")}")
     }
   }
 

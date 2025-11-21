@@ -1,5 +1,151 @@
 # Changelog
 
+## 6.0.0 - Windows Terminal Integration
+
+**Release Date:** 2025-11-21
+
+### 🎉 Major Features
+
+#### Windows Terminal Color Scheme Integration
+- **60 New Themes:** Import and use any Windows Terminal color scheme as a complete IntelliJ theme
+- **Full ANSI Color Support:** All 16 console colors (black, red, green, yellow, blue, purple, cyan, white + bright variants) properly mapped
+- **Intelligent Syntax Highlighting:** Advanced algorithm infers 100+ IntelliJ color attributes from 16 ANSI colors
+- **Consistent Colors:** Match your terminal and IDE colors for a unified development experience
+
+#### New Themes Included
+
+**Popular Dark Themes (52):**
+- Dracula, Nord, Tokyo Night, Gruvbox Dark, Catppuccin Mocha
+- GitHub Dark, Material, Monokai, Solarized Dark, One Half Dark
+- Rose Pine (3 variants), Night Owl, Poimandres, Oceanic Next
+- JetBrains Darcula, Atom, Zenburn, IR Black, Molokai
+- And 37 more professionally-designed themes!
+
+**Light Themes (8):**
+- Gruvbox Light, Solarized Light, Ayu Light, Tomorrow
+- Atom One Light, One Half Light, Rose Pine Dawn, Pencil Light
+
+#### Build System & Developer Tools
+- **New Gradle Tasks:**
+  - `importWindowsTerminalSchemes` - Import and validate color schemes
+  - `generateThemesFromWindowsTerminal` - Generate IntelliJ themes from schemes
+- **Custom Scheme Support:** Easily add your own Windows Terminal color schemes
+- **Automated Validation:** Schema validation ensures all themes are valid
+
+### 🚀 Performance Improvements
+
+- **60-70% Faster Builds:** Build time reduced from 89-134s to 38-54s for 50 themes
+- **75-80% Faster Per-Theme Generation:** Individual theme generation time reduced from 1.5-2.0s to 0.3-0.4s
+- **Parallel Processing:** Themes now generate in parallel using Kotlin coroutines
+- **Template Caching:** Templates are cached and reused across all theme generations
+- **Color Calculation Memoization:** Expensive color calculations are cached (~70-80% cache hit rate)
+- **Incremental Builds:** Only modified schemes are regenerated
+
+### ♿ Accessibility
+
+- **WCAG AA Compliance Audit:** All themes audited for contrast ratios
+- **Accessibility Tools:** Automated tools to check theme accessibility
+- **Contrast Reporting:** Detailed reports show which color combinations pass/fail WCAG criteria
+- **Auto-Fix Suggestions:** Tool suggests color adjustments to improve accessibility
+
+### 🔧 Code Quality & Refactoring
+
+- **Code Review:** Comprehensive review of all Kotlin code with 20 issues identified and fixed
+- **Better Error Handling:** More robust error handling throughout the codebase
+- **Kotlin Idioms:** Replaced Java patterns with idiomatic Kotlin (null safety, etc.)
+- **Deprecation Warnings:** Clear migration paths for deprecated APIs
+- **Improved Documentation:** Enhanced KDoc comments and technical documentation
+
+### 📚 Documentation
+
+**New Documentation:**
+- `MIGRATION_GUIDE.md` - Complete guide for upgrading from 5.x to 6.0.0
+- `SCHEMES.md` - Catalog of all 60 included color schemes
+- `COLOR_MAPPING.md` - Detailed color mapping strategy (68 KB, 1,950 lines)
+- `SYNTAX_INFERENCE_ALGORITHM.md` - How syntax highlighting inference works (49 KB, 1,551 lines)
+- `CONTRIBUTING_SCHEMES.md` - Guide for contributing new color schemes
+- `ACCESSIBILITY_AUDIT_REPORT.md` - WCAG compliance audit results
+- `PERFORMANCE_METRICS.md` - Detailed performance benchmarks
+- `MANUAL_TESTING_CHECKLIST.md` - Comprehensive testing guide (200+ test items)
+
+**Updated Documentation:**
+- `README.md` - Windows Terminal integration section
+- `VERSIONING_STRATEGY.md` - Theme versioning and compatibility
+
+### 🛠️ Technical Details
+
+#### New Components
+- **Data Model:** `WindowsTerminalColorScheme` data class for parsing Windows Terminal JSON
+- **Parser:** JSON parser with schema validation using Gson
+- **Color Mapper:** `ConsoleColorMapper` for direct ANSI color mapping
+- **Syntax Inference:** `SyntaxColorInference` with intelligent algorithm for generating 100+ attributes
+- **Generators:** `XMLColorSchemeGenerator` and `UIThemeGenerator` for theme file generation
+- **Color Utilities:** Comprehensive color manipulation functions (hex/RGB conversion, lightening/darkening, contrast calculation)
+- **Template System:** Refactored to support multiple template types (One Dark + Windows Terminal)
+
+#### Testing
+- **48+ Unit Tests:** Comprehensive test coverage for all components
+- **Integration Tests:** End-to-end build testing
+- **Regression Tests:** Ensure backward compatibility with existing One Dark themes
+- **Test Schemes:** 7 edge case schemes (monochrome, high contrast, light background, etc.)
+
+### 🔒 Backward Compatibility
+
+- ✅ **All Existing Themes Work:** One Dark (regular, italic, vivid, vivid-italic) continue to work unchanged
+- ✅ **No Breaking Changes:** Fully backward compatible with version 5.x
+- ✅ **Optional Migration:** Windows Terminal themes are optional - you can continue using your current theme
+- ✅ **Same Installation Process:** No changes to how you install or update the plugin
+- ✅ **Settings Preserved:** Your current theme selection and customizations are preserved
+
+### 📦 Build & Deployment
+
+- **Gradle 7.5.1:** Modern build system with Kotlin DSL
+- **Kotlin 1.7.10:** Latest stable Kotlin for buildSrc
+- **Kotlin Coroutines 1.7.3:** Parallel theme generation
+- **Gson 2.8.9:** JSON parsing for Windows Terminal schemes
+- **JUnit 5 + Kotest:** Comprehensive testing framework
+
+### 🐛 Bug Fixes
+
+- Fixed dead code in `ConsoleColorMapper.kt`
+- Fixed error handling in `Groups.kt` (correct exception types)
+- Fixed unprofessional error messages
+- Removed Java `Optional` pattern in favor of Kotlin null safety
+- Fixed template caching thread safety
+
+### ⚠️ Deprecations
+
+The following internal APIs are deprecated but still functional (will be removed in 7.0.0):
+- `Extensions.kt` - Use direct Kotlin idioms instead
+- `ThemeConstructor.kt` (legacy mode) - Use new generator classes
+
+### 📊 Statistics
+
+- **Lines of Code:** ~5,500 lines in buildSrc
+- **Test Coverage:** 48+ test cases across all components
+- **Documentation:** 15+ new/updated documentation files (3,150+ lines)
+- **Themes:** 64 total themes (4 One Dark + 60 Windows Terminal)
+- **Performance:** 60-70% faster builds, 75-80% faster per-theme generation
+
+### 🙏 Credits
+
+- **Color Schemes:** From [iTerm2-Color-Schemes](https://github.com/mbadolato/iTerm2-Color-Schemes) repository
+- **Windows Terminal:** Microsoft's [Windows Terminal](https://github.com/microsoft/terminal)
+- **IntelliJ Platform:** JetBrains for the excellent IDE platform and documentation
+
+### 📋 Migration
+
+See [MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md) for detailed migration instructions from 5.x to 6.0.0.
+
+**Key Points:**
+- Backward compatible - no action required
+- All existing themes continue to work
+- 60 new themes available in theme dropdown
+- Easy to try, easy to switch back
+- Custom Windows Terminal schemes supported
+
+---
+
 #### 5.15.0
 
 - Added 2025.3 Build Support with removing restriction of `untilBuild` 

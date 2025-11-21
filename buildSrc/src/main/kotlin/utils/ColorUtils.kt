@@ -13,28 +13,40 @@ import kotlin.math.pow
  * - Color analysis (luminance, hue, saturation)
  *
  * All hex colors are in #RRGGBB format.
+ *
+ * Performance optimizations:
+ * - Caches frequently used calculations (luminance, HSV conversion, RGB conversion)
+ * - Thread-safe caching using ConcurrentHashMap
  */
 object ColorUtils {
 
+    // Caches for expensive calculations (thread-safe)
+    private val hexToRgbCache = java.util.concurrent.ConcurrentHashMap<String, Triple<Int, Int, Int>>()
+    private val luminanceCache = java.util.concurrent.ConcurrentHashMap<String, Double>()
+    private val hsvCache = java.util.concurrent.ConcurrentHashMap<String, Triple<Double, Double, Double>>()
+    private val contrastRatioCache = java.util.concurrent.ConcurrentHashMap<Pair<String, String>, Double>()
+
     /**
-     * Converts hex color to RGB components.
+     * Converts hex color to RGB components with caching.
      *
      * @param hex Color in #RRGGBB format
      * @return Triple of (R, G, B) values (0-255)
      * @throws IllegalArgumentException if hex format is invalid
      */
     fun hexToRgb(hex: String): Triple<Int, Int, Int> {
-        val cleanHex = hex.removePrefix("#")
-        require(cleanHex.length == 6) { "Invalid hex color: $hex (expected #RRGGBB format)" }
-        require(cleanHex.all { it.isDigit() || it.lowercaseChar() in 'a'..'f' }) {
-            "Invalid hex color: $hex (contains invalid characters)"
+        return hexToRgbCache.getOrPut(hex) {
+            val cleanHex = hex.removePrefix("#")
+            require(cleanHex.length == 6) { "Invalid hex color: $hex (expected #RRGGBB format)" }
+            require(cleanHex.all { it.isDigit() || it.lowercaseChar() in 'a'..'f' }) {
+                "Invalid hex color: $hex (contains invalid characters)"
+            }
+
+            val r = cleanHex.substring(0, 2).toInt(16)
+            val g = cleanHex.substring(2, 4).toInt(16)
+            val b = cleanHex.substring(4, 6).toInt(16)
+
+            Triple(r, g, b)
         }
-
-        val r = cleanHex.substring(0, 2).toInt(16)
-        val g = cleanHex.substring(2, 4).toInt(16)
-        val b = cleanHex.substring(4, 6).toInt(16)
-
-        return Triple(r, g, b)
     }
 
     /**
@@ -93,20 +105,23 @@ object ColorUtils {
     }
 
     /**
-     * Calculates WCAG 2.0 contrast ratio between two colors.
+     * Calculates WCAG 2.0 contrast ratio between two colors with caching.
      *
      * @param color1 First color in #RRGGBB format
      * @param color2 Second color in #RRGGBB format
      * @return Contrast ratio (1.0 to 21.0)
      */
     fun calculateContrastRatio(color1: String, color2: String): Double {
-        val l1 = calculateRelativeLuminance(color1)
-        val l2 = calculateRelativeLuminance(color2)
+        val key = Pair(color1, color2)
+        return contrastRatioCache.getOrPut(key) {
+            val l1 = calculateRelativeLuminance(color1)
+            val l2 = calculateRelativeLuminance(color2)
 
-        val lighter = maxOf(l1, l2)
-        val darker = minOf(l1, l2)
+            val lighter = maxOf(l1, l2)
+            val darker = minOf(l1, l2)
 
-        return (lighter + 0.05) / (darker + 0.05)
+            (lighter + 0.05) / (darker + 0.05)
+        }
     }
 
     /**
@@ -131,15 +146,17 @@ object ColorUtils {
     }
 
     /**
-     * Calculates perceived luminance (simpler than relative luminance).
+     * Calculates perceived luminance (simpler than relative luminance) with caching.
      * Useful for color classification.
      *
      * @param hexColor Color in #RRGGBB format
      * @return Perceived luminance (0.0 to 255.0)
      */
     fun calculateLuminance(hexColor: String): Double {
-        val (r, g, b) = hexToRgb(hexColor)
-        return 0.299 * r + 0.587 * g + 0.114 * b
+        return luminanceCache.getOrPut(hexColor) {
+            val (r, g, b) = hexToRgb(hexColor)
+            0.299 * r + 0.587 * g + 0.114 * b
+        }
     }
 
     /**
@@ -184,37 +201,39 @@ object ColorUtils {
     }
 
     /**
-     * Converts hex color to HSV (Hue, Saturation, Value).
+     * Converts hex color to HSV (Hue, Saturation, Value) with caching.
      *
      * @param hexColor Color in #RRGGBB format
      * @return Triple of (H: 0-360, S: 0.0-1.0, V: 0.0-1.0)
      */
     fun hexToHsv(hexColor: String): Triple<Double, Double, Double> {
-        val (r, g, b) = hexToRgb(hexColor)
+        return hsvCache.getOrPut(hexColor) {
+            val (r, g, b) = hexToRgb(hexColor)
 
-        val rNorm = r / 255.0
-        val gNorm = g / 255.0
-        val bNorm = b / 255.0
+            val rNorm = r / 255.0
+            val gNorm = g / 255.0
+            val bNorm = b / 255.0
 
-        val max = maxOf(rNorm, gNorm, bNorm)
-        val min = minOf(rNorm, gNorm, bNorm)
-        val delta = max - min
+            val max = maxOf(rNorm, gNorm, bNorm)
+            val min = minOf(rNorm, gNorm, bNorm)
+            val delta = max - min
 
-        // Hue calculation
-        val hue = when {
-            delta == 0.0 -> 0.0
-            max == rNorm -> ((gNorm - bNorm) / delta % 6) * 60
-            max == gNorm -> ((bNorm - rNorm) / delta + 2) * 60
-            else -> ((rNorm - gNorm) / delta + 4) * 60
+            // Hue calculation
+            val hue = when {
+                delta == 0.0 -> 0.0
+                max == rNorm -> ((gNorm - bNorm) / delta % 6) * 60
+                max == gNorm -> ((bNorm - rNorm) / delta + 2) * 60
+                else -> ((rNorm - gNorm) / delta + 4) * 60
+            }
+
+            // Saturation calculation
+            val saturation = if (max == 0.0) 0.0 else delta / max
+
+            // Value calculation
+            val value = max
+
+            Triple((hue + 360) % 360, saturation, value)
         }
-
-        // Saturation calculation
-        val saturation = if (max == 0.0) 0.0 else delta / max
-
-        // Value calculation
-        val value = max
-
-        return Triple((hue + 360) % 360, saturation, value)
     }
 
     /**
