@@ -13,9 +13,8 @@ Requirements:
 
 import json
 import os
-import math
 from datetime import datetime
-from typing import Dict, List, Tuple, Optional
+from typing import List, Tuple, Optional
 
 
 class ColorUtils:
