@@ -38,7 +38,7 @@ class ThemeMetadataGenerator(
         /**
          * Maximum supported IntelliJ version (null = no maximum)
          */
-        const val MAX_INTELLIJ_VERSION: String? = null
+        val MAX_INTELLIJ_VERSION: String? = null
 
         /**
          * Default theme version for newly generated themes

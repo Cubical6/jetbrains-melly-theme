@@ -109,13 +109,17 @@ object SyntaxColorInference {
         // Apply transformations
         var finalColor = selectedColor
 
-        rule.applyDimming?.let { dimFactor ->
-            finalColor = ColorUtils.darken(finalColor, 1.0 - dimFactor)
-        }
+        val afterDimming = rule.applyDimming?.let { dimFactor ->
+            ColorUtils.darken(finalColor!!, 1.0 - dimFactor)
+        } ?: finalColor
 
-        rule.applyLightening?.let { lightenAmount ->
-            finalColor = ColorUtils.lighten(finalColor, lightenAmount)
-        }
+        finalColor = afterDimming
+
+        val afterLightening = rule.applyLightening?.let { lightenAmount ->
+            ColorUtils.lighten(finalColor!!, lightenAmount)
+        } ?: finalColor
+
+        finalColor = afterLightening
 
         // Determine font style
         val fontStyle = if (isMonochrome) {
@@ -126,14 +130,16 @@ object SyntaxColorInference {
         }
 
         // Adjust for contrast if needed
-        if (contrastLevel == ContrastLevel.LOW) {
-            finalColor = adjustForLowContrast(finalColor, scheme.background)
+        val adjustedColor = if (contrastLevel == ContrastLevel.LOW) {
+            adjustForLowContrast(finalColor!!, scheme.background)
         } else if (contrastLevel == ContrastLevel.HIGH) {
-            finalColor = adjustForHighContrast(finalColor, scheme.background)
+            adjustForHighContrast(finalColor!!, scheme.background)
+        } else {
+            finalColor!!
         }
 
         return SyntaxColor(
-            color = finalColor,
+            color = adjustedColor,
             fontStyle = fontStyle,
             effectType = rule.effectType
         )

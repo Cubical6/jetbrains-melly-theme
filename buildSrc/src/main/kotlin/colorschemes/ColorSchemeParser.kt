@@ -98,10 +98,11 @@ class ColorSchemeParser {
             return listOf(dirPath to Result.failure(ParserException("Not a directory: $dirPath")))
         }
 
-        return Files.list(dirPath)
-            .filter { it.isRegularFile() && it.extension == "json" }
-            .map { jsonFile -> jsonFile to parse(jsonFile) }
-            .toList()
+        return Files.list(dirPath).use { stream ->
+            stream.filter { it.isRegularFile() && it.extension == "json" }
+                .map { jsonFile -> jsonFile to parse(jsonFile) }
+                .collect(java.util.stream.Collectors.toList())
+        }
     }
 
     /**
