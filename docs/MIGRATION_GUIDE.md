@@ -304,8 +304,7 @@ If you want only specific themes, you can:
 **Solution:**
 1. Manually uninstall current version
 2. Restart IDE
-3. Install latest version from JetBrains Marketplace
-4. Or download `.zip` and install from disk
+3. Download the latest `.zip` from GitHub releases and install from disk
 
 ---
 
@@ -524,7 +523,6 @@ See `docs/CONTRIBUTING_SCHEMES.md` for contribution guidelines.
 **A:** Several options:
 - [Documentation](https://one-dark.gitbook.io/jetbrains)
 - [GitHub Issues](https://github.com/one-dark/jetbrains-one-dark-theme/issues)
-- [Plugin Homepage](https://plugins.jetbrains.com/plugin/11938-one-dark-theme)
 
 #### Q: How do I report a bug?
 **A:** [Open a GitHub issue](https://github.com/one-dark/jetbrains-one-dark-theme/issues/new) with:
