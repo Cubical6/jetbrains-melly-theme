@@ -80,12 +80,8 @@ class XMLColorSchemeGenerator(
         // Read the template
         val template = readTemplate()
 
-        // Generate color mappings
-        val consoleColors = consoleColorMapper.mapToConsoleColors(scheme)
-        val syntaxColors = SyntaxColorInference.inferSyntaxColors(scheme)
-
         // Build replacement map
-        val replacements = buildReplacementMap(scheme, consoleColors, syntaxColors)
+        val replacements = buildReplacementMap(scheme)
 
         // Replace all placeholders
         var result = template
@@ -125,14 +121,10 @@ class XMLColorSchemeGenerator(
      * Builds a complete replacement map for all template placeholders.
      *
      * @param scheme Windows Terminal color scheme
-     * @param consoleColors Mapped console colors
-     * @param syntaxColors Inferred syntax colors
      * @return Map of placeholder strings to their replacement values
      */
     private fun buildReplacementMap(
-        scheme: WindowsTerminalColorScheme,
-        consoleColors: Map<String, String>,
-        syntaxColors: Map<String, mapping.SyntaxColor>
+        scheme: WindowsTerminalColorScheme
     ): Map<String, String> {
         val replacements = mutableMapOf<String, String>()
 
@@ -165,13 +157,13 @@ class XMLColorSchemeGenerator(
 
     /**
      * Normalizes a color value for XML output.
-     * Removes the '#' prefix as IntelliJ XML format expects colors without it.
+     * Removes the '#' prefix and converts to lowercase as IntelliJ XML format expects.
      *
      * @param color Color in #RRGGBB format
-     * @return Color in RRGGBB format (without #)
+     * @return Color in lowercase rrggbb format (without #)
      */
     private fun normalizeColor(color: String): String {
-        return color.removePrefix("#")
+        return color.removePrefix("#").lowercase()
     }
 
     /**
@@ -211,12 +203,8 @@ class XMLColorSchemeGenerator(
         // Read the template
         val template = readTemplate()
 
-        // Generate color mappings
-        val consoleColors = consoleColorMapper.mapToConsoleColors(scheme)
-        val syntaxColors = SyntaxColorInference.inferSyntaxColors(scheme)
-
         // Build replacement map
-        val replacements = buildReplacementMap(scheme, consoleColors, syntaxColors)
+        val replacements = buildReplacementMap(scheme)
 
         // Replace all placeholders
         var result = template
