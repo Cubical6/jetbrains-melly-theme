@@ -2043,5 +2043,5 @@ high-quality IntelliJ themes while maintaining semantic consistency, readability
 
 **Related Documentation**:
 - [SYNTAX_INFERENCE_ALGORITHM.md](SYNTAX_INFERENCE_ALGORITHM.md) - Detailed algorithm specification with worked examples
-- [README_WINDOWS_TERMINAL.md](../README_WINDOWS_TERMINAL.md) - User guide
+- [Windows Terminal Converter Guide](WINDOWS_TERMINAL_CONVERTER_GUIDE.md) - Detailed technical guide
 - [CONTRIBUTING_SCHEMES.md](CONTRIBUTING_SCHEMES.md) - Contribution guidelines

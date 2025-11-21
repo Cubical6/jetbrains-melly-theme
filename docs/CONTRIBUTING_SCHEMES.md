@@ -732,7 +732,7 @@ all-contributors add <your-github-username> code
 
 ### Documentation
 
-- [README_WINDOWS_TERMINAL.md](../README_WINDOWS_TERMINAL.md) - User guide for the converter
+- [Windows Terminal Converter Guide](WINDOWS_TERMINAL_CONVERTER_GUIDE.md) - Detailed technical guide for the converter
 - [COLOR_MAPPING.md](COLOR_MAPPING.md) - Technical details of color mapping
 - [SYNTAX_INFERENCE_ALGORITHM.md](SYNTAX_INFERENCE_ALGORITHM.md) - Algorithm documentation
 
