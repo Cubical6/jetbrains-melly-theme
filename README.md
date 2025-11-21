@@ -8,6 +8,72 @@
 
 ![Code example](https://github.com/one-dark/jetbrains-one-dark-theme/raw/master/docs/screenshots/default.png)
 
+## Windows Terminal Integration
+
+This plugin now supports automatic conversion of Windows Terminal color schemes to IntelliJ themes! Bring your favorite terminal color schemes to your IDE with full ANSI color support and intelligent syntax highlighting.
+
+### Features
+
+- Full ANSI color mapping (all 16 colors + foreground/background)
+- Intelligent syntax highlighting inference from terminal colors
+- 15+ pre-configured popular color schemes included
+- Easy addition of custom Windows Terminal schemes
+- Consistent colors between terminal and IDE
+
+### Available Themes
+
+The plugin includes these popular Windows Terminal color schemes:
+
+**Dark Themes:**
+- Dracula - Vibrant purple and pink accents
+- Nord - Arctic, north-bluish palette
+- Tokyo Night - Clean theme inspired by Tokyo's skyline
+- Gruvbox Dark - Retro groove with warm colors
+- Monokai Soda - Enhanced Monokai variation
+- Catppuccin Mocha - Soothing pastel theme
+- GitHub Dark - GitHub's official dark scheme
+- Material - Google's Material Design palette
+- Solarized Dark - Classic scientifically-designed colors
+- One Half Dark - Based on Atom's One Dark
+- Breeze - KDE Plasma's terminal scheme
+
+**Light Themes:**
+- Gruvbox Light - Retro groove with warm light colors
+- Solarized Light - Perfect for daylight use
+- One Half Light - Based on Atom's One Light
+- Atom One Light - Atom editor's popular light theme
+
+### Quick Start
+
+1. **Install the plugin** from the JetBrains marketplace
+2. **Select a theme** by going to `Preferences | Appearance & Behavior | Appearance`
+3. **Choose a Windows Terminal theme** from the theme dropdown (e.g., "Dracula", "Nord", "Tokyo Night")
+4. **Click OK** to apply the changes
+
+### Adding Custom Schemes
+
+Want to use your own Windows Terminal color scheme?
+
+1. Add your `.json` color scheme file to `windows-terminal-schemes/`
+2. Run `./gradlew generateThemesFromWindowsTerminal`
+3. Your custom theme will be automatically generated
+
+For detailed instructions, see [windows-terminal-schemes/README.md](windows-terminal-schemes/README.md)
+
+### Build Tasks
+
+The plugin provides Gradle tasks for Windows Terminal integration:
+
+- `importWindowsTerminalSchemes` - Import and validate color schemes
+- `generateThemesFromWindowsTerminal` - Generate IntelliJ themes from schemes
+- `build` - Automatically includes theme generation
+
+### Learn More
+
+- [Windows Terminal Schemes Collection](windows-terminal-schemes/README.md) - View all included themes
+- [Windows Terminal Template Documentation](docs/WINDOWS_TERMINAL_TEMPLATE.md) - Technical details
+- [Color Mapping Strategy](docs/SYNTAX_INFERENCE_ALGORITHM.md) - How colors are mapped
+
 ## Do you need help?
 
 Please check [the docs FAQs](https://one-dark.gitbook.io/jetbrains/help/faqs) to see if we can solve your problem.
