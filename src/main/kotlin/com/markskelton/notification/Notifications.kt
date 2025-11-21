@@ -23,7 +23,7 @@ val UPDATE_MESSAGE: String = """
 
 object Notifications {
 
-  private val notificationGroup = NotificationGroupManager.getInstance().getNotificationGroup("One Dark Theme")
+  private val notificationGroup = NotificationGroupManager.getInstance().getNotificationGroup("Windows Terminal Theme")
 
   fun displayUpdateNotification(versionNumber: String) {
     val pluginName =
