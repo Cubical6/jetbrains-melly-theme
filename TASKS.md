@@ -1374,29 +1374,246 @@ Based on deep code analysis, the following refinements and additional tasks are 
 
 ---
 
-### Sprint 5: Polish & Release (Weeks 9-10) - REVISED
+### Sprint 5: Polish & Release (Weeks 9-10) - COMPLETED ✅
+
+**Status: COMPLETED** (Version 6.0.0 released)
 
 **Critical Path:**
-1. **TASK-700**: Migration strategy [NEW]
-2. TASK-901: Code review and refactoring
-3. TASK-903: Accessibility audit (with WCAG criteria)
-4. TASK-902: Performance optimization
-5. TASK-904: Create changelog
-6. TASK-905: Update plugin version
-7. TASK-906: Create release notes
-8. TASK-907: Build final plugin
-9. TASK-908: Tag release
+1. **TASK-700**: Migration strategy ✅
+2. TASK-901: Code review and refactoring ✅
+3. TASK-903: Accessibility audit (with WCAG criteria) ✅
+4. TASK-902: Performance optimization ✅
+5. TASK-904: Create changelog ✅
+6. TASK-905: Update plugin version ✅
+7. TASK-906: Create release notes ✅
+8. TASK-907: Build final plugin ✅
+9. TASK-908: Tag release ✅
 
 **Parallel Tracks:**
-- TASK-602: Import remaining schemes (50+ for full release)
-- TASK-705: User guide with screenshots
+- TASK-602: Import remaining schemes (60+ schemes imported) ✅
+- TASK-705: User guide with screenshots ✅
 
 **Deliverables:**
-- Fully tested and documented plugin
-- 50+ Windows Terminal themes
-- Migration guide for users
-- Release artifacts
-- Git tag and release notes
+- ✅ Fully tested and documented plugin
+- ✅ 60+ Windows Terminal themes
+- ✅ Migration guide for users
+- ✅ Release artifacts
+- ✅ Git tag and release notes (Version 6.0.0)
+
+**Completion Date:** 2025-11-21
+
+---
+
+### Sprint 6: Repository Minimization & Cleanup (Week 11) - IN PROGRESS
+
+**Goal:** Minimize repository to focus exclusively on Windows PowerShell/Terminal themes, removing all One Dark theme-specific content and deprecated documentation.
+
+**Status: IN PROGRESS**
+
+**Critical Path:**
+
+- [ ] **TASK-1001**: Remove deprecated documentation files
+  - Location: Root directory and `/docs`
+  - Files to remove:
+    - Duplicate .txt files: `SPRINT_4_SUMMARY.txt`, `TASK-903-COMPLETION.txt`, `reports/accessibility-audit-report.txt`, `buildSrc/TASK-501-SUMMARY.txt`
+    - Sprint/Task reports: All `SPRINT_*.md`, `TASK-*-COMPLETION*.md`, `TASK-*-IMPLEMENTATION*.md`
+    - Temporary files: `BUILD_STATUS.md`, `OPTIMIZATION-FILES-CHANGED.md`, `CODE_REVIEW_REPORT.md`
+    - Duplicate docs: `docs/TASK-303-IMPLEMENTATION-SUMMARY.md`, `docs/TEMPLATE_PROCESSOR_QUICK_REF.md`
+  - Priority: HIGH
+  - Dependencies: None
+
+- [ ] **TASK-1002**: Remove deprecated code files
+  - Location: `buildSrc/src/main/kotlin` and test directories
+  - Files to remove:
+    - `buildSrc/src/main/kotlin/Extensions.kt` (non-idiomatic Kotlin)
+    - `buildSrc/src/main/kotlin/themes/ThemeConstructor.kt` (deprecated legacy generator)
+    - `buildSrc/src/main/kotlin/themes/TemplateProcessorExample.kt` (untested example)
+    - `buildSrc/src/test/kotlin/generators/UIThemeGeneratorExample.kt` (untested example)
+    - `buildSrc/src/test/kotlin/mapping/ColorPaletteExpanderExampleUsage.kt` (untested example)
+  - Priority: HIGH
+  - Dependencies: TASK-1003 (verify no dependencies)
+
+- [ ] **TASK-1003**: Remove One Dark theme-specific Kotlin code
+  - Location: `src/main/kotlin`
+  - Files to remove or refactor:
+    - `src/main/kotlin/OneDarkIcons.kt` (One Dark logo loader)
+    - `src/main/kotlin/OneDarkTheme.kt` (One Dark startup activity)
+    - `src/main/kotlin/com/markskelton/OneDarkThemeManager.kt` (One Dark theme manager)
+    - `src/main/kotlin/com/markskelton/settings/ThemeSettings.kt` (refactor to generic settings)
+  - Strategy: Refactor to be generic PowerShell theme code, or remove if only One Dark specific
+  - Priority: HIGH
+  - Dependencies: TASK-1005 (plugin.xml update)
+
+- [ ] **TASK-1004**: Remove One Dark theme templates and palettes
+  - Location: `buildSrc/templates`
+  - Files to remove:
+    - `buildSrc/templates/oneDark.template.theme.json`
+    - `buildSrc/templates/one-dark.template.xml`
+    - `buildSrc/templates/normal.palette.json` (One Dark specific)
+    - `buildSrc/templates/vivid.palette.json` (One Dark specific)
+  - Keep: `windows-terminal.template.theme.json`, `windows-terminal.template.xml`
+  - Priority: HIGH
+  - Dependencies: TASK-1003, TASK-1006
+
+- [ ] **TASK-1005**: Update plugin.xml to remove One Dark theme references
+  - Location: `src/main/resources/META-INF/plugin.xml`
+  - Changes:
+    - Update plugin ID from `com.markskelton.one-dark-theme` to generic name
+    - Remove 4 One Dark theme variants (Regular, Italic, Vivid, Vivid Italic)
+    - Update plugin name and description to focus on Windows Terminal themes
+    - Remove One Dark theme UUIDs
+    - Keep Windows Terminal theme registrations
+  - Priority: HIGH
+  - Dependencies: TASK-1003, TASK-1004
+
+- [ ] **TASK-1006**: Remove One Dark Gradle plugin
+  - Location: `buildSrc/src/main/kotlin`
+  - Files to remove or refactor:
+    - `buildSrc/src/main/kotlin/one-dark-theme-plugin.gradle.kts`
+  - Update `build.gradle` to remove One Dark plugin reference
+  - Priority: HIGH
+  - Dependencies: TASK-1004
+
+- [ ] **TASK-1007**: Clean up windows-terminal-schemes directory
+  - Location: `windows-terminal-schemes/`
+  - Files to remove:
+    - `windows-terminal-schemes/example-one-dark.json`
+    - `windows-terminal-schemes/one-half-dark.json` (One Dark variant)
+  - Keep all other PowerShell-focused schemes (Dracula, Nord, Tokyo Night, Gruvbox, etc.)
+  - Priority: MEDIUM
+  - Dependencies: None
+
+- [ ] **TASK-1008**: Remove One Dark icons and assets
+  - Location: `src/main/resources/icons`
+  - Files to remove:
+    - `src/main/resources/icons/one-dark-logo.svg`
+  - Replace with generic PowerShell theme icon if needed
+  - Priority: MEDIUM
+  - Dependencies: TASK-1003
+
+- [ ] **TASK-1009**: Update main README.md
+  - Location: `README.md`
+  - Changes:
+    - Remove One Dark theme references
+    - Update plugin description to focus on Windows PowerShell/Terminal themes
+    - Update installation instructions
+    - Update screenshots (remove One Dark specific)
+    - Update GitHub repository links
+    - Update documentation links
+  - Priority: HIGH
+  - Dependencies: TASK-1005
+
+- [ ] **TASK-1010**: Update README_WINDOWS_TERMINAL.md
+  - Location: `README_WINDOWS_TERMINAL.md`
+  - Changes:
+    - Remove One Dark theme references
+    - Update to be primary plugin documentation
+    - Consider merging with main README.md
+  - Priority: MEDIUM
+  - Dependencies: TASK-1009
+
+- [ ] **TASK-1011**: Update CHANGELOG.md
+  - Location: `CHANGELOG.md`
+  - Changes:
+    - Add Sprint 6 entry: "Repository Minimization - Removed One Dark theme content, focus on Windows Terminal themes"
+    - Document breaking changes (One Dark themes removed)
+    - Update migration guide reference
+  - Priority: HIGH
+  - Dependencies: All TASK-100x tasks
+
+- [ ] **TASK-1012**: Clean up and update technical documentation
+  - Location: `/docs`
+  - Changes:
+    - Update `docs/COLOR_MAPPING.md` (remove One Dark references)
+    - Update `docs/WINDOWS_TERMINAL_TEMPLATE.md` (remove One Dark template references)
+    - Update `docs/MIGRATION_GUIDE.md` (document One Dark removal)
+    - Remove duplicate documentation
+    - Update architecture diagrams
+  - Priority: MEDIUM
+  - Dependencies: TASK-1004, TASK-1006
+
+- [ ] **TASK-1013**: Remove generated reports directory
+  - Location: `/reports`
+  - Files to remove:
+    - `reports/ACCESSIBILITY_AUDIT_REPORT.md`
+    - `reports/accessibility-audit-report.txt`
+    - Entire `/reports` directory (can be regenerated)
+  - Priority: LOW
+  - Dependencies: None
+
+- [ ] **TASK-1014**: Remove temporary audit scripts
+  - Location: Root directory
+  - Files to remove:
+    - `accessibility-audit.py` (can be regenerated)
+    - `accessibility-audit.kts` (can be regenerated)
+    - `run-accessibility-audit.sh` (one-time use script)
+  - Priority: LOW
+  - Dependencies: None
+
+- [ ] **TASK-1015**: Archive large TASKS.md file
+  - Location: Root directory
+  - Changes:
+    - Move current `TASKS.md` (59 KB) to `docs/archive/TASKS_ARCHIVE.md`
+    - Create new minimal `TASKS.md` with only Sprint 6 and active tasks
+    - Update references in documentation
+  - Priority: MEDIUM
+  - Dependencies: TASK-1011
+
+- [ ] **TASK-1016**: Update GitHub Actions workflows
+  - Location: `.github/workflows`
+  - Changes:
+    - Update `release.yml` (remove One Dark references)
+    - Update `preMerge.yml` (update validation checks)
+    - Update issue templates (remove One Dark references)
+  - Priority: MEDIUM
+  - Dependencies: TASK-1005, TASK-1009
+
+- [ ] **TASK-1017**: Run full test suite after cleanup
+  - Command: `./gradlew clean test`
+  - Verify:
+    - All unit tests pass
+    - No broken imports or references
+    - Build completes successfully
+  - Priority: HIGH
+  - Dependencies: All TASK-100x code changes
+
+- [ ] **TASK-1018**: Build and verify plugin after cleanup
+  - Command: `./gradlew buildPlugin`
+  - Verify:
+    - Plugin builds without errors
+    - No One Dark themes in output
+    - Windows Terminal themes still generate correctly
+    - Plugin loads in test IDE
+  - Priority: HIGH
+  - Dependencies: TASK-1017
+
+- [ ] **TASK-1019**: Update git history and commit cleanup
+  - Actions:
+    - Create comprehensive commit message documenting all removals
+    - Update .gitignore if needed
+    - Tag commit: `v7.0.0-minimal` (major version bump for breaking changes)
+  - Priority: HIGH
+  - Dependencies: TASK-1017, TASK-1018
+
+- [ ] **TASK-1020**: Push changes to feature branch
+  - Branch: `claude/update-tasks-cleanup-01Qv1ZFjLKqVqrr1UJoRGUBJ`
+  - Command: `git push -u origin claude/update-tasks-cleanup-01Qv1ZFjLKqVqrr1UJoRGUBJ`
+  - Retry: Up to 4 times with exponential backoff if network errors
+  - Priority: HIGH
+  - Dependencies: TASK-1019
+
+---
+
+**Sprint 6 Deliverables:**
+- Cleaned up repository (100+ files removed, ~500KB savings)
+- Focus on Windows PowerShell/Terminal themes only
+- Removed all One Dark theme-specific code
+- Removed all deprecated documentation
+- Updated plugin metadata and documentation
+- All tests passing
+- Successfully builds and loads in IDE
+
+**Completion Target:** 2025-11-22
 
 ---
 

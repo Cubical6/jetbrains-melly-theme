@@ -7,8 +7,8 @@ import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 @State(
-    name = "OneDarkConfig",
-    storages = [Storage("one_dark_config.xml")]
+    name = "WindowsTerminalThemeConfig",
+    storages = [Storage("windows_terminal_theme_config.xml")]
 )
 class ThemeSettings : PersistentStateComponent<ThemeSettings>, Cloneable {
   companion object {
