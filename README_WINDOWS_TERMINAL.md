@@ -66,8 +66,8 @@ intelligent color inference algorithms to expand the limited terminal palette in
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/one-dark/jetbrains-one-dark-theme.git
-   cd jetbrains-one-dark-theme
+   git clone https://github.com/Cubical6/jetbrains-melly-theme.git
+   cd jetbrains-melly-theme
    ```
 
 2. **Add your Windows Terminal color scheme**:
@@ -748,7 +748,7 @@ Error: Missing required property 'brightWhite'
 
 If you encounter an issue not listed here:
 
-1. **Check existing issues**: [GitHub Issues](https://github.com/one-dark/jetbrains-one-dark-theme/issues)
+1. **Check existing issues**: [GitHub Issues](https://github.com/Cubical6/jetbrains-melly-theme/issues)
 2. **Review documentation**: [docs/](docs/) directory contains detailed technical docs
 3. **Enable debug logging**: Set `org.gradle.logging.level=debug` in `gradle.properties`
 4. **Submit a bug report**: Include:
@@ -783,7 +783,7 @@ directory are either MIT licensed or public domain.
 
 ### Contributors
 
-See [README.md](README.md) for the full list of contributors to the One Dark Theme project.
+See [README.md](README.md) for the full list of contributors to the Windows Terminal Themes for JetBrains project.
 
 ---
 

@@ -381,11 +381,11 @@ Once all validation and testing is complete, submit your contribution!
 # Fork the repository on GitHub (click "Fork" button)
 
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/jetbrains-one-dark-theme.git
-cd jetbrains-one-dark-theme
+git clone https://github.com/YOUR_USERNAME/jetbrains-melly-theme.git
+cd jetbrains-melly-theme
 
 # Add upstream remote
-git remote add upstream https://github.com/one-dark/jetbrains-one-dark-theme.git
+git remote add upstream https://github.com/Cubical6/jetbrains-melly-theme.git
 ```
 
 #### Create a Branch

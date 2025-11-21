@@ -1,12 +1,10 @@
 # Windows Terminal & PowerShell Themes for JetBrains IDEs
 
-[![JetBrains plugin version](https://img.shields.io/jetbrains/plugin/v/11938-one-dark-theme.svg)](https://plugins.jetbrains.com/plugin/11938-one-dark-theme)
-[![JetBrains plugin downloads](https://img.shields.io/jetbrains/plugin/d/11938-one-dark-theme.svg)](https://plugins.jetbrains.com/plugin/11938-one-dark-theme)
 [![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg)](#contributors)
 
 > Import any Windows Terminal color scheme as a complete JetBrains IDE theme with matching console colors!
 
-![Code example](https://github.com/one-dark/jetbrains-one-dark-theme/raw/master/docs/screenshots/default.png)
+![Code example](https://github.com/Cubical6/jetbrains-melly-theme/raw/master/docs/screenshots/default.png)
 
 ## Overview
 
@@ -79,22 +77,21 @@ The plugin provides Gradle tasks for Windows Terminal integration:
 
 ## Do you need help?
 
-Please check [the docs FAQs](https://one-dark.gitbook.io/jetbrains/help/faqs) to see if we can solve your problem.
-If that does not fix your problem, please [submit an issue](https://github.com/one-dark/jetbrains-one-dark-theme/issues/new).
+If you have any problems, please [submit an issue](https://github.com/Cubical6/jetbrains-melly-theme/issues/new).
 
 ## Setup
 
 After installing the plugin, go to `Preferences | Appearance & Behavior | Appearance` and select one of the Windows Terminal themes in the theme dropdown. Once you have selected a theme, click the **OK** button to apply the changes!
 
-![Configuration example](https://github.com/one-dark/jetbrains-one-dark-theme/raw/master/docs/screenshots/configuration.png)
+![Configuration example](https://github.com/Cubical6/jetbrains-melly-theme/raw/master/docs/screenshots/configuration.png)
 
 ## Further Documentation
 
-Check out the [docs](https://one-dark.gitbook.io/jetbrains) for manual installation instructions, additional screenshots, and contributing guidelines.
+Check out the [docs](docs/README.md) for additional information and contributing guidelines.
 
-- [Installation](https://one-dark.gitbook.io/jetbrains/the-basics/installation)
-- [Screenshots](https://one-dark.gitbook.io/jetbrains/the-basics/screenshots)
-- [Contributing](https://one-dark.gitbook.io/jetbrains/contributing/development)
+- [Windows Terminal Theme Documentation](README_WINDOWS_TERMINAL.md)
+- [Contributing Schemes](docs/CONTRIBUTING_SCHEMES.md)
+- [Development Guide](docs/contributing/development.md)
 
 ## Thanks
 
