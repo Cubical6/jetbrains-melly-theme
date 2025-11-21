@@ -381,11 +381,11 @@ Once all validation and testing is complete, submit your contribution!
 # Fork the repository on GitHub (click "Fork" button)
 
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/jetbrains-one-dark-theme.git
-cd jetbrains-one-dark-theme
+git clone https://github.com/YOUR_USERNAME/jetbrains-melly-theme.git
+cd jetbrains-melly-theme
 
 # Add upstream remote
-git remote add upstream https://github.com/one-dark/jetbrains-one-dark-theme.git
+git remote add upstream https://github.com/Cubical6/jetbrains-melly-theme.git
 ```
 
 #### Create a Branch
@@ -732,7 +732,7 @@ all-contributors add <your-github-username> code
 
 ### Documentation
 
-- [README_WINDOWS_TERMINAL.md](../README_WINDOWS_TERMINAL.md) - User guide for the converter
+- [Windows Terminal Converter Guide](WINDOWS_TERMINAL_CONVERTER_GUIDE.md) - Detailed technical guide for the converter
 - [COLOR_MAPPING.md](COLOR_MAPPING.md) - Technical details of color mapping
 - [SYNTAX_INFERENCE_ALGORITHM.md](SYNTAX_INFERENCE_ALGORITHM.md) - Algorithm documentation
 

@@ -44,7 +44,7 @@ ls windows-terminal-schemes/                    # Should show 15+ WT schemes
 # Complete theme generation test
 ./gradlew :buildSrc:test --tests "integration.BuildIntegrationTest.testCompleteThemeGeneration"
 
-# One Dark regression test
+# One Dark regression test (ensures backward compatibility with existing themes)
 ./gradlew :buildSrc:test --tests "integration.RegressionTest.testOneDarkThemesStillGenerate"
 
 # Multiple scheme generation

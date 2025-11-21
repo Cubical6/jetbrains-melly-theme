@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This document establishes performance baselines for the JetBrains One Dark Theme plugin with Windows Terminal integration. Based on code analysis and architectural review, the current implementation should achieve clean build times of 40-60 seconds for 15 themes, with projections of 80-100 seconds for 50 themes.
+This document establishes performance baselines for the JetBrains Windows Terminal Theme plugin (formerly One Dark Theme with Windows Terminal integration). Based on code analysis and architectural review, the current implementation should achieve clean build times of 40-60 seconds for 15 themes, with projections of 80-100 seconds for 50 themes.
 
 **Key Findings:**
 - **Current (15 themes)**: Estimated 40-60 seconds clean build, 10-15 seconds incremental

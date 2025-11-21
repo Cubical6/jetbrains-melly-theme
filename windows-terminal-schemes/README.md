@@ -154,7 +154,7 @@ The color schemes maintain their original licenses as specified in the source re
 
 This collection provides excellent coverage for testing:
 - **Contrast Levels**: High (Dracula, Material), Medium (Nord, Tokyo Night), Low (Solarized, Gruvbox)
-- **Color Palettes**: Cool tones (Nord, Tokyo Night), Warm tones (Gruvbox), Balanced (One Dark, Dracula)
+- **Color Palettes**: Cool tones (Nord, Tokyo Night), Warm tones (Gruvbox), Balanced (One Half Dark, Dracula)
 - **Styles**: Modern (GitHub, Material), Retro (Gruvbox), Scientific (Solarized), Vibrant (Dracula, Monokai)
 - **Popularity**: All schemes are widely used in the developer community
 
