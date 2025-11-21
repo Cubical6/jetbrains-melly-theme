@@ -1,0 +1,18 @@
+{
+  "name": "Invalid Colors Test",
+  "background": "notahexcolor",
+  "foreground": "#gggggg",
+  "black": "#00000",
+  "red": "#ff000000",
+  "green": "rgb(0,255,0)",
+  "yellow": "#xyz123",
+  "blue": "#0000ff",
+  "purple": "#c678dd",
+  "cyan": "56b6c2",
+  "brightBlack": "#5c6370",
+  "brightRed": "#e06c75",
+  "brightGreen": "#98c379",
+  "brightYellow": "#e5c07b",
+  "brightBlue": "#61afef",
+  "brightPurple": "#c678dd"
+}
