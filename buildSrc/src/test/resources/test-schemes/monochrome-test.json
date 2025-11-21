@@ -1,0 +1,21 @@
+{
+  "name": "Monochrome Test",
+  "background": "#1a1a1a",
+  "foreground": "#d4d4d4",
+  "black": "#000000",
+  "red": "#333333",
+  "green": "#444444",
+  "yellow": "#555555",
+  "blue": "#666666",
+  "purple": "#777777",
+  "cyan": "#888888",
+  "white": "#999999",
+  "brightBlack": "#5c5c5c",
+  "brightRed": "#6e6e6e",
+  "brightGreen": "#808080",
+  "brightYellow": "#929292",
+  "brightBlue": "#a4a4a4",
+  "brightPurple": "#b6b6b6",
+  "brightCyan": "#c8c8c8",
+  "brightWhite": "#dadada"
+}
