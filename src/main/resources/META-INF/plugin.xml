@@ -1,12 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <idea-plugin>
+    
   <id>com.markskelton.one-dark-theme</id>
+    
   <name>Windows Terminal Theme for JetBrains</name>
+    
   <version>@version@</version>
-  <vendor email="one-dark@mskelton.dev"
-          url="https://github.com/one-dark/jetbrains-one-dark-theme">Mark Skelton
+    
+  <vendor email="one-dark@mskelton.dev" url="https://github.com/one-dark/jetbrains-one-dark-theme">Mark Skelton
   </vendor>
-
-  <description><![CDATA[
+    
+  <description>
+    <![CDATA[
     <h2>Windows Terminal & PowerShell Themes for JetBrains IDEs</h2>
     <p>Import any Windows Terminal color scheme as a complete IntelliJ theme with matching console colors!</p>
 
@@ -35,9 +40,11 @@
     </ul>
 
     <p>See the <a href="https://github.com/one-dark/jetbrains-one-dark-theme">GitHub repository</a> for documentation, screenshots, and contribution guidelines.</p>
-  ]]></description>
-
-  <change-notes><![CDATA[
+  ]]>
+  </description>
+    
+  <change-notes>
+    <![CDATA[
     <h3>Version 7.0.0 - Windows Terminal Focus</h3>
     <ul>
       <li><strong>Repository Cleanup:</strong> Removed One Dark theme-specific code, now focused on Windows Terminal themes</li>
@@ -47,18 +54,196 @@
       <li><strong>Breaking Change:</strong> One Dark theme variants removed - Windows Terminal themes only</li>
     </ul>
     <p>See <a href="https://github.com/one-dark/jetbrains-one-dark-theme/blob/master/CHANGELOG.md">CHANGELOG.md</a> for complete release notes.</p>
-  ]]></change-notes>
-
+  ]]>
+  </change-notes>
+    
   <depends>com.intellij.modules.platform</depends>
-
+    
   <!--    Leave this in here so the IDE gives you feedback on-->
+    
   <!--    What API's are available-->
+    
   <idea-version since-build="203.7148.57"/>
-
+    
   <extensions defaultExtensionNs="com.intellij">
+        
     <applicationService serviceImplementation="com.markskelton.settings.ThemeSettings"/>
-    <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e"
-                  implementation="com.markskelton.integrations.ErrorReporter"/>
-    <notificationGroup displayType="BALLOON" id="Windows Terminal Theme" isLogByDefault="false" toolWindowId="Windows Terminal Theme"  />
+        
+    <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="com.markskelton.integrations.ErrorReporter"/>
+        
+    <notificationGroup displayType="BALLOON" id="Windows Terminal Theme" isLogByDefault="false" toolWindowId="Windows Terminal Theme"/>
+      
+    
+    <themeProvider id="wt-ir-black-3f88f824" path="/themes/wt-ir-black-3f88f824.theme.json"/>
+      
+    
+    <themeProvider id="wt-material-df2d13f6" path="/themes/wt-material-df2d13f6.theme.json"/>
+      
+    
+    <themeProvider id="wt-atom-1cbb2ba5" path="/themes/wt-atom-1cbb2ba5.theme.json"/>
+      
+    
+    <themeProvider id="wt-paraiso-dark-652ca807" path="/themes/wt-paraiso-dark-652ca807.theme.json"/>
+      
+    
+    <themeProvider id="wt-catppuccin-mocha-1decf1cd" path="/themes/wt-catppuccin-mocha-1decf1cd.theme.json"/>
+      
+    
+    <themeProvider id="wt-vercel-6c9bb3d9" path="/themes/wt-vercel-6c9bb3d9.theme.json"/>
+      
+    
+    <themeProvider id="wt-tomorrow-night-5022fb49" path="/themes/wt-tomorrow-night-5022fb49.theme.json"/>
+      
+    
+    <themeProvider id="wt-ayu-8f29cfb8" path="/themes/wt-ayu-8f29cfb8.theme.json"/>
+      
+    
+    <themeProvider id="wt-wombat-da2feff3" path="/themes/wt-wombat-da2feff3.theme.json"/>
+      
+    
+    <themeProvider id="wt-ubuntu-6e910ab3" path="/themes/wt-ubuntu-6e910ab3.theme.json"/>
+      
+    
+    <themeProvider id="wt-batman-ff23e2f3" path="/themes/wt-batman-ff23e2f3.theme.json"/>
+      
+    
+    <themeProvider id="wt-one-half-light-ffcb2890" path="/themes/wt-one-half-light-ffcb2890.theme.json"/>
+      
+    
+    <themeProvider id="wt-hopscotch-43cc1b3f" path="/themes/wt-hopscotch-43cc1b3f.theme.json"/>
+      
+    
+    <themeProvider id="wt-builtin-solarized-li-9b7e5e17" path="/themes/wt-builtin-solarized-li-9b7e5e17.theme.json"/>
+      
+    
+    <themeProvider id="wt-afterglow-6d9c4103" path="/themes/wt-afterglow-6d9c4103.theme.json"/>
+      
+    
+    <themeProvider id="wt-birds-of-paradise-274f30fe" path="/themes/wt-birds-of-paradise-274f30fe.theme.json"/>
+      
+    
+    <themeProvider id="wt-pencil-dark-6a86cb79" path="/themes/wt-pencil-dark-6a86cb79.theme.json"/>
+      
+    
+    <themeProvider id="wt-gruvbox-light-83f310d4" path="/themes/wt-gruvbox-light-83f310d4.theme.json"/>
+      
+    
+    <themeProvider id="wt-molokai-07d57d60" path="/themes/wt-molokai-07d57d60.theme.json"/>
+      
+    
+    <themeProvider id="wt-pencil-light-2761d83a" path="/themes/wt-pencil-light-2761d83a.theme.json"/>
+      
+    
+    <themeProvider id="wt-mariana-1e2c6e82" path="/themes/wt-mariana-1e2c6e82.theme.json"/>
+      
+    
+    <themeProvider id="wt-twilight-d774f3d9" path="/themes/wt-twilight-d774f3d9.theme.json"/>
+      
+    
+    <themeProvider id="wt-gruvbox-dark-1a35f819" path="/themes/wt-gruvbox-dark-1a35f819.theme.json"/>
+      
+    
+    <themeProvider id="wt-espresso-4835a201" path="/themes/wt-espresso-4835a201.theme.json"/>
+      
+    
+    <themeProvider id="wt-tokyonight-cd358c58" path="/themes/wt-tokyonight-cd358c58.theme.json"/>
+      
+    
+    <themeProvider id="wt-brogrammer-0b283fdc" path="/themes/wt-brogrammer-0b283fdc.theme.json"/>
+      
+    
+    <themeProvider id="wt-monokai-soda-b02a5f18" path="/themes/wt-monokai-soda-b02a5f18.theme.json"/>
+      
+    
+    <themeProvider id="wt-rose-pine-dawn-644ee1e6" path="/themes/wt-rose-pine-dawn-644ee1e6.theme.json"/>
+      
+    
+    <themeProvider id="wt-misterioso-e4e7633a" path="/themes/wt-misterioso-e4e7633a.theme.json"/>
+      
+    
+    <themeProvider id="wt-aardvark-blue-a487fdac" path="/themes/wt-aardvark-blue-a487fdac.theme.json"/>
+      
+    
+    <themeProvider id="wt-argonaut-37b31af3" path="/themes/wt-argonaut-37b31af3.theme.json"/>
+      
+    
+    <themeProvider id="wt-github-dark-0e1475a8" path="/themes/wt-github-dark-0e1475a8.theme.json"/>
+      
+    
+    <themeProvider id="wt-tomorrow-70af638d" path="/themes/wt-tomorrow-70af638d.theme.json"/>
+      
+    
+    <themeProvider id="wt-vesper-01d8e283" path="/themes/wt-vesper-01d8e283.theme.json"/>
+      
+    
+    <themeProvider id="wt-spacegray-eighties-825a6d1c" path="/themes/wt-spacegray-eighties-825a6d1c.theme.json"/>
+      
+    
+    <themeProvider id="wt-rose-pine-moon-8a586610" path="/themes/wt-rose-pine-moon-8a586610.theme.json"/>
+      
+    
+    <themeProvider id="wt-challenger-deep-9f1fae2e" path="/themes/wt-challenger-deep-9f1fae2e.theme.json"/>
+      
+    
+    <themeProvider id="wt-breeze-7d860afc" path="/themes/wt-breeze-7d860afc.theme.json"/>
+      
+    
+    <themeProvider id="wt-oceanic-next-309f3303" path="/themes/wt-oceanic-next-309f3303.theme.json"/>
+      
+    
+    <themeProvider id="wt-cobalt2-30972317" path="/themes/wt-cobalt2-30972317.theme.json"/>
+      
+    
+    <themeProvider id="wt-dracula-ede07c70" path="/themes/wt-dracula-ede07c70.theme.json"/>
+      
+    
+    <themeProvider id="wt-zenburn-715c6507" path="/themes/wt-zenburn-715c6507.theme.json"/>
+      
+    
+    <themeProvider id="wt-nord-49f8aa67" path="/themes/wt-nord-49f8aa67.theme.json"/>
+      
+    
+    <themeProvider id="wt-neon-4dd51c52" path="/themes/wt-neon-4dd51c52.theme.json"/>
+      
+    
+    <themeProvider id="wt-wild-cherry-cf5b4d20" path="/themes/wt-wild-cherry-cf5b4d20.theme.json"/>
+      
+    
+    <themeProvider id="wt-ayu-light-fd444e66" path="/themes/wt-ayu-light-fd444e66.theme.json"/>
+      
+    
+    <themeProvider id="wt-adventure-time-0cbd6fe0" path="/themes/wt-adventure-time-0cbd6fe0.theme.json"/>
+      
+    
+    <themeProvider id="wt-andromeda-64975052" path="/themes/wt-andromeda-64975052.theme.json"/>
+      
+    
+    <themeProvider id="wt-jetbrains-darcula-49f1a506" path="/themes/wt-jetbrains-darcula-49f1a506.theme.json"/>
+      
+    
+    <themeProvider id="wt-snazzy-0ec1ad41" path="/themes/wt-snazzy-0ec1ad41.theme.json"/>
+      
+    
+    <themeProvider id="wt-poimandres-9013d3f1" path="/themes/wt-poimandres-9013d3f1.theme.json"/>
+      
+    
+    <themeProvider id="wt-vibrant-ink-9866d46c" path="/themes/wt-vibrant-ink-9866d46c.theme.json"/>
+      
+    
+    <themeProvider id="wt-rose-pine-632c3589" path="/themes/wt-rose-pine-632c3589.theme.json"/>
+      
+    
+    <themeProvider id="wt-ayu-mirage-7c284424" path="/themes/wt-ayu-mirage-7c284424.theme.json"/>
+      
+    
+    <themeProvider id="wt-builtin-solarized-da-19c770b4" path="/themes/wt-builtin-solarized-da-19c770b4.theme.json"/>
+      
+    
+    <themeProvider id="wt-firewatch-f7a62dee" path="/themes/wt-firewatch-f7a62dee.theme.json"/>
+      
+    
+    <themeProvider id="wt-night-owl-59ed6018" path="/themes/wt-night-owl-59ed6018.theme.json"/>
+      
   </extensions>
+  
 </idea-plugin>

@@ -32,28 +32,29 @@ class ColorSchemeRegistry(private val schemeDirectory: Path) {
         schemes.clear()
         errors.clear()
 
-        Files.walk(schemeDirectory, 1)
-            .filter { it.isRegularFile() && it.extension == "json" }
-            .forEach { file ->
-                try {
-                    val result = parser.parse(file)
-                    result.fold(
-                        onSuccess = { scheme ->
-                            val validationErrors = validator.validate(scheme)
-                            if (validationErrors.isEmpty()) {
-                                schemes[scheme.name] = scheme
-                            } else {
-                                errors[file.fileName.toString()] = validationErrors.joinToString("; ")
+        Files.walk(schemeDirectory, 1).use { stream ->
+            stream.filter { it.isRegularFile() && it.extension == "json" }
+                .forEach { file ->
+                    try {
+                        val result = parser.parse(file)
+                        result.fold(
+                            onSuccess = { scheme ->
+                                val validationResult = validator.validate(scheme)
+                                if (validationResult.errors.isEmpty()) {
+                                    schemes[scheme.name] = scheme
+                                } else {
+                                    errors[file.fileName.toString()] = validationResult.errors.joinToString("; ")
+                                }
+                            },
+                            onFailure = { error ->
+                                errors[file.fileName.toString()] = error.message ?: "Unknown error"
                             }
-                        },
-                        onFailure = { error ->
-                            errors[file.fileName.toString()] = error.message ?: "Unknown error"
-                        }
-                    )
-                } catch (e: Exception) {
-                    errors[file.fileName.toString()] = "Unexpected error: ${e.message}"
+                        )
+                    } catch (e: Exception) {
+                        errors[file.fileName.toString()] = "Unexpected error: ${e.message}"
+                    }
                 }
-            }
+        }
 
         return schemes.size
     }
