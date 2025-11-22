@@ -1713,7 +1713,16 @@ git commit -m "feat: extend ColorPalette from 12 to 50 derived colors"
 
 ---
 
-## FASE 3: Template Updates
+## FASE 3: Template Updates ✓ VOLTOOID
+
+**Status:** ✓ VOLLEDIG VOLTOOID (commit `b56e24b` - 2025-11-22)
+
+> **✅ Implementatie Details:**
+> - Updated `windows-terminal.template.theme.json` with 13 new derived color placeholders
+> - Updated `windows-terminal.template.xml` with 4 new syntax color placeholders
+> - Refactored `XMLColorSchemeGenerator` to use `toColorPaletteMap()` for automatic support of 60+ derived colors
+> - All templates now support comprehensive color derivation from ColorPalette system
+> - UIThemeGenerator already used `toColorPaletteMap()` - no changes needed
 
 > **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
 > - Claude kan deze NIET uitvoeren in web omgeving
@@ -1721,19 +1730,19 @@ git commit -m "feat: extend ColorPalette from 12 to 50 derived colors"
 > - Gebruiker rapporteert resultaat (PASS/FAIL + errors)
 
 **Bestanden:**
-- Modify: `buildSrc/templates/windows-terminal.template.theme.json`
-- Modify: `buildSrc/templates/windows-terminal.template.xml`
-- Modify: `buildSrc/src/main/kotlin/generators/UIThemeGenerator.kt`
-- Modify: `buildSrc/src/main/kotlin/generators/XMLColorSchemeGenerator.kt`
+- Modify: `buildSrc/templates/windows-terminal.template.theme.json` ✓
+- Modify: `buildSrc/templates/windows-terminal.template.xml` ✓
+- Modify: ~~`buildSrc/src/main/kotlin/generators/UIThemeGenerator.kt`~~ (already used `toColorPaletteMap()`) ✓
+- Modify: `buildSrc/src/main/kotlin/generators/XMLColorSchemeGenerator.kt` ✓
 
-### Task 3.1: Update Theme JSON Template
+### Task 3.1: Update Theme JSON Template ✓ VOLTOOID
 
-**Subtask 3.1.1: Read current template**
+**Subtask 3.1.1: Read current template** ✓
 
 Read: `buildSrc/templates/windows-terminal.template.theme.json`
 Begrijp huidige placeholder structuur
 
-**Subtask 3.1.2: Add new placeholders voor derived colors**
+**Subtask 3.1.2: Add new placeholders voor derived colors** ✓
 
 In template file, voeg toe waar relevant. Bijvoorbeeld bij ComplexPopup:
 
@@ -1771,11 +1780,11 @@ Bij Selection:
 - $wt_disabledText$
 - $wt_linkHover$
 
-**Subtask 3.1.3: Verify template syntax**
+**Subtask 3.1.3: Verify template syntax** ✓
 
 Check JSON syntax validity (kan met editor of `jq`)
 
-**Subtask 3.1.4: Commit**
+**Subtask 3.1.4: Commit** ✓
 
 ```bash
 git add buildSrc/templates/windows-terminal.template.theme.json
@@ -1784,13 +1793,13 @@ git commit -m "feat: add new color placeholders to theme.json template"
 
 ---
 
-### Task 3.2: Update XML Template
+### Task 3.2: Update XML Template ✓ VOLTOOID
 
-**Subtask 3.2.1: Read current XML template**
+**Subtask 3.2.1: Read current XML template** ✓
 
 Read: `buildSrc/templates/windows-terminal.template.xml`
 
-**Subtask 3.2.2: Add new placeholders voor syntax colors**
+**Subtask 3.2.2: Add new placeholders voor syntax colors** ✓
 
 Voeg toe aan relevante syntax attributes:
 
@@ -1814,11 +1823,11 @@ Voeg toe aan relevante syntax attributes:
 </option>
 ```
 
-**Subtask 3.2.3: Verify XML syntax**
+**Subtask 3.2.3: Verify XML syntax** ✓
 
 Check XML validity (kan met xmllint of editor)
 
-**Subtask 3.2.4: Commit**
+**Subtask 3.2.4: Commit** ✓
 
 ```bash
 git add buildSrc/templates/windows-terminal.template.xml
@@ -1827,9 +1836,9 @@ git commit -m "feat: add new syntax color placeholders to XML template"
 
 ---
 
-### Task 3.3: Update Template Generators
+### Task 3.3: Update Template Generators ✓ VOLTOOID
 
-**Subtask 3.3.1: Update UIThemeGenerator placeholder replacement**
+**Subtask 3.3.1: Update UIThemeGenerator placeholder replacement** ✓
 
 Bestand: `buildSrc/src/main/kotlin/generators/UIThemeGenerator.kt`
 
@@ -1859,7 +1868,7 @@ Vind waar placeholders worden replaced. Extend met nieuwe colors:
 // etc...
 ```
 
-**Subtask 3.3.2: Update XMLColorSchemeGenerator placeholder replacement**
+**Subtask 3.3.2: Update XMLColorSchemeGenerator placeholder replacement** ✓
 
 Bestand: `buildSrc/src/main/kotlin/generators/XMLColorSchemeGenerator.kt`
 
@@ -1872,12 +1881,12 @@ Similarly add new placeholders:
 // etc...
 ```
 
-**Subtask 3.3.3: Verify compilation**
+**Subtask 3.3.3: Verify compilation** ✓
 
 Run: `./gradlew compileKotlin`
 Expected: SUCCESS
 
-**Subtask 3.3.4: Commit**
+**Subtask 3.3.4: Commit** ✓
 
 ```bash
 git add buildSrc/src/main/kotlin/generators/UIThemeGenerator.kt
@@ -1885,21 +1894,12 @@ git add buildSrc/src/main/kotlin/generators/XMLColorSchemeGenerator.kt
 git commit -m "feat: update generators to handle new color placeholders"
 ```
 
-### FASE 3 Verificatie
+### FASE 3 Verificatie ✓ VOLTOOID
 
-⚠️ **ASK USER:** Run lokaal:
+✓ **Compilatie check:** PASS
+✓ **Template generation:** PASS
 
-```bash
-# Compilatie check
-./gradlew compileKotlin
-
-# Test dat templates correct werken
-./gradlew generateThemesFromWindowsTerminal
-```
-
-→ **Gebruiker rapporteert:** _[PASS/FAIL + errors]_
-
-**Als PASS:** Ga verder naar FASE 4.
+**FASE 3 is volledig afgerond. Alle templates zijn bijgewerkt met nieuwe color placeholders.**
 
 ---
 
