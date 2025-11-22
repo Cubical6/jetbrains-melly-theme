@@ -295,6 +295,12 @@ iTerm implementation tests (Tasks 1.1 & 1.2) continue to pass."
 
 ## FASE 1: iTerm Import Infrastructure
 
+**Status:** ✓ VOLLEDIG VOLTOOID (commit `aa05217` - 2025-11-22)
+- ✓ Task 1.1: ITermColorScheme Data Class
+- ✓ Task 1.2: iTerm Plist XML Parser
+- ✓ Task 1.3: iTerm to Windows Terminal Converter
+- ✓ Task 1.4: Import iTerm Schemes Gradle Task
+
 **Bestanden:**
 - Create: `buildSrc/src/main/kotlin/colorschemes/ITermColorScheme.kt`
 - Create: `buildSrc/src/main/kotlin/parsers/ITermPlistParser.kt`
@@ -916,7 +922,9 @@ git commit -m "feat: add iTerm plist parser for .itermcolors files"
 
 ---
 
-### Task 1.3: iTerm to Windows Terminal Converter
+### Task 1.3: iTerm to Windows Terminal Converter ✓ VOLTOOID
+
+**Status:** Geïmplementeerd in commit `aa05217` (2025-11-22)
 
 **Subtask 1.3.1: Create ITermToWindowsTerminalConverter.kt**
 
@@ -1070,7 +1078,9 @@ git commit -m "feat: add iTerm to Windows Terminal converter"
 
 ---
 
-### Task 1.4: Import iTerm Schemes Gradle Task
+### Task 1.4: Import iTerm Schemes Gradle Task ✓ VOLTOOID
+
+**Status:** Geïmplementeerd in commit `aa05217` (2025-11-22)
 
 **Subtask 1.4.1: Create ImportITermSchemes.kt task**
 
