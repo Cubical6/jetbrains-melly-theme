@@ -7,8 +7,8 @@ import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 @State(
-    name = "WindowsTerminalThemeConfig",
-    storages = [Storage("windows_terminal_theme_config.xml")]
+  name = "WindowsTerminalThemeConfig",
+  storages = [Storage("windows_terminal_theme_config.xml")],
 )
 class ThemeSettings : PersistentStateComponent<ThemeSettings>, Cloneable {
   companion object {
@@ -19,14 +19,14 @@ class ThemeSettings : PersistentStateComponent<ThemeSettings>, Cloneable {
   var version: String = "0.0.0"
   var userId: String = ""
 
-  override fun getState(): ThemeSettings? =
-      XmlSerializerUtil.createCopy(this)
+  override fun getState(): ThemeSettings? = XmlSerializerUtil.createCopy(this)
 
   override fun loadState(state: ThemeSettings) {
     XmlSerializerUtil.copyBean(state, this)
   }
 
-  fun asJson(): Map<String, Any> = mapOf(
-    "version" to version
-  )
+  fun asJson(): Map<String, Any> =
+    mapOf(
+      "version" to version,
+    )
 }

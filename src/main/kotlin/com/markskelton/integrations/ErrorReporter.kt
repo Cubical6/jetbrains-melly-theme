@@ -29,7 +29,7 @@ class ErrorReporter : ErrorReportSubmitter() {
     events: Array<out IdeaLoggingEvent>,
     additionalInfo: String?,
     parentComponent: Component,
-    consumer: Consumer<in SubmittedReportInfo>
+    consumer: Consumer<in SubmittedReportInfo>,
   ): Boolean {
     return runSafelyWithResult({
       ApplicationManager.getApplication().executeOnPooledThread {
@@ -37,12 +37,12 @@ class ErrorReporter : ErrorReportSubmitter() {
           Sentry.setUser(
             User().apply {
               this.id = ThemeSettings.instance.userId
-            }
+            },
           )
           Sentry.init { options: SentryOptions ->
             options.dsn =
               RestClient.performGet(
-                "https://jetbrains.assets.unthrottled.io/one-dark/sentry-dsn-v2.txt"
+                "https://jetbrains.assets.unthrottled.io/one-dark/sentry-dsn-v2.txt",
               )
                 .map { it.trim() }
                 .orElse("https://0d650a631e3b4170adf6559de446fd37@o403546.ingest.sentry.io/5861304?maxmessagelength=50000")
@@ -54,12 +54,13 @@ class ErrorReporter : ErrorReportSubmitter() {
                   .apply {
                     this.level = SentryLevel.ERROR
                     this.setExtra("Additional Info", additionalInfo ?: "None")
-                  }
+                  },
               ).apply {
-                this.message = Message().apply {
-                  this.message = it.throwableText
-                }
-              }
+                this.message =
+                  Message().apply {
+                    this.message = it.throwableText
+                  }
+              },
             )
           }
         }) {
@@ -96,6 +97,7 @@ class ErrorReporter : ErrorReportSubmitter() {
     return IdeBundle.message("about.box.vm", vmVersion, vmVendor)
   }
 
-  private fun getGC() = ManagementFactory.getGarbageCollectorMXBeans().stream()
-    .map { it.name }.collect(Collectors.joining(","))
+  private fun getGC() =
+    ManagementFactory.getGarbageCollectorMXBeans().stream()
+      .map { it.name }.collect(Collectors.joining(","))
 }
