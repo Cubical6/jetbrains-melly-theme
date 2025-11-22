@@ -321,6 +321,61 @@ If you've cloned the repository:
 
 For detailed instructions, see [docs/CONTRIBUTING_SCHEMES.md](docs/CONTRIBUTING_SCHEMES.md)
 
+## Importing iTerm Color Schemes
+
+You can import iTerm2 color schemes and automatically convert them to JetBrains IDE themes with enhanced color derivation!
+
+### Import Process
+
+**For All Platforms:**
+
+1. **Place your iTerm color scheme files** in the `iterm-schemes/` directory:
+   ```bash
+   # Copy your .itermcolors files
+   cp /path/to/your-scheme.itermcolors iterm-schemes/
+   ```
+
+2. **Import the iTerm schemes** to convert them to the internal format:
+   ```bash
+   # Linux/macOS
+   ./gradlew importITermSchemes
+
+   # Windows
+   .\gradlew.bat importITermSchemes
+   ```
+
+   This will parse the `.itermcolors` XML files and convert them to JSON color schemes.
+
+3. **Generate JetBrains themes** with intelligent color derivation:
+   ```bash
+   # Linux/macOS
+   ./gradlew createThemes
+
+   # Windows
+   .\gradlew.bat createThemes
+   ```
+
+   The theme generator will automatically derive approximately **50 additional semantic colors** from the iTerm color scheme's base colors using intelligent color analysis algorithms.
+
+### Enhanced Color Derivation
+
+The import process includes advanced features:
+
+- **Intelligent Color Analysis** - Automatically detects theme brightness, contrast, and color temperature
+- **Semantic Color Derivation** - Generates ~50 semantic colors for syntax highlighting, UI elements, and editor features
+- **Contrast Optimization** - Ensures derived colors maintain readability and WCAG accessibility standards
+- **Tone Consistency** - Preserves the original theme's aesthetic while expanding the color palette
+
+The derived colors include:
+- Syntax highlighting colors (keywords, strings, comments, etc.)
+- UI element colors (selections, highlights, backgrounds)
+- Editor gutter and margin colors
+- Search and occurrence highlights
+- Diff and VCS colors
+- Error, warning, and info indicators
+
+This allows iTerm2 color schemes (which typically have 16-20 colors) to be expanded into complete IDE themes with 100+ carefully coordinated colors.
+
 ## Troubleshooting
 
 ### Theme doesn't appear in dropdown
