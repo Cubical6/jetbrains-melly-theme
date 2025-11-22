@@ -185,7 +185,7 @@ open class GenerateThemesWithMetadata : DefaultTask() {
                     logger.lifecycle("✓ plugin.xml updated successfully")
                     logger.lifecycle("  Themes added: ${result.themesAdded}")
                     logger.lifecycle("  - ${result.themesAdded} themeProvider entries (UI themes)")
-                    logger.lifecycle("  - ${result.themesAdded} bundledColorScheme entries (editor color schemes)")
+                    logger.lifecycle("  - ${allMetadata.size} bundledColorScheme entries (editor color schemes)")
                     logger.lifecycle("  Themes removed: ${result.themesRemoved}")
                     logger.lifecycle("  Backup created: ${result.backupPath}")
                 } else {
@@ -207,6 +207,7 @@ open class GenerateThemesWithMetadata : DefaultTask() {
         )
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun generateThemeForScheme(
         scheme: WindowsTerminalColorScheme,
         metadata: ThemeMetadata,
@@ -224,10 +225,6 @@ open class GenerateThemesWithMetadata : DefaultTask() {
 
         // Use metadata.id as base filename for consistency with plugin.xml
         val baseName = metadata.id
-
-        // Map colors
-        val consoleColors = consoleColorMapper.mapToConsoleColors(scheme)
-        val syntaxColors = SyntaxColorInference.inferSyntaxColors(scheme)
 
         // Generate XML editor color scheme (shared between variants)
         val xmlOutputPath = outputDirectory.resolve("$baseName.xml")

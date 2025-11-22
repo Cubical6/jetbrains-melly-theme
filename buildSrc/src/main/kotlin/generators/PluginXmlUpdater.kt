@@ -235,6 +235,7 @@ class PluginXmlUpdater(private val pluginXmlPath: Path) {
 
         try {
             val doc = parsePluginXml()
+            @Suppress("UNUSED_VARIABLE")
             val extensions = getOrCreateExtensionsElement(doc)
 
             // Count existing WT themes
