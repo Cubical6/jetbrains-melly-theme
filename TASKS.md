@@ -1227,12 +1227,16 @@ git commit -m "feat: add Gradle task to import iTerm schemes"
 
 ## FASE 2: Enhanced Color Derivation
 
+**Status:** ✓ VOLLEDIG VOLTOOID (commits `0c60aff`, `9d2aa8b` - 2025-11-22)
+- ✓ Task 2.1: Intermediate Shade Generation
+- ✓ Task 2.2: Extend toColorPalette with 60+ Derived Colors
+
 **Bestanden:**
 - Modify: `buildSrc/src/main/kotlin/colorschemes/WindowsTerminalColorScheme.kt`
 - Modify: `buildSrc/src/main/kotlin/utils/ColorUtils.kt`
 - Create: `buildSrc/src/test/kotlin/utils/ColorUtilsEnhancedTest.kt`
 
-### Task 2.1: Intermediate Shade Generation
+### Task 2.1: Intermediate Shade Generation ✓ VOLTOOID
 
 **Subtask 2.1.1: Add generateIntermediateShade to ColorUtils.kt**
 
@@ -1392,7 +1396,7 @@ git commit -m "feat: add intermediate shade and gradient generation to ColorUtil
 
 ---
 
-### Task 2.2: Extend toColorPalette with 50+ Derived Colors
+### Task 2.2: Extend toColorPalette with 60+ Derived Colors ✓ VOLTOOID
 
 **Subtask 2.2.1: Read current toColorPalette implementation**
 
