@@ -1,5 +1,7 @@
 package colorschemes
 
+import kotlin.math.roundToInt
+
 /**
  * Represents an iTerm2 color scheme (.itermcolors format)
  * iTerm uses XML plist format with RGB components as floats (0.0-1.0)
@@ -32,9 +34,9 @@ data class ITermColorScheme(
          * Convert iTerm float RGB (0.0-1.0) to hex string
          */
         fun toHexString(): String {
-            val r = (red * 255).toInt().coerceIn(0, 255)
-            val g = (green * 255).toInt().coerceIn(0, 255)
-            val b = (blue * 255).toInt().coerceIn(0, 255)
+            val r = (red * 255).roundToInt().coerceIn(0, 255)
+            val g = (green * 255).roundToInt().coerceIn(0, 255)
+            val b = (blue * 255).roundToInt().coerceIn(0, 255)
             return "#%02X%02X%02X".format(r, g, b)
         }
 
