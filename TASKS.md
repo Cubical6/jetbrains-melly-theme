@@ -5,8 +5,18 @@
 > **⚠️ BELANGRIJK - Building & Testing:**
 > - Gradle builds werken NIET in Claude Code Web (geen netwerktoegang voor dependencies)
 > - Claude Code zal code schrijven en committen zonder tests te runnen
+> - **Voor elke subtask met `./gradlew` of test commands**: Claude moet de gebruiker vragen om dit lokaal uit te voeren
+> - **Gebruiker rapporteert resultaat terug** aan Claude (PASS/FAIL/errors)
+> - Claude gebruikt het resultaat om verder te gaan of debugging te doen
 > - **Na voltooiing van ALLE taken**: Run lokaal `./gradlew test` en `./gradlew build` om te verifiëren
 > - Als tests falen, maak issues aan voor fixes
+
+> **📋 Template voor Test/Build Taken:**
+> ```
+> ⚠️ ASK USER: Run lokaal: `[command here]`
+> Expected result: [wat we verwachten]
+> → Gebruiker rapporteert: [PASS/FAIL + eventuele errors]
+> ```
 
 **Doel:** iTerm color schemes importeren en JetBrains themes genereren met Lovelace-kwaliteit (50+ afgeleide kleuren ipv 10).
 
@@ -328,6 +338,12 @@ git push -u origin claude/cleanup-preexisting-tests-01VJMTm2mH5MdfupZHh2RoKN
 
 ## FASE 1: iTerm Import Infrastructure
 
+> **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
+> - Claude kan deze NIET uitvoeren in web omgeving
+> - Claude vraagt gebruiker om lokaal te runnen: `⚠️ ASK USER: Run lokaal: [command]`
+> - Gebruiker rapporteert resultaat (PASS/FAIL + eventuele errors)
+> - Claude gebruikt resultaat om verder te gaan of te debuggen
+
 **Bestanden:**
 - Create: `buildSrc/src/main/kotlin/colorschemes/ITermColorScheme.kt`
 - Create: `buildSrc/src/main/kotlin/parsers/ITermPlistParser.kt`
@@ -417,14 +433,7 @@ data class ITermColorScheme(
 }
 ```
 
-**Subtask 1.1.2: Test ITermColor conversions**
-
-> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Ga naar subtask 1.1.3.
-
-Run: `./gradlew test --tests ITermColorSchemeTest`
-Expected: Tests niet gevonden (we gaan ze nu schrijven)
-
-**Subtask 1.1.3: Write test voor ITermColor.toHexString()**
+**Subtask 1.1.2: Write test voor ITermColor.toHexString()**
 
 Bestand: `buildSrc/src/test/kotlin/colorschemes/ITermColorSchemeTest.kt`
 
@@ -513,25 +522,7 @@ class ITermColorSchemeTest {
 }
 ```
 
-**Subtask 1.1.4: Run tests om te verifiëren dat ze falen**
-
-> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Ga naar subtask 1.1.5.
-
-Run: `./gradlew test --tests ITermColorSchemeTest`
-Expected: FAIL - tests compileren maar kunnen falen op fromHex (not implemented yet)
-
-**Subtask 1.1.5: Fix fromHex implementation if needed**
-
-Check of fromHex correct werkt. Als test faalt, fix de implementatie in ITermColorScheme.kt
-
-**Subtask 1.1.6: Run tests om te verifiëren dat ze slagen**
-
-> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Implementatie is geverifieerd via code review. Tests worden lokaal gerund na voltooiing.
-
-Run: `./gradlew test --tests ITermColorSchemeTest`
-Expected: PASS - alle tests groen
-
-**Subtask 1.1.7: Commit**
+**Subtask 1.1.3: Commit**
 
 ```bash
 git add buildSrc/src/main/kotlin/colorschemes/ITermColorScheme.kt
@@ -933,12 +924,7 @@ class ITermPlistParserTest {
 }
 ```
 
-**Subtask 1.2.4: Run tests**
-
-Run: `./gradlew test --tests ITermPlistParserTest`
-Expected: PASS
-
-**Subtask 1.2.5: Commit**
+**Subtask 1.2.4: Commit**
 
 ```bash
 git add buildSrc/src/main/kotlin/parsers/ITermPlistParser.kt
@@ -1246,9 +1232,48 @@ git add buildSrc/build.gradle.kts
 git commit -m "feat: add Gradle task to import iTerm schemes"
 ```
 
+### FASE 1 Verificatie
+
+**Na voltooiing van alle Task 1.x subtaken, voer verificatie uit:**
+
+⚠️ **ASK USER:** Run lokaal de volgende verificatie stappen:
+
+1. **Compilatie Check:**
+   ```bash
+   ./gradlew compileKotlin compileTestKotlin
+   ```
+   Expected: BUILD SUCCESSFUL
+
+2. **Unit Tests:**
+   ```bash
+   ./gradlew test --tests ITermColorSchemeTest
+   ./gradlew test --tests ITermPlistParserTest
+   ./gradlew test --tests ITermToWindowsTerminalConverterTest
+   ```
+   Expected: All tests PASS
+
+3. **Import Task Werkt:**
+   ```bash
+   ./gradlew importITermSchemes
+   ```
+   Expected: Successfully imports .itermcolors files from iterm-schemes/
+
+→ **Gebruiker rapporteert resultaten:**
+- [ ] Compilatie: _[PASS/FAIL + errors]_
+- [ ] Unit tests: _[PASS/FAIL + which tests failed]_
+- [ ] Import task: _[PASS/FAIL + output]_
+
+**Als FAIL:** Claude debugt op basis van error output.
+**Als PASS:** Ga verder naar FASE 2.
+
 ---
 
 ## FASE 2: Enhanced Color Derivation
+
+> **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
+> - Claude kan deze NIET uitvoeren in web omgeving
+> - Claude vraagt gebruiker: `⚠️ ASK USER: Run lokaal: [command]`
+> - Gebruiker rapporteert resultaat (PASS/FAIL + errors)
 
 **Bestanden:**
 - Modify: `buildSrc/src/main/kotlin/colorschemes/WindowsTerminalColorScheme.kt`
@@ -1660,6 +1685,11 @@ git commit -m "feat: extend ColorPalette from 12 to 60+ derived colors"
 
 ## FASE 3: Template Updates
 
+> **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
+> - Claude kan deze NIET uitvoeren in web omgeving
+> - Claude vraagt gebruiker: `⚠️ ASK USER: Run lokaal: [command]`
+> - Gebruiker rapporteert resultaat (PASS/FAIL + errors)
+
 **Bestanden:**
 - Modify: `buildSrc/templates/windows-terminal.template.theme.json`
 - Modify: `buildSrc/templates/windows-terminal.template.xml`
@@ -1828,6 +1858,11 @@ git commit -m "feat: update generators to handle new color placeholders"
 ---
 
 ## FASE 4: Lovelace Reference Implementation
+
+> **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
+> - Claude kan deze NIET uitvoeren in web omgeving
+> - Claude vraagt gebruiker: `⚠️ ASK USER: Run lokaal: [command]`
+> - Gebruiker rapporteert resultaat (PASS/FAIL + errors)
 
 **Bestanden:**
 - Create: `windows-terminal-schemes/lovelace.json`
@@ -2074,6 +2109,11 @@ git commit -m "feat: generate Lovelace theme from color scheme"
 
 ## FASE 5: Validation & Testing
 
+> **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
+> - Claude kan deze NIET uitvoeren in web omgeving
+> - Claude vraagt gebruiker: `⚠️ ASK USER: Run lokaal: [command]`
+> - Gebruiker rapporteert resultaat (PASS/FAIL + errors)
+
 ### Task 5.1: Regenerate All Themes
 
 **Subtask 5.1.1: Backup current generated themes**
@@ -2285,6 +2325,11 @@ git tag -a v2.0.0-lovelace -m "Add iTerm import and enhanced color derivation"
 ---
 
 ## FASE 6: Rounded Theme Variants
+
+> **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
+> - Claude kan deze NIET uitvoeren in web omgeving
+> - Claude vraagt gebruiker: `⚠️ ASK USER: Run lokaal: [command]`
+> - Gebruiker rapporteert resultaat (PASS/FAIL + errors)
 
 **Bestanden:**
 - Create: `buildSrc/src/main/kotlin/variants/ThemeVariant.kt`
