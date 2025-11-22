@@ -1404,11 +1404,94 @@ Based on deep code analysis, the following refinements and additional tasks are 
 
 ---
 
-### Sprint 6: Repository Minimization & Cleanup (Week 11) - IN PROGRESS
+### Sprint 6: Editor Color Scheme Registration (Week 11) - NEW
+
+**Goal:** Fix critical bug where editor color schemes are not registered in plugin.xml, causing them not to be automatically applied when selecting a theme.
+
+**Status: NEW**
+
+**Problem:** Currently only UI themes are registered via `<themeProvider>` in plugin.xml. Editor color schemes (.xml files) are generated but not registered via `<bundledColorScheme>`, causing them not to be selectable in Settings → Editor → Color Scheme.
+
+**Critical Path:**
+
+- [ ] **TASK-1100**: Update PluginXmlUpdater to register bundledColorScheme entries
+  - Location: `buildSrc/src/main/kotlin/generators/PluginXmlUpdater.kt`
+  - Changes:
+    - Add method `addBundledColorScheme(path: String)` to register editor schemes
+    - Update `updatePluginXml()` to add both `<themeProvider>` AND `<bundledColorScheme>` entries
+    - Path format: `/themes/wt-dracula` (without .xml extension)
+  - Priority: CRITICAL
+  - Dependencies: None
+
+- [ ] **TASK-1101**: Update GenerateThemesWithMetadata task to register editor schemes
+  - Location: `buildSrc/src/main/kotlin/tasks/GenerateThemesWithMetadata.kt`
+  - Changes:
+    - After generating .xml and .theme.json files, call PluginXmlUpdater to register both
+    - Ensure bundledColorScheme entries are added for all generated themes
+  - Priority: CRITICAL
+  - Dependencies: TASK-1100
+
+- [ ] **TASK-1102**: Add unit tests for bundledColorScheme registration
+  - Location: `buildSrc/src/test/kotlin/generators/PluginXmlUpdaterTest.kt`
+  - Test cases:
+    - Verify bundledColorScheme entry is added correctly
+    - Verify path format (no .xml extension)
+    - Verify both themeProvider and bundledColorScheme are added for each theme
+  - Priority: HIGH
+  - Dependencies: TASK-1100
+
+- [ ] **TASK-1103**: Regenerate plugin.xml with bundledColorScheme entries
+  - Command: `./gradlew generateThemesWithMetadata`
+  - Verify:
+    - Each theme has both <themeProvider> and <bundledColorScheme> entries
+    - Paths are correct (/themes/wt-* without .xml)
+    - XML is well-formed
+  - Priority: CRITICAL
+  - Dependencies: TASK-1101
+
+- [ ] **TASK-1104**: Build and test plugin with editor scheme registration
+  - Command: `./gradlew buildPlugin`
+  - Manual testing:
+    1. Install plugin in test IDE
+    2. Select a Windows Terminal theme
+    3. Verify editor color scheme is automatically applied
+    4. Open Settings → Editor → Color Scheme
+    5. Verify all Windows Terminal color schemes are visible and selectable
+  - Priority: CRITICAL
+  - Dependencies: TASK-1103
+
+- [ ] **TASK-1105**: Update documentation
+  - Location: `README_WINDOWS_TERMINAL.md`, `docs/MANUAL_TESTING_CHECKLIST.md`
+  - Changes:
+    - Document editor color scheme registration requirement
+    - Update manual testing checklist
+    - Add troubleshooting section for editor scheme issues
+  - Priority: MEDIUM
+  - Dependencies: TASK-1104
+
+- [ ] **TASK-1106**: Commit and push editor scheme registration fix
+  - Branch: `claude/editor-color-scheme-theme-01EDAcQvab1FuNNc7pq78HpE`
+  - Commit message: "fix: register editor color schemes in plugin.xml via bundledColorScheme"
+  - Command: `git push -u origin claude/editor-color-scheme-theme-01EDAcQvab1FuNNc7pq78HpE`
+  - Priority: HIGH
+  - Dependencies: TASK-1104
+
+**Sprint 6 Deliverables:**
+- ✅ Editor color schemes properly registered in plugin.xml
+- ✅ Editor color schemes automatically applied when selecting theme
+- ✅ Editor color schemes visible in Settings → Editor → Color Scheme
+- ✅ All tests passing
+- ✅ Documentation updated
+
+**Completion Target:** 2025-11-21
+
+---
+
+### Sprint 7: Repository Minimization & Cleanup (Week 11) - POSTPONED
 
 **Goal:** Minimize repository to focus exclusively on Windows PowerShell/Terminal themes, removing all One Dark theme-specific content and deprecated documentation.
 
-**Status: IN PROGRESS**
+**Status: POSTPONED** (Sprint 6 takes priority)
 
 **Critical Path:**
 

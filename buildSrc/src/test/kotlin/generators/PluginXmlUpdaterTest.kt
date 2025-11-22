@@ -632,4 +632,226 @@ class PluginXmlUpdaterTest {
         themes.any { it.id == "one-dark-original" } shouldBe true
         themes.any { it.id == "one-dark-italic" } shouldBe true
     }
+
+    // ========================================
+    // Bundled Color Scheme Tests (TASK-1102)
+    // ========================================
+
+    @Test
+    fun `addBundledColorScheme creates bundledColorScheme entry`(@TempDir tempDir: Path) {
+        val pluginXmlPath = createTempPluginXml(tempDir, createBasicPluginXml())
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        updater.addBundledColorScheme("wt-dracula")
+
+        val content = pluginXmlPath.readText()
+        content shouldContain "bundledColorScheme"
+        content shouldContain "path=\"/themes/wt-dracula\""
+    }
+
+    @Test
+    fun `addBundledColorScheme creates correct path format without xml extension`(@TempDir tempDir: Path) {
+        val pluginXmlPath = createTempPluginXml(tempDir, createBasicPluginXml())
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        updater.addBundledColorScheme("wt-nord")
+
+        val content = pluginXmlPath.readText()
+        // Should NOT contain .xml extension
+        content shouldNotContain "path=\"/themes/wt-nord.xml\""
+        // Should contain path without extension
+        content shouldContain "path=\"/themes/wt-nord\""
+    }
+
+    @Test
+    fun `addBundledColorScheme with custom themes directory`(@TempDir tempDir: Path) {
+        val pluginXmlPath = createTempPluginXml(tempDir, createBasicPluginXml())
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        updater.addBundledColorScheme("wt-gruvbox", themesDir = "/custom/themes")
+
+        val content = pluginXmlPath.readText()
+        content shouldContain "path=\"/custom/themes/wt-gruvbox\""
+    }
+
+    @Test
+    fun `addBundledColorScheme removes duplicate entries before adding`(@TempDir tempDir: Path) {
+        val pluginXmlPath = createTempPluginXml(tempDir, createBasicPluginXml())
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        // Add the same bundled color scheme twice
+        updater.addBundledColorScheme("wt-dracula")
+        updater.addBundledColorScheme("wt-dracula")
+
+        val content = pluginXmlPath.readText()
+        // Should only appear once
+        val occurrences = content.split("path=\"/themes/wt-dracula\"").size - 1
+        occurrences shouldBe 1
+    }
+
+    @Test
+    fun `addBundledColorScheme creates well-formed XML`(@TempDir tempDir: Path) {
+        val pluginXmlPath = createTempPluginXml(tempDir, createBasicPluginXml())
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        updater.addBundledColorScheme("wt-test")
+
+        // Should be able to parse the XML again without errors
+        PluginXmlUpdater(pluginXmlPath)
+    }
+
+    @Test
+    fun `updatePluginXml adds both themeProvider and bundledColorScheme for each theme`(@TempDir tempDir: Path) {
+        val pluginXmlPath = createTempPluginXml(tempDir, createBasicPluginXml())
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        val generator = ThemeMetadataGenerator()
+        val themes = listOf(
+            generator.generateMetadata(createDarkScheme("Dracula")),
+            generator.generateMetadata(createDarkScheme("Nord"))
+        )
+
+        updater.updatePluginXml(themes)
+
+        val content = pluginXmlPath.readText()
+
+        // Verify each theme has BOTH themeProvider and bundledColorScheme
+        themes.forEach { theme ->
+            // Check for themeProvider
+            content shouldContain "themeProvider"
+            content shouldContain "id=\"${theme.id}\""
+            content shouldContain "path=\"/themes/${theme.id}.theme.json\""
+
+            // Check for bundledColorScheme
+            content shouldContain "bundledColorScheme"
+            content shouldContain "path=\"/themes/${theme.id}\""
+        }
+    }
+
+    @Test
+    fun `updatePluginXml removes duplicate bundledColorScheme entries before adding new ones`(@TempDir tempDir: Path) {
+        val pluginXmlContent = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <idea-plugin>
+              <id>com.example.theme</id>
+              <name>Example Theme</name>
+              <version>1.0.0</version>
+              <vendor>Test Vendor</vendor>
+              <depends>com.intellij.modules.platform</depends>
+              <extensions defaultExtensionNs="com.intellij">
+                <bundledColorScheme path="/themes/wt-old-theme"/>
+                <bundledColorScheme path="/themes/wt-duplicate"/>
+                <bundledColorScheme path="/themes/wt-duplicate"/>
+                <themeProvider id="wt-old-theme-abc123" path="/themes/wt-old-theme.theme.json"/>
+              </extensions>
+            </idea-plugin>
+        """.trimIndent()
+
+        val pluginXmlPath = createTempPluginXml(tempDir, pluginXmlContent)
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        val generator = ThemeMetadataGenerator()
+        val themes = listOf(
+            generator.generateMetadata(createDarkScheme("New Theme"))
+        )
+
+        updater.updatePluginXml(themes)
+
+        val content = pluginXmlPath.readText()
+
+        // Old WT bundled color schemes should be removed
+        content shouldNotContain "path=\"/themes/wt-old-theme\""
+        content shouldNotContain "path=\"/themes/wt-duplicate\""
+
+        // New theme bundled color scheme should be present (only once)
+        val newThemeId = themes[0].id
+        val occurrences = content.split("path=\"/themes/$newThemeId\"").size - 1
+        occurrences shouldBe 1
+    }
+
+    @Test
+    fun `removeAllWtBundledColorSchemes removes all WT bundled color schemes`(@TempDir tempDir: Path) {
+        val pluginXmlContent = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <idea-plugin>
+              <id>com.example.theme</id>
+              <name>Example Theme</name>
+              <version>1.0.0</version>
+              <vendor>Test Vendor</vendor>
+              <depends>com.intellij.modules.platform</depends>
+              <extensions defaultExtensionNs="com.intellij">
+                <bundledColorScheme path="/themes/wt-dracula"/>
+                <bundledColorScheme path="/themes/wt-nord"/>
+                <bundledColorScheme path="/themes/wt-gruvbox"/>
+                <bundledColorScheme path="/themes/one-dark"/>
+              </extensions>
+            </idea-plugin>
+        """.trimIndent()
+
+        val pluginXmlPath = createTempPluginXml(tempDir, pluginXmlContent)
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        // Use reflection to access the private method for testing
+        val removeMethod = PluginXmlUpdater::class.java.getDeclaredMethod("removeAllWtBundledColorSchemesFromDocument",
+            org.w3c.dom.Document::class.java)
+        removeMethod.isAccessible = true
+
+        val parseMethod = PluginXmlUpdater::class.java.getDeclaredMethod("parsePluginXml")
+        parseMethod.isAccessible = true
+        val doc = parseMethod.invoke(updater) as org.w3c.dom.Document
+
+        val removed = removeMethod.invoke(updater, doc) as Int
+
+        // Should remove 3 WT color schemes
+        removed shouldBe 3
+
+        // Write the document back to verify
+        val writeMethod = PluginXmlUpdater::class.java.getDeclaredMethod("writePluginXml",
+            org.w3c.dom.Document::class.java)
+        writeMethod.isAccessible = true
+        writeMethod.invoke(updater, doc)
+
+        val content = pluginXmlPath.readText()
+
+        // WT bundled color schemes should be removed
+        content shouldNotContain "path=\"/themes/wt-dracula\""
+        content shouldNotContain "path=\"/themes/wt-nord\""
+        content shouldNotContain "path=\"/themes/wt-gruvbox\""
+
+        // Non-WT bundled color scheme should remain
+        content shouldContain "path=\"/themes/one-dark\""
+    }
+
+    @Test
+    fun `bundledColorScheme path format is consistent with themeProvider path minus extension`(@TempDir tempDir: Path) {
+        val pluginXmlPath = createTempPluginXml(tempDir, createBasicPluginXml())
+        val updater = PluginXmlUpdater(pluginXmlPath)
+
+        val generator = ThemeMetadataGenerator()
+        val theme = generator.generateMetadata(createDarkScheme("Test Theme"))
+
+        updater.updatePluginXml(listOf(theme))
+
+        val content = pluginXmlPath.readText()
+
+        // themeProvider should have: /themes/{id}.theme.json
+        content shouldContain "path=\"/themes/${theme.id}.theme.json\""
+
+        // bundledColorScheme should have: /themes/{id} (no extension)
+        content shouldContain "path=\"/themes/${theme.id}\""
+
+        // Verify the pattern: bundledColorScheme path = themeProvider path - ".theme.json"
+        val themeProviderPattern = Regex("themeProvider[^>]*path=\"([^\"]+)\"")
+        val bundledColorSchemePattern = Regex("bundledColorScheme[^>]*path=\"([^\"]+)\"")
+
+        val themeProviderPath = themeProviderPattern.find(content)?.groupValues?.get(1)
+        val bundledColorSchemePath = bundledColorSchemePattern.find(content)?.groupValues?.get(1)
+
+        themeProviderPath.shouldNotBeNull()
+        bundledColorSchemePath.shouldNotBeNull()
+
+        // bundledColorScheme path should be themeProvider path without .theme.json
+        themeProviderPath shouldContain ".theme.json"
+        bundledColorSchemePath shouldBe themeProviderPath.removeSuffix(".theme.json")
+    }
 }

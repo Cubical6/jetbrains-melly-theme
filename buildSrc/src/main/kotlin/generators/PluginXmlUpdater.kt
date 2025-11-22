@@ -64,6 +64,11 @@ class PluginXmlUpdater(private val pluginXmlPath: Path) {
         private const val THEME_PROVIDER_ELEMENT = "themeProvider"
 
         /**
+         * Bundled color scheme element name
+         */
+        private const val BUNDLED_COLOR_SCHEME_ELEMENT = "bundledColorScheme"
+
+        /**
          * Extensions element name
          */
         private const val EXTENSIONS_ELEMENT = "extensions"
@@ -160,14 +165,52 @@ class PluginXmlUpdater(private val pluginXmlPath: Path) {
     }
 
     /**
-     * Updates plugin.xml with multiple theme providers.
+     * Adds a bundledColorScheme entry to plugin.xml.
+     *
+     * Creates a bundledColorScheme XML element with the specified path.
+     * The path should be the base name without the .xml extension.
+     *
+     * Example:
+     * ```kotlin
+     * addBundledColorScheme("wt-dracula")
+     * // Creates: <bundledColorScheme path="/themes/wt-dracula"/>
+     * ```
+     *
+     * @param baseName Base name of the color scheme (without .xml extension)
+     * @param themesDir Directory containing theme files (default: "/themes")
+     * @throws Exception if XML parsing or writing fails
+     */
+    fun addBundledColorScheme(baseName: String, themesDir: String = "/themes") {
+        val doc = parsePluginXml()
+        val extensions = getOrCreateExtensionsElement(doc)
+
+        // Remove existing entry with same path (if any)
+        val path = "$themesDir/$baseName"
+        removeBundledColorSchemeFromDocument(doc, path)
+
+        // Create new bundledColorScheme element
+        val bundledColorScheme = doc.createElement(BUNDLED_COLOR_SCHEME_ELEMENT)
+        bundledColorScheme.setAttribute("path", path)
+
+        // Add to extensions
+        extensions.appendChild(createIndentNode(doc, 2))
+        extensions.appendChild(bundledColorScheme)
+        extensions.appendChild(createIndentNode(doc, 1))
+
+        // Write back to file
+        writePluginXml(doc)
+    }
+
+    /**
+     * Updates plugin.xml with multiple theme providers and bundled color schemes.
      *
      * Strategy:
      * 1. Backup existing plugin.xml
-     * 2. Remove all existing WT theme providers (prefix "wt-")
+     * 2. Remove all existing WT theme providers and bundled color schemes (prefix "wt-")
      * 3. Keep all non-WT theme providers (e.g., One Dark themes)
      * 4. Add all new theme providers from metadata list
-     * 5. Write formatted XML back to file
+     * 5. Add all new bundled color schemes from metadata list
+     * 6. Write formatted XML back to file
      *
      * @param themes List of theme metadata to add
      * @param themesDir Directory containing theme files (default: "/themes")
@@ -199,13 +242,20 @@ class PluginXmlUpdater(private val pluginXmlPath: Path) {
                 .filter { it.getAttribute("id").startsWith(WT_THEME_PREFIX) }
                 .size
 
-            // Remove all existing WT theme providers
+            // Remove all existing WT theme providers and bundled color schemes
             removeAllWtThemeProviders(doc)
+            removeAllWtBundledColorSchemes(doc)
 
             // Add new theme providers
             themes.forEach { metadata ->
                 val themePath = "$themesDir/${metadata.id}.theme.json"
                 addThemeProviderToDocument(doc, metadata.id, themePath)
+            }
+
+            // Add new bundled color schemes
+            themes.forEach { metadata ->
+                val colorSchemePath = "$themesDir/${metadata.id}"
+                addBundledColorSchemeToDocument(doc, colorSchemePath)
             }
 
             // Write formatted XML
@@ -423,6 +473,94 @@ class PluginXmlUpdater(private val pluginXmlPath: Path) {
     private fun createIndentNode(doc: Document, level: Int): Node {
         val indent = "\n" + XML_INDENT.repeat(level)
         return doc.createTextNode(indent)
+    }
+
+    /**
+     * Gets all bundledColorScheme elements from the document.
+     */
+    private fun getBundledColorSchemes(doc: Document): List<Element> {
+        val nodeList = doc.getElementsByTagName(BUNDLED_COLOR_SCHEME_ELEMENT)
+        return (0 until nodeList.length)
+            .map { nodeList.item(it) as Element }
+    }
+
+    /**
+     * Removes a bundledColorScheme from document by path.
+     *
+     * @return True if removed, false if not found
+     */
+    private fun removeBundledColorSchemeFromDocument(doc: Document, path: String): Boolean {
+        val bundledColorSchemes = getBundledColorSchemes(doc)
+        val toRemove = bundledColorSchemes.find { it.getAttribute("path") == path }
+
+        return if (toRemove != null) {
+            // Remove adjacent whitespace/newline nodes for clean formatting
+            val parent = toRemove.parentNode
+            val previousSibling = toRemove.previousSibling
+            parent.removeChild(toRemove)
+
+            // Remove preceding whitespace if it's a text node
+            if (previousSibling != null && previousSibling.nodeType == Node.TEXT_NODE &&
+                previousSibling.textContent?.trim()?.isEmpty() == true
+            ) {
+                parent.removeChild(previousSibling)
+            }
+
+            true
+        } else {
+            false
+        }
+    }
+
+    /**
+     * Removes all WT bundled color schemes from document.
+     *
+     * @return Number of color schemes removed
+     */
+    private fun removeAllWtBundledColorSchemesFromDocument(doc: Document): Int {
+        val bundledColorSchemes = getBundledColorSchemes(doc)
+        val wtColorSchemes = bundledColorSchemes.filter {
+            val path = it.getAttribute("path")
+            // Match paths like "/themes/wt-*"
+            path.contains("/$WT_THEME_PREFIX")
+        }
+
+        wtColorSchemes.forEach { colorScheme ->
+            val parent = colorScheme.parentNode
+            val previousSibling = colorScheme.previousSibling
+            parent.removeChild(colorScheme)
+
+            // Remove preceding whitespace
+            if (previousSibling != null && previousSibling.nodeType == Node.TEXT_NODE &&
+                previousSibling.textContent?.trim()?.isEmpty() == true
+            ) {
+                parent.removeChild(previousSibling)
+            }
+        }
+
+        return wtColorSchemes.size
+    }
+
+    /**
+     * Removes all WT bundled color schemes without writing to file.
+     */
+    private fun removeAllWtBundledColorSchemes(doc: Document) {
+        removeAllWtBundledColorSchemesFromDocument(doc)
+    }
+
+    /**
+     * Adds a bundledColorScheme to the document without writing to file.
+     */
+    private fun addBundledColorSchemeToDocument(doc: Document, path: String) {
+        val extensions = getOrCreateExtensionsElement(doc)
+
+        val bundledColorScheme = doc.createElement(BUNDLED_COLOR_SCHEME_ELEMENT)
+        bundledColorScheme.setAttribute("path", path)
+
+        // Add with proper indentation
+        extensions.appendChild(createIndentNode(doc, 2))
+        extensions.appendChild(bundledColorScheme)
+        extensions.appendChild(createIndentNode(doc, 1))
     }
 }
 
