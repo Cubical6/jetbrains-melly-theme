@@ -79,4 +79,23 @@ class ITermColorSchemeTest {
         assertEquals(14, errors.size) // Missing colors 2-15
         assertTrue(errors.any { it.contains("ANSI color 2") })
     }
+
+    @Test
+    fun `validate detects blank name`() {
+        val completeColors = (0..15).associateWith {
+            ITermColorScheme.ITermColor(0.5f, 0.5f, 0.5f)
+        }
+
+        val scheme = ITermColorScheme(
+            name = "",  // Blank name
+            ansiColors = completeColors,
+            foreground = ITermColorScheme.ITermColor(1f, 1f, 1f),
+            background = ITermColorScheme.ITermColor(0f, 0f, 0f),
+            selection = ITermColorScheme.ITermColor(0.5f, 0.5f, 0.5f),
+            cursor = ITermColorScheme.ITermColor(1f, 1f, 1f)
+        )
+
+        val errors = scheme.validate()
+        assertTrue(errors.any { it.contains("name must not be blank") })
+    }
 }

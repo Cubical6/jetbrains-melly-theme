@@ -11,8 +11,8 @@ echo ""
 
 cd buildSrc
 
-# Backup directory for broken tests
-BACKUP_DIR="../.test-backup-$$"
+# Backup directory for broken tests (inside buildSrc to keep within project boundaries)
+BACKUP_DIR=".test-backup-$$"
 
 echo "Temporarily moving broken test files..."
 
@@ -83,8 +83,11 @@ if [ -d "$BACKUP_DIR/utils" ]; then
     echo "  ✓ Restored utils/ tests"
 fi
 
-# Remove backup directory
-rmdir "$BACKUP_DIR" 2>/dev/null || true
+# Remove backup directory (use rm -rf for robust cleanup)
+if [ -d "$BACKUP_DIR" ]; then
+    rm -rf "$BACKUP_DIR"
+    echo "  ✓ Removed temporary backup directory"
+fi
 
 echo ""
 echo "✓ Test environment restored"
