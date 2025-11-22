@@ -226,6 +226,29 @@ data class WindowsTerminalColorScheme(
         val linkHover = ColorUtils.lighten(blue, 0.15)
         val iconColor = mutedForeground
 
+        // Island styling (modern floating tool windows)
+        val islandBorderColor = ColorUtils.darken(background, 0.15)
+
+        // Editor tab underline styling
+        val underlinedTabBorderColor = selectionBg
+        val underlinedTabBackground = ColorUtils.blend(background, selectionBg, 0.3)
+        val inactiveUnderlinedTabBorderColor = ColorUtils.desaturate(selectionBg, 0.5)
+        val inactiveUnderlinedTabBackground = ColorUtils.blend(background, surface, 0.5)
+
+        // Icon colors - Actions category
+        val actionsRed = ColorUtils.blend(background, "#DB5860", 0.7)
+        val actionsYellow = ColorUtils.blend(background, "#EDA200", 0.7)
+        val actionsGreen = ColorUtils.blend(background, "#59A869", 0.7)
+        val actionsBlue = selectionBg
+        val actionsGrey = ColorUtils.desaturate(foreground, 0.3)
+
+        // Icon colors - Objects category
+        val objectsGreen = actionsGreen
+        val objectsYellow = actionsYellow
+        val objectsBlue = actionsBlue
+        val objectsGrey = actionsGrey
+        val objectsRed = actionsRed
+
         return ColorPalette(
             // Existing 12
             surface = surface,
@@ -291,7 +314,28 @@ data class WindowsTerminalColorScheme(
             counterBackground = counterBackground,
             tooltipBackground = tooltipBackground,
             linkHover = linkHover,
-            iconColor = iconColor
+            iconColor = iconColor,
+
+            // Island
+            islandBorderColor = islandBorderColor,
+
+            // Editor tab underline styling
+            underlinedTabBorderColor = underlinedTabBorderColor,
+            underlinedTabBackground = underlinedTabBackground,
+            inactiveUnderlinedTabBorderColor = inactiveUnderlinedTabBorderColor,
+            inactiveUnderlinedTabBackground = inactiveUnderlinedTabBackground,
+
+            // Icon colors
+            actionsRed = actionsRed,
+            actionsYellow = actionsYellow,
+            actionsGreen = actionsGreen,
+            actionsBlue = actionsBlue,
+            actionsGrey = actionsGrey,
+            objectsGreen = objectsGreen,
+            objectsYellow = objectsYellow,
+            objectsBlue = objectsBlue,
+            objectsGrey = objectsGrey,
+            objectsRed = objectsRed
         )
     }
 
@@ -334,13 +378,13 @@ data class WindowsTerminalColorScheme(
 }
 
 /**
- * Enhanced color palette with 50 derived colors for comprehensive theme generation.
+ * Enhanced color palette with 65 derived colors for comprehensive theme generation.
  *
  * Provides a rich set of colors derived from the base Windows Terminal color scheme,
  * including surface variations, selection states, focus colors, UI components,
  * syntax-specific colors, progress indicators, and additional UI elements.
  *
- * Total: 12 existing + 38 new = 50 derived colors
+ * Total: 12 existing + 53 new = 65 derived colors
  */
 data class ColorPalette(
     // Existing 12 colors
@@ -407,7 +451,30 @@ data class ColorPalette(
     val counterBackground: String,   // Counter badges
     val tooltipBackground: String,   // Tooltip bg
     val linkHover: String,           // Link hover state
-    val iconColor: String            // Default icon color
+    val iconColor: String,           // Default icon color
+
+    // Island (1 new)
+    val islandBorderColor: String,   // Border color for floating Islands
+
+    // Editor tab underline styling (4 new)
+    val underlinedTabBorderColor: String,
+    val underlinedTabBackground: String,
+    val inactiveUnderlinedTabBorderColor: String,
+    val inactiveUnderlinedTabBackground: String,
+
+    // Icon colors - Actions category (5 new)
+    val actionsRed: String,
+    val actionsYellow: String,
+    val actionsGreen: String,
+    val actionsBlue: String,
+    val actionsGrey: String,
+
+    // Icon colors - Objects category (5 new)
+    val objectsGreen: String,
+    val objectsYellow: String,
+    val objectsBlue: String,
+    val objectsGrey: String,
+    val objectsRed: String
 ) {
     /**
      * Converts the ColorPalette to a Map for backward compatibility with template processors.
@@ -431,6 +498,9 @@ data class ColorPalette(
             "wt_info_background" to infoBackground,
             "wt_uiBorderColor" to uiBorderColor,
             "wt_uiComponentBackground" to uiComponentBackground,
+            // Snake_case aliases for consistency
+            "wt_ui_border_color" to uiBorderColor,
+            "wt_ui_component_background" to uiComponentBackground,
 
             // NEW: Surface variations (4)
             "wt_surface_dark" to surfaceDark,
@@ -482,7 +552,30 @@ data class ColorPalette(
             "wt_counter_background" to counterBackground,
             "wt_tooltip_background" to tooltipBackground,
             "wt_link_hover" to linkHover,
-            "wt_icon_color" to iconColor
+            "wt_icon_color" to iconColor,
+
+            // Island (1)
+            "wt_island_border" to islandBorderColor,
+
+            // Editor tab underline styling (4)
+            "wt_underlined_tab_border_color" to underlinedTabBorderColor,
+            "wt_underlined_tab_background" to underlinedTabBackground,
+            "wt_inactive_underlined_tab_border_color" to inactiveUnderlinedTabBorderColor,
+            "wt_inactive_underlined_tab_background" to inactiveUnderlinedTabBackground,
+
+            // Icon colors - Actions (5)
+            "Actions.Red" to actionsRed,
+            "Actions.Yellow" to actionsYellow,
+            "Actions.Green" to actionsGreen,
+            "Actions.Blue" to actionsBlue,
+            "Actions.Grey" to actionsGrey,
+
+            // Icon colors - Objects (5)
+            "Objects.Green" to objectsGreen,
+            "Objects.Yellow" to objectsYellow,
+            "Objects.Blue" to objectsBlue,
+            "Objects.Grey" to objectsGrey,
+            "Objects.Red" to objectsRed
         )
     }
 }
@@ -519,5 +612,18 @@ fun WindowsTerminalColorScheme.toColorPaletteMap(): Map<String, String> {
 
         // Add all derived colors from ColorPalette
         putAll(toColorPalette().toMap())
+
+        // Template compatibility aliases (snake_case for bright colors)
+        put("wt_bright_black", brightBlack)
+        put("wt_bright_red", brightRed)
+        put("wt_bright_green", brightGreen)
+        put("wt_bright_yellow", brightYellow)
+        put("wt_bright_blue", brightBlue)
+        put("wt_bright_cyan", brightCyan)
+        put("wt_bright_white", brightWhite)
+
+        // Magenta/Purple aliases (template uses 'magenta', WT uses 'purple')
+        put("wt_magenta", purple)
+        put("wt_bright_magenta", brightPurple)
     }
 }

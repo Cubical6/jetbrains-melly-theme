@@ -74,11 +74,11 @@ data class ArcValues(
     fun toPlaceholders(): Map<String, String> = mapOf(
         "\$arc_component$" to component.toString(),
         "\$arc_button$" to button.toString(),
-        "\$arc_tabbedPane$" to tabbedPane.toString(),
-        "\$arc_progressBar$" to progressBar.toString(),
-        "\$arc_comboBox$" to comboBox.toString(),
-        "\$arc_textField$" to textField.toString(),
-        "\$arc_checkBox$" to checkBox.toString(),
+        "\$arc_tabbed_pane$" to tabbedPane.toString(),
+        "\$arc_progress_bar$" to progressBar.toString(),
+        "\$arc_combobox$" to comboBox.toString(),
+        "\$arc_text_field$" to textField.toString(),
+        "\$arc_checkbox$" to checkBox.toString(),
         "\$arc_tree$" to tree.toString(),
         "\$arc_table$" to table.toString(),
         "\$arc_popup$" to popup.toString()

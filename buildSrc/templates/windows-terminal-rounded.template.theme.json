@@ -3,6 +3,7 @@
   "dark": true,
   "author": "Windows Terminal Color Scheme Converter",
   "editorScheme": "/themes/$wt_scheme_name$.xml",
+  "parentTheme": "ExperimentalDark",
   "colors": {
     "accentColor": "$wt_brightBlue$",
     "backgroundColor": "$wt_background$",
@@ -97,8 +98,8 @@
         "startBackground": "$wt_blue$",
         "endBackground": "$wt_blue$",
         "foreground": "$wt_background$",
-        "focusedBorderColor": "$wt_buttonBorderFocused$",
-        "borderColor": "$wt_buttonBorder$"
+        "focusedBorderColor": "$wt_button_border_focused$",
+        "borderColor": "$wt_button_border$"
       }
     },
 
@@ -108,11 +109,11 @@
     },
 
     "CheckBox": {
-      "arc": "$arc_checkBox$"
+      "arc": "$arc_checkbox$"
     },
 
     "ComboBox": {
-      "arc": "$arc_comboBox$",
+      "arc": "$arc_combobox$",
       "nonEditableBackground": "$wt_uiComponentBackground$",
       "background": "$wt_uiComponentBackground$",
       "selectionBackground": "$wt_blue$",
@@ -180,7 +181,10 @@
     "EditorPane.inactiveBackground": "$wt_background$",
 
     "EditorTabs": {
-      "underlinedTabBackground": "$wt_black$"
+      "underlinedTabBorderColor": "$wt_underlined_tab_border_color$",
+      "underlinedTabBackground": "$wt_underlined_tab_background$",
+      "inactiveUnderlinedTabBorderColor": "$wt_inactive_underlined_tab_border_color$",
+      "inactiveUnderlinedTabBackground": "$wt_inactive_underlined_tab_background$"
     },
 
     "FileColor": {
@@ -221,14 +225,6 @@
     "List": {
       "selectionBackground": "$wt_blue$",
       "selectionForeground": "$wt_brightWhite$"
-    },
-
-    "MainToolbar": {
-      "inactiveBackground": "$wt_background$",
-      "background": "backgroundColor",
-      "Dropdown": {
-        "hoverBackground": "$wt_black$"
-      }
     },
 
     "MemoryIndicator": {
@@ -313,7 +309,7 @@
       "arc": "$arc_popup$",
       "background": "$wt_popup_background$",
       "paintBorder": false,
-      "borderColor": "$wt_popupBorder$",
+      "borderColor": "$wt_popup_border$",
       "Toolbar.borderColor": "$wt_black$",
       "Header.activeBackground": "$wt_black$",
       "Header.inactiveBackground": "$wt_black$",
@@ -324,8 +320,8 @@
     },
 
     "ProgressBar": {
-      "arc": "$arc_progressBar$",
-      "trackArc": "$arc_progressBar$",
+      "arc": "$arc_progress_bar$",
+      "trackArc": "$arc_progress_bar$",
       "trackColor": "$wt_black$",
       "progressColor": "accentColor",
       "indeterminateStartColor": "$wt_progress_start$",
@@ -376,7 +372,7 @@
     "StatusBar.background": "backgroundColor",
 
     "TabbedPane": {
-      "tabArc": "$arc_tabbedPane$",
+      "tabArc": "$arc_tabbed_pane$",
       "contentBorderInsets": "0,0,0,0",
       "underlineColor": "accentColor",
       "contentAreaColor": "$wt_selectionBackground$",
@@ -408,7 +404,7 @@
     },
 
     "TextField": {
-      "arc": "$arc_textField$",
+      "arc": "$arc_text_field$",
       "background": "$wt_background$",
       "selectionBackground": "$wt_selectionBackground$"
     },
@@ -490,11 +486,49 @@
       "separatorColor": "$wt_black$",
       "SidePanel.background": "$wt_background$",
       "Details.background": "backgroundColor"
+    },
+
+    "Islands": 1,
+    "Island": {
+      "arc": 20,
+      "borderWidth": 5,
+      "inactiveAlpha": 0.44,
+      "inactiveAlphaInStatusBar": 0.2,
+      "borderColor": "$wt_island_border$"
+    },
+
+    "MainToolbar": {
+      "inactiveBackground": "$wt_background$",
+      "background": "$wt_background$",
+      "separatorColor": "$wt_uiBorderColor$",
+      "borderColor": "$wt_uiBorderColor$",
+      "Dropdown": {
+        "hoverBackground": "$wt_black$"
+      }
+    },
+
+    "MainWindow": {
+      "background": "$wt_background$",
+      "Tab": {
+        "selectedBackground": "$wt_surface_dark$",
+        "hoverBackground": "$wt_hover_background$",
+        "separatorColor": "$wt_uiBorderColor$"
+      }
     }
   },
 
   "icons": {
     "ColorPalette": {
+      "Actions.Red": "$Actions.Red$",
+      "Actions.Yellow": "$Actions.Yellow$",
+      "Actions.Green": "$Actions.Green$",
+      "Actions.Blue": "$Actions.Blue$",
+      "Actions.Grey": "$Actions.Grey$",
+      "Objects.Green": "$Objects.Green$",
+      "Objects.Yellow": "$Objects.Yellow$",
+      "Objects.Blue": "$Objects.Blue$",
+      "Objects.Grey": "$Objects.Grey$",
+      "Objects.Red": "$Objects.Red$",
       "Checkbox.Background.Default.Dark": "$wt_background$",
       "Checkbox.Border.Default.Dark": "$wt_black$",
       "Checkbox.Foreground.Selected.Dark": "$wt_foreground$",
