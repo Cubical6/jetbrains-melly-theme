@@ -336,7 +336,13 @@ git push -u origin claude/cleanup-preexisting-tests-01VJMTm2mH5MdfupZHh2RoKN
 
 ---
 
-## FASE 1: iTerm Import Infrastructure
+## FASE 1: iTerm Import Infrastructure ✓ VOLTOOID
+
+**Status:** ✓ VOLLEDIG VOLTOOID (commit `aa05217` - 2025-11-22)
+- ✓ Task 1.1: ITermColorScheme Data Class
+- ✓ Task 1.2: iTerm Plist XML Parser
+- ✓ Task 1.3: iTerm to Windows Terminal Converter
+- ✓ Task 1.4: Import iTerm Schemes Gradle Task
 
 > **⚠️ Testing Instructie:** Voor alle subtaken met test/build commando's (`./gradlew`):
 > - Claude kan deze NIET uitvoeren in web omgeving
@@ -935,7 +941,9 @@ git commit -m "feat: add iTerm plist parser for .itermcolors files"
 
 ---
 
-### Task 1.3: iTerm to Windows Terminal Converter
+### Task 1.3: iTerm to Windows Terminal Converter ✓ VOLTOOID
+
+**Status:** Geïmplementeerd in commit `aa05217` (2025-11-22)
 
 **Subtask 1.3.1: Create ITermToWindowsTerminalConverter.kt**
 
@@ -1089,7 +1097,9 @@ git commit -m "feat: add iTerm to Windows Terminal converter"
 
 ---
 
-### Task 1.4: Import iTerm Schemes Gradle Task
+### Task 1.4: Import iTerm Schemes Gradle Task ✓ VOLTOOID
+
+**Status:** Geïmplementeerd in commit `aa05217` (2025-11-22)
 
 **Subtask 1.4.1: Create ImportITermSchemes.kt task**
 
