@@ -2156,8 +2156,8 @@ Differences documented:
 **Subtask 4.3.6: Commit generated themes** ✓
 
 ```bash
-git add src/main/resources/themes/Lovelace.theme.json
-git add src/main/resources/themes/Lovelace.xml
+git add src/main/resources/themes/wt-lovelace-abd97252.theme.json
+git add src/main/resources/themes/wt-lovelace-abd97252.xml
 git commit -m "feat: generate Lovelace theme from color scheme"
 ```
 
