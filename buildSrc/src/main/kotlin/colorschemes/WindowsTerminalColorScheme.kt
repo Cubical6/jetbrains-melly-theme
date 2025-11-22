@@ -612,5 +612,18 @@ fun WindowsTerminalColorScheme.toColorPaletteMap(): Map<String, String> {
 
         // Add all derived colors from ColorPalette
         putAll(toColorPalette().toMap())
+
+        // Template compatibility aliases (snake_case for bright colors)
+        put("wt_bright_black", brightBlack)
+        put("wt_bright_red", brightRed)
+        put("wt_bright_green", brightGreen)
+        put("wt_bright_yellow", brightYellow)
+        put("wt_bright_blue", brightBlue)
+        put("wt_bright_cyan", brightCyan)
+        put("wt_bright_white", brightWhite)
+
+        // Magenta/Purple aliases (template uses 'magenta', WT uses 'purple')
+        put("wt_magenta", purple)
+        put("wt_bright_magenta", brightPurple)
     }
 }

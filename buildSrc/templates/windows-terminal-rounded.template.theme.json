@@ -109,11 +109,11 @@
     },
 
     "CheckBox": {
-      "arc": "$arc_checkBox$"
+      "arc": "$arc_checkbox$"
     },
 
     "ComboBox": {
-      "arc": "$arc_comboBox$",
+      "arc": "$arc_combobox$",
       "nonEditableBackground": "$wt_uiComponentBackground$",
       "background": "$wt_uiComponentBackground$",
       "selectionBackground": "$wt_blue$",
@@ -320,8 +320,8 @@
     },
 
     "ProgressBar": {
-      "arc": "$arc_progressBar$",
-      "trackArc": "$arc_progressBar$",
+      "arc": "$arc_progress_bar$",
+      "trackArc": "$arc_progress_bar$",
       "trackColor": "$wt_black$",
       "progressColor": "accentColor",
       "indeterminateStartColor": "$wt_progress_start$",
@@ -372,7 +372,7 @@
     "StatusBar.background": "backgroundColor",
 
     "TabbedPane": {
-      "tabArc": "$arc_tabbedPane$",
+      "tabArc": "$arc_tabbed_pane$",
       "contentBorderInsets": "0,0,0,0",
       "underlineColor": "accentColor",
       "contentAreaColor": "$wt_selectionBackground$",
@@ -404,7 +404,7 @@
     },
 
     "TextField": {
-      "arc": "$arc_textField$",
+      "arc": "$arc_text_field$",
       "background": "$wt_background$",
       "selectionBackground": "$wt_selectionBackground$"
     },
@@ -508,7 +508,12 @@
     },
 
     "MainWindow": {
-      "background": "$wt_background$"
+      "background": "$wt_background$",
+      "Tab": {
+        "selectedBackground": "$wt_surface_dark$",
+        "hoverBackground": "$wt_hover_background$",
+        "separatorColor": "$wt_uiBorderColor$"
+      }
     }
   },
 

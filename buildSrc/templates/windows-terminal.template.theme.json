@@ -494,7 +494,12 @@
     },
 
     "MainWindow": {
-      "background": "$wt_background$"
+      "background": "$wt_background$",
+      "Tab": {
+        "selectedBackground": "$wt_surface_dark$",
+        "hoverBackground": "$wt_hover_background$",
+        "separatorColor": "$wt_uiBorderColor$"
+      }
     }
   },
 
