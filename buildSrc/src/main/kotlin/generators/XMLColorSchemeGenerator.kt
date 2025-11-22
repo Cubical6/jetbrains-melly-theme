@@ -1,6 +1,7 @@
 package generators
 
 import colorschemes.WindowsTerminalColorScheme
+import colorschemes.toColorPaletteMap
 import mapping.ColorMappingConfig
 import mapping.ConsoleColorMapper
 import mapping.SyntaxColorInference
