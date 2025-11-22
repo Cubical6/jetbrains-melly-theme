@@ -3,6 +3,7 @@
   "dark": true,
   "author": "Windows Terminal Color Scheme Converter",
   "editorScheme": "/themes/$wt_scheme_name$.xml",
+  "parentTheme": "ExperimentalDark",
   "colors": {
     "accentColor": "$wt_brightBlue$",
     "backgroundColor": "$wt_background$",
