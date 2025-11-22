@@ -152,6 +152,42 @@ Users can also select editor color schemes independently:
 3. Select any scheme (doesn't have to match the UI theme)
 4. Editor colors change without affecting UI theme
 
+## Available Template Placeholders
+
+The Windows Terminal template system supports the following color placeholders:
+
+### Base Terminal Colors (16 ANSI colors)
+These map directly to Windows Terminal color schemes:
+- `$wt_background$` - Main background color
+- `$wt_foreground$` - Main foreground/text color
+- `$wt_black$`, `$wt_red$`, `$wt_green$`, `$wt_yellow$`, `$wt_blue$`, `$wt_purple$`, `$wt_cyan$`, `$wt_white$`
+- `$wt_brightBlack$`, `$wt_brightRed$`, `$wt_brightGreen$`, `$wt_brightYellow$`, `$wt_brightBlue$`, `$wt_brightPurple$`, `$wt_brightCyan$`, `$wt_brightWhite$`
+
+### Special Terminal Colors
+- `$wt_cursorColor$` - Cursor color (fallback: foreground)
+- `$wt_selectionBackground$` - Selection background (fallback: blend of bg/fg)
+
+### Derived UI Surface Colors (Auto-calculated)
+These are automatically lightened versions of the background color for UI consistency:
+- `$wt_surface$` - Background lightened 5% (for subtle elevated surfaces)
+- `$wt_surface_light$` - Background lightened 10% (for secondary UI elements)
+- `$wt_surface_lighter$` - Background lightened 15% (for highlighted areas)
+
+### Derived UI Helper Colors (Auto-calculated)
+These blend background and foreground colors for UI elements:
+- `$wt_line_numbers$` - Blend bg/fg 30% (for line numbers)
+- `$wt_guide_color$` - Blend bg/fg 15% (for indent guides)
+- `$wt_divider_color$` - Blend bg/fg 25% (for visual separators)
+- `$wt_muted_foreground$` - Blend bg/fg 60% (for less important text)
+
+### Derived Semantic Colors (Auto-calculated)
+These blend background with ANSI colors for semantic highlights:
+- `$wt_error_background$` - Blend bg/red 20% (for error backgrounds)
+- `$wt_warning_background$` - Blend bg/yellow 20% (for warning backgrounds)
+- `$wt_info_background$` - Blend bg/blue 20% (for info backgrounds)
+
+**Note**: All derived placeholders are automatically calculated at build time based on the base terminal colors.
+
 ## Verification Steps
 
 ### After Regenerating plugin.xml
@@ -192,6 +228,56 @@ Users can also select editor color schemes independently:
 9. **Verify:** Editor colors change, UI theme stays the same
 
 ## Troubleshooting
+
+### Editor Background Not Changing with Theme
+
+**Symptom:** Editor background doesn't synchronize when switching themes
+
+If the editor background doesn't change when switching between Windows Terminal themes, check the following template configurations:
+
+**What to Check:**
+1. **Console Background**: Ensure `CONSOLE_BACKGROUND_KEY` uses `$wt_background$` (not empty)
+2. **Gutter Background**: Ensure `GUTTER_BACKGROUND` uses a placeholder (not hardcoded like `282c34`)
+3. **ScrollBar Background**: Ensure `ScrollBar.background` uses a placeholder
+
+**Example fix in template XML:**
+```xml
+<!-- ❌ Wrong: Empty or hardcoded -->
+<option name="CONSOLE_BACKGROUND_KEY" value=""/>
+<option name="GUTTER_BACKGROUND" value="282c34"/>
+
+<!-- ✅ Correct: Using placeholders -->
+<option name="CONSOLE_BACKGROUND_KEY" value="$wt_background$"/>
+<option name="GUTTER_BACKGROUND" value="$wt_background$"/>
+```
+
+**Root Cause:** When these critical background attributes are empty or hardcoded, the template system cannot dynamically apply color scheme backgrounds, resulting in the editor keeping its previous background color even when the theme changes.
+
+### Low Contrast Warnings
+
+During build, you may see warnings about low contrast ratios:
+```
+⚠️  WARNING: Low contrast ratio (2.31) between background and foreground
+   WCAG recommends minimum 4.5:1 for normal text, 3:1 for large text
+```
+
+**What this means:** The selected color scheme may have readability issues.
+
+**Recommended actions:**
+- Choose a different Windows Terminal color scheme with better contrast
+- Adjust the foreground/background colors manually in your Windows Terminal settings
+- Use high-contrast variants of popular themes
+
+### Build Validation Errors
+
+If you see errors like:
+```
+Required color placeholder 'wt_background' is missing or empty in color palette
+```
+
+**What this means:** A required color is not defined in your Windows Terminal color scheme.
+
+**Solution:** Ensure all base ANSI colors are present in your Windows Terminal color scheme. The template system requires all 16 ANSI colors plus background and foreground to generate a complete theme.
 
 ### Editor Scheme Not Applied
 

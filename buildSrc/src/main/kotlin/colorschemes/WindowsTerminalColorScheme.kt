@@ -145,6 +145,27 @@ data class WindowsTerminalColorScheme(
     /**
      * Converts the color scheme to a color palette map compatible with ThemeConstructor.
      * Maps Windows Terminal property names to their hex color values.
+     *
+     * In addition to the base Windows Terminal colors, this method generates derived
+     * color placeholders for improved theme consistency:
+     *
+     * Surface colors (derived from background):
+     * - wt_surface: Slightly lighter background for elevated surfaces
+     * - wt_surface_light: Moderately lighter background for secondary UI elements
+     * - wt_surface_lighter: Even lighter background for highlighted areas
+     *
+     * UI helper colors (derived from background and foreground):
+     * - wt_line_numbers: Subdued color for line numbers
+     * - wt_guide_color: Subtle color for indent guides
+     * - wt_divider_color: Color for visual dividers and separators
+     * - wt_muted_foreground: Dimmed foreground for less important text
+     *
+     * Semantic colors (derived from background and ANSI colors):
+     * - wt_error_background: Background for error highlights
+     * - wt_warning_background: Background for warning highlights
+     * - wt_info_background: Background for info highlights
+     *
+     * All derived colors are calculated automatically using ColorUtils methods.
      */
     fun toColorPalette(): Map<String, String> {
         return buildMap {
@@ -171,6 +192,22 @@ data class WindowsTerminalColorScheme(
             // Optional colors with fallbacks
             put("wt_cursorColor", cursorColor ?: foreground)
             put("wt_selectionBackground", selectionBackground ?: ColorUtils.blend(background, foreground, 0.2))
+
+            // UI Surface colors (afgeleide kleuren voor betere theme consistency)
+            put("wt_surface", ColorUtils.lighten(background, 0.05))
+            put("wt_surface_light", ColorUtils.lighten(background, 0.10))
+            put("wt_surface_lighter", ColorUtils.lighten(background, 0.15))
+
+            // Text/UI helper colors
+            put("wt_line_numbers", ColorUtils.blend(background, foreground, 0.30))
+            put("wt_guide_color", ColorUtils.blend(background, foreground, 0.15))
+            put("wt_divider_color", ColorUtils.blend(background, foreground, 0.25))
+            put("wt_muted_foreground", ColorUtils.blend(background, foreground, 0.60))
+
+            // Semantic colors voor errors/warnings/info
+            put("wt_error_background", ColorUtils.blend(background, red, 0.20))
+            put("wt_warning_background", ColorUtils.blend(background, yellow, 0.20))
+            put("wt_info_background", ColorUtils.blend(background, blue, 0.20))
         }
     }
 

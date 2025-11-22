@@ -4,62 +4,62 @@
   </metaInfo>
   <colors>
     <option name="ADDED_LINES_COLOR" value="$wt_green$"/>
-    <option name="ANNOTATIONS_COLOR" value="a0a7b4"/>
-    <option name="Bookmark.Mnemonic.iconForeground" value="a0a7b4"/>
-    <option name="Bookmark.Mnemonic.iconBackground" value="3d424b"/>
-    <option name="Bookmark.Mnemonic.iconBorderColor" value="568AF2"/>
-    <option name="BookmarkMnemonicIcon.foreground" value="a0a7b4"/>
-    <option name="BookmarkMnemonicIcon.background" value="3d424b"/>
-    <option name="BookmarkMnemonicIcon.borderColor" value="568AF2"/>
+    <option name="ANNOTATIONS_COLOR" value="$wt_muted_foreground$"/>
+    <option name="Bookmark.Mnemonic.iconForeground" value="$wt_muted_foreground$"/>
+    <option name="Bookmark.Mnemonic.iconBackground" value="$wt_surface_light$"/>
+    <option name="Bookmark.Mnemonic.iconBorderColor" value="$wt_brightBlue$"/>
+    <option name="BookmarkMnemonicIcon.foreground" value="$wt_muted_foreground$"/>
+    <option name="BookmarkMnemonicIcon.background" value="$wt_surface_light$"/>
+    <option name="BookmarkMnemonicIcon.borderColor" value="$wt_brightBlue$"/>
     <option name="CARET_COLOR" value="528bff"/>
     <option name="CARET_ROW_COLOR" value="2c313c"/>
-    <option name="CONSOLE_BACKGROUND_KEY" value=""/>
+    <option name="CONSOLE_BACKGROUND_KEY" value="$wt_background$"/>
     <option name="DELETED_LINES_COLOR" value="$wt_red$"/>
     <option name="DIAGRAM_ANNOTATION_EDGE" value="$wt_yellow$"/>
-    <option name="DIAGRAM_DEFAULT_EDGE" value="a0a7b4"/>
+    <option name="DIAGRAM_DEFAULT_EDGE" value="$wt_muted_foreground$"/>
     <option name="DIAGRAM_GENERALIZATION_EDGE" value="$wt_blue$"/>
     <option name="DIAGRAM_INNER_EDGE" value="$wt_red$"/>
     <option name="DIAGRAM_NODE_BACKGROUND" value="323844"/>
-    <option name="DIAGRAM_NODE_HEADER" value="414855"/>
-    <option name="DIAGRAM_NOTE_BACKGROUND" value="414855"/>
+    <option name="DIAGRAM_NODE_HEADER" value="$wt_surface_lighter$"/>
+    <option name="DIAGRAM_NOTE_BACKGROUND" value="$wt_surface_lighter$"/>
     <option name="DIAGRAM_NOTE_BORDER" value="$wt_black$"/>
     <option name="DIAGRAM_REALIZATION_EDGE" value="$wt_green$"/>
     <option name="DIFF_SEPARATORS_BACKGROUND" value="21252b"/>
-    <option name="DOCUMENTATION_COLOR" value="3d424b"/>
+    <option name="DOCUMENTATION_COLOR" value="$wt_surface_light$"/>
     <option name="ERROR_HINT" value="781732"/>
     <option name="FILESTATUS_IDEA_FILESTATUS_IGNORED" value="4f575f"/>
     <option name="FOLDED_TEXT_BORDER_COLOR" value=""/>
-    <option name="GUTTER_BACKGROUND" value="282c34"/>
+    <option name="GUTTER_BACKGROUND" value="$wt_background$"/>
     <option name="HTML_TAG_TREE_LEVEL0" value="$wt_bright_red$"/>
     <option name="HTML_TAG_TREE_LEVEL1" value="$wt_yellow$"/>
     <option name="HTML_TAG_TREE_LEVEL2" value="$wt_green$"/>
     <option name="HTML_TAG_TREE_LEVEL3" value="$wt_cyan$"/>
     <option name="HTML_TAG_TREE_LEVEL4" value="$wt_blue$"/>
     <option name="HTML_TAG_TREE_LEVEL5" value="$wt_magenta$"/>
-    <option name="INDENT_GUIDE" value="3b4048"/>
-    <option name="INFORMATION_HINT" value="3d424b"/>
-    <option name="JUPYTER.CELL_UNDER_CARET_COMMAND_MODE_STRIPE_COLOR" value="568AF2" />
+    <option name="INDENT_GUIDE" value="$wt_guide_color$"/>
+    <option name="INFORMATION_HINT" value="$wt_surface_light$"/>
+    <option name="JUPYTER.CELL_UNDER_CARET_COMMAND_MODE_STRIPE_COLOR" value="$wt_brightBlue$" />
     <option name="JUPYTER.CODE_CELL_BACKGROUND" value="2d3139" />
-    <option name="JUPYTER.GUTTER_INPUT_EXECUTION_COUNT" value="568AF2" />
+    <option name="JUPYTER.GUTTER_INPUT_EXECUTION_COUNT" value="$wt_brightBlue$" />
     <option name="JUPYTER.SAUSAGE_BUTTON_BORDER_COLOR" value="333841" />
-    <option name="LINE_NUMBERS_COLOR" value="495162"/>
+    <option name="LINE_NUMBERS_COLOR" value="$wt_line_numbers$"/>
     <option name="LINE_NUMBER_ON_CARET_ROW_COLOR" value="737984"/>
     <option name="LOOKUP_COLOR" value="21252b"/>
-    <option name="METHOD_SEPARATORS_COLOR" value="3b4048"/>
+    <option name="METHOD_SEPARATORS_COLOR" value="$wt_guide_color$"/>
     <option name="MODIFIED_LINES_COLOR" value="$wt_bright_yellow$"/>
     <option name="QUESTION_HINT" value="2e4280"/>
-    <option name="RECENT_LOCATIONS_SELECTION" value="3d424b"/>
-    <option name="RIGHT_MARGIN_COLOR" value="606368"/>
-    <option name="ScrollBar.background" value="282c34"/>
-    <option name="SELECTED_INDENT_GUIDE" value="606368"/>
+    <option name="RECENT_LOCATIONS_SELECTION" value="$wt_surface_light$"/>
+    <option name="RIGHT_MARGIN_COLOR" value="$wt_divider_color$"/>
+    <option name="ScrollBar.background" value="$wt_background$"/>
+    <option name="SELECTED_INDENT_GUIDE" value="$wt_divider_color$"/>
     <option name="SELECTED_TEARLINE_COLOR" value="6b6e73"/>
-    <option name="SELECTION_BACKGROUND" value="404859"/>
+    <option name="SELECTION_BACKGROUND" value="$wt_selectionBackground$"/>
     <option name="SEPARATOR_BELOW_COLOR" value=""/>
     <option name="TEARLINE_COLOR" value="4f575f"/>
     <option name="VCS_ANNOTATIONS_COLOR_1" value="335027"/>
     <option name="VCS_ANNOTATIONS_COLOR_2" value="3e443c"/>
     <option name="VCS_ANNOTATIONS_COLOR_5" value="46333c"/>
-    <option name="VISUAL_INDENT_GUIDE" value="3b4048"/>
+    <option name="VISUAL_INDENT_GUIDE" value="$wt_guide_color$"/>
     <option name="WHITESPACES" value="4b575f"/>
     <option name="WHITESPACES_MODIFIED_LINES_COLOR" value="$wt_black$"/>
   </colors>
@@ -1112,13 +1112,13 @@
     </option>
     <option name="INLAY_DEFAULT">
       <value>
-        <option name="BACKGROUND" value="414855"/>
+        <option name="BACKGROUND" value="$wt_surface_lighter$"/>
         <option name="FOREGROUND" value="$wt_white$"/>
       </value>
     </option>
     <option name="INLINE_PARAMETER_HINT">
       <value>
-        <option name="BACKGROUND" value="414855"/>
+        <option name="BACKGROUND" value="$wt_surface_lighter$"/>
         <option name="FOREGROUND" value="$wt_white$"/>
       </value>
     </option>
@@ -1222,8 +1222,8 @@
     </option>
     <option name="JUPYTER.SAUSAGE_BUTTON_APPEARANCE">
       <value>
-        <option name="FOREGROUND" value="a0a7b4" />
-        <option name="BACKGROUND" value="3d424b" />
+        <option name="FOREGROUND" value="$wt_muted_foreground$" />
+        <option name="BACKGROUND" value="$wt_surface_light$" />
       </value>
     </option>
     <option name="JUPYTER_SELECTED_CELL">
@@ -1837,7 +1837,7 @@
     </option>
     <option name="REST.FIXED">
       <value>
-        <option name="BACKGROUND" value="3d424b"/>
+        <option name="BACKGROUND" value="$wt_surface_light$"/>
       </value>
     </option>
     <option baseAttributes="DEFAULT_IDENTIFIER" name="REST.INLINE"/>
@@ -2174,7 +2174,7 @@
     </option>
     <option name="TEXT">
       <value>
-        <option name="BACKGROUND" value="282c34"/>
+        <option name="BACKGROUND" value="$wt_surface$"/>
         <option name="FOREGROUND" value="$wt_white$"/>
       </value>
     </option>
@@ -2258,7 +2258,7 @@
     </option>
     <option name="VELOCITY_SCRIPTING_BACKGROUND">
       <value>
-        <option name="BACKGROUND" value="282c34" />
+        <option name="BACKGROUND" value="$wt_surface$" />
       </value>
     </option>
     <option name="WARNING_ATTRIBUTES">
@@ -2305,7 +2305,7 @@
     </option>
     <option name="XML_PROLOGUE">
       <value>
-        <option name="BACKGROUND" value="282c34"/>
+        <option name="BACKGROUND" value="$wt_surface$"/>
         <option name="FOREGROUND" value="$wt_white$"/>
       </value>
     </option>
