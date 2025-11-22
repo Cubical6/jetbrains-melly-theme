@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <idea-plugin>
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <id>com.markskelton.one-dark-theme</id>
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <name>Windows Terminal Theme for JetBrains</name>
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <version>@version@</version>
-              
+                      
+  
+  
+  
+  
   
   
   
@@ -29,7 +45,11 @@
   
   <vendor email="one-dark@mskelton.dev" url="https://github.com/one-dark/jetbrains-one-dark-theme">Mark Skelton
   </vendor>
-              
+                      
+  
+  
+  
+  
   
   
   
@@ -69,7 +89,11 @@
   ]]>
       
   </description>
-              
+                      
+  
+  
+  
+  
   
   
   
@@ -90,56 +114,88 @@
   ]]>
       
   </change-notes>
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <depends>com.intellij.modules.platform</depends>
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <!--    Leave this in here so the IDE gives you feedback on-->
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <!--    What API's are available-->
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <idea-version since-build="203.7148.57"/>
-              
+                      
+  
+  
+  
+  
   
   
   
   
   
   <extensions defaultExtensionNs="com.intellij">
-                            
+                                            
+    
+    
+    
+    
     
     
     
     
     
     <applicationService serviceImplementation="com.markskelton.settings.ThemeSettings"/>
-                            
+                                            
+    
+    
+    
+    
     
     
     
     
     
     <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="com.markskelton.integrations.ErrorReporter"/>
-                            
+                                            
+    
+    
+    
+    
     
     
     
@@ -255,6 +311,9 @@
       
     
     <themeProvider id="wt-rose-pine-moon-8a586610" path="/themes/wt-rose-pine-moon-8a586610.theme.json"/>
+      
+    
+    <themeProvider id="wt-lovelace-abd97252" path="/themes/wt-lovelace-abd97252.theme.json"/>
       
     
     <themeProvider id="wt-challenger-deep-9f1fae2e" path="/themes/wt-challenger-deep-9f1fae2e.theme.json"/>
@@ -428,6 +487,9 @@
     <bundledColorScheme path="/themes/wt-rose-pine-moon-8a586610"/>
       
     
+    <bundledColorScheme path="/themes/wt-lovelace-abd97252"/>
+      
+    
     <bundledColorScheme path="/themes/wt-challenger-deep-9f1fae2e"/>
       
     
@@ -491,7 +553,11 @@
     <bundledColorScheme path="/themes/wt-night-owl-59ed6018"/>
       
   </extensions>
-            
+                    
+
+
+
+
 
 
 
