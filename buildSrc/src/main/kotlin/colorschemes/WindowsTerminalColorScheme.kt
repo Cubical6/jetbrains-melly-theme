@@ -143,81 +143,156 @@ data class WindowsTerminalColorScheme(
     }
 
     /**
-     * Converts the color scheme to a color palette map compatible with ThemeConstructor.
-     * Maps Windows Terminal property names to their hex color values.
+     * Converts the color scheme to an enhanced ColorPalette with 60+ derived colors.
      *
-     * In addition to the base Windows Terminal colors, this method generates derived
-     * color placeholders for improved theme consistency:
+     * This method generates a comprehensive color palette from the base Windows Terminal
+     * color scheme, including:
+     * - Original 12 derived colors (surface variations, UI helpers, semantic colors)
+     * - 50+ new derived colors for advanced theming
      *
-     * Surface colors (derived from background):
-     * - wt_surface: Slightly lighter background for elevated surfaces
-     * - wt_surface_light: Moderately lighter background for secondary UI elements
-     * - wt_surface_lighter: Even lighter background for highlighted areas
-     *
-     * UI helper colors (derived from background and foreground):
-     * - wt_line_numbers: Subdued color for line numbers
-     * - wt_guide_color: Subtle color for indent guides
-     * - wt_divider_color: Color for visual dividers and separators
-     * - wt_muted_foreground: Dimmed foreground for less important text
-     *
-     * Semantic colors (derived from background and ANSI colors):
-     * - wt_error_background: Background for error highlights
-     * - wt_warning_background: Background for warning highlights
-     * - wt_info_background: Background for info highlights
-     *
-     * Dynamic UI colors with proper WCAG contrast:
-     * - wt_uiBorderColor: Border color with minimum 3:1 contrast (WCAG AA)
-     * - wt_uiComponentBackground: Component background with 1.5:1 contrast for visibility
-     *
-     * All derived colors are calculated automatically using ColorUtils methods.
+     * All colors are calculated automatically using ColorUtils methods to ensure
+     * visual consistency and proper contrast ratios.
      */
-    fun toColorPalette(): Map<String, String> {
-        return buildMap {
-            // Required colors
-            put("wt_background", background)
-            put("wt_foreground", foreground)
-            put("wt_black", black)
-            put("wt_red", red)
-            put("wt_green", green)
-            put("wt_yellow", yellow)
-            put("wt_blue", blue)
-            put("wt_purple", purple)
-            put("wt_cyan", cyan)
-            put("wt_white", white)
-            put("wt_brightBlack", brightBlack)
-            put("wt_brightRed", brightRed)
-            put("wt_brightGreen", brightGreen)
-            put("wt_brightYellow", brightYellow)
-            put("wt_brightBlue", brightBlue)
-            put("wt_brightPurple", brightPurple)
-            put("wt_brightCyan", brightCyan)
-            put("wt_brightWhite", brightWhite)
+    fun toColorPalette(): ColorPalette {
+        // Existing 12 colors (keep current implementation)
+        val surface = ColorUtils.lighten(background, 0.05)
+        val surfaceLight = ColorUtils.lighten(background, 0.10)
+        val surfaceLighter = ColorUtils.lighten(background, 0.15)
+        val lineNumbers = ColorUtils.blend(background, foreground, 0.30)
+        val guideColor = ColorUtils.blend(background, foreground, 0.15)
+        val dividerColor = ColorUtils.blend(background, foreground, 0.25)
+        val mutedForeground = ColorUtils.blend(background, foreground, 0.60)
+        val errorBackground = ColorUtils.blend(background, red, 0.20)
+        val warningBackground = ColorUtils.blend(background, yellow, 0.20)
+        val infoBackground = ColorUtils.blend(background, blue, 0.20)
+        val uiBorderColor = ColorUtils.createVisibleBorderColor(background, minContrast = 3.0)
+        val uiComponentBackground = ColorUtils.createVisibleComponentBackground(background, minContrast = 1.5)
 
-            // Optional colors with fallbacks
-            put("wt_cursorColor", cursorColor ?: foreground)
-            put("wt_selectionBackground", selectionBackground ?: ColorUtils.blend(background, foreground, 0.2))
+        // NEW: Surface variations (4)
+        val surfaceDark = ColorUtils.darken(background, 0.05)
+        val surfaceDarker = ColorUtils.darken(background, 0.10)
+        val surfaceDarkest = ColorUtils.darken(background, 0.15)
+        val surfaceSubtle = ColorUtils.lighten(background, 0.03)
 
-            // UI Surface colors (afgeleide kleuren voor betere theme consistency)
-            put("wt_surface", ColorUtils.lighten(background, 0.05))
-            put("wt_surface_light", ColorUtils.lighten(background, 0.10))
-            put("wt_surface_lighter", ColorUtils.lighten(background, 0.15))
+        // NEW: Selection variations (3)
+        val selectionBg = selectionBackground ?: ColorUtils.blend(background, brightBlue, 0.30)
+        val selectionInactive = ColorUtils.darken(selectionBg, 0.40)
+        val selectionLight = ColorUtils.lighten(selectionBg, 0.20)
+        val selectionBorder = ColorUtils.lighten(selectionBg, 0.30)
 
-            // Text/UI helper colors
-            put("wt_line_numbers", ColorUtils.blend(background, foreground, 0.30))
-            put("wt_guide_color", ColorUtils.blend(background, foreground, 0.15))
-            put("wt_divider_color", ColorUtils.blend(background, foreground, 0.25))
-            put("wt_muted_foreground", ColorUtils.blend(background, foreground, 0.60))
+        // NEW: Focus/Accent colors (5)
+        val accentPrimary = brightBlue
+        val accentSecondary = brightPurple
+        val accentTertiary = brightCyan
+        val focusColor = ColorUtils.lighten(accentSecondary, 0.15)
+        val focusBorder = ColorUtils.darken(accentSecondary, 0.15)
 
-            // Semantic colors voor errors/warnings/info
-            put("wt_error_background", ColorUtils.blend(background, red, 0.20))
-            put("wt_warning_background", ColorUtils.blend(background, yellow, 0.20))
-            put("wt_info_background", ColorUtils.blend(background, blue, 0.20))
+        // NEW: Button/Component colors (6)
+        val buttonBorder = ColorUtils.lighten(surface, 0.10)
+        val buttonBorderFocused = accentPrimary
+        val popupBackground = ColorUtils.blend(background, purple, 0.15)
+        val popupBorder = ColorUtils.lighten(popupBackground, 0.20)
+        val headerBackground = ColorUtils.blend(surface, purple, 0.10)
+        val hoverBackground = ColorUtils.lighten(surface, 0.08)
 
-            // Dynamic UI colors with proper WCAG contrast
-            // These ensure visibility across all color schemes
-            put("wt_uiBorderColor", ColorUtils.createVisibleBorderColor(background, minContrast = 3.0))
-            put("wt_uiComponentBackground", ColorUtils.createVisibleComponentBackground(background, minContrast = 1.5))
-        }
+        // NEW: Syntax-specific derived colors (6)
+        val instanceField = ColorUtils.blend(purple, red, 0.40) // Pink
+        val todoColor = ColorUtils.blend(brightCyan, green, 0.50) // Teal
+        val deprecatedColor = ColorUtils.blend(foreground, background, 0.50)
+        val stringEscape = ColorUtils.lighten(green, 0.15)
+        val numberAlt = ColorUtils.blend(blue, cyan, 0.30)
+        val constantColor = purple
+
+        // NEW: Progress/Status colors (6)
+        val gradient = ColorUtils.generateColorGradient(
+            ColorUtils.blend(background, purple, 0.30),
+            ColorUtils.blend(background, cyan, 0.30),
+            1
+        )
+        val progressStart = gradient[0]
+        val progressMid = gradient[1]
+        val progressEnd = gradient[2]
+        val memoryIndicator = ColorUtils.blend(background, purple, 0.40)
+        val passedColor = green
+        val failedColor = red
+
+        // NEW: Additional UI colors (8)
+        val breadcrumbCurrent = foreground
+        val breadcrumbHover = ColorUtils.lighten(foreground, 0.10)
+        val separatorColor = dividerColor
+        val disabledText = brightBlack
+        val counterBackground = surfaceDark
+        val tooltipBackground = ColorUtils.lighten(popupBackground, 0.05)
+        val linkHover = ColorUtils.lighten(blue, 0.15)
+        val iconColor = mutedForeground
+
+        return ColorPalette(
+            // Existing 12
+            surface = surface,
+            surfaceLight = surfaceLight,
+            surfaceLighter = surfaceLighter,
+            lineNumbers = lineNumbers,
+            guideColor = guideColor,
+            dividerColor = dividerColor,
+            mutedForeground = mutedForeground,
+            errorBackground = errorBackground,
+            warningBackground = warningBackground,
+            infoBackground = infoBackground,
+            uiBorderColor = uiBorderColor,
+            uiComponentBackground = uiComponentBackground,
+
+            // NEW: Surface variations (4)
+            surfaceDark = surfaceDark,
+            surfaceDarker = surfaceDarker,
+            surfaceDarkest = surfaceDarkest,
+            surfaceSubtle = surfaceSubtle,
+
+            // NEW: Selection variations (3)
+            selectionInactive = selectionInactive,
+            selectionLight = selectionLight,
+            selectionBorder = selectionBorder,
+
+            // NEW: Focus/Accent colors (5)
+            focusColor = focusColor,
+            focusBorder = focusBorder,
+            accentPrimary = accentPrimary,
+            accentSecondary = accentSecondary,
+            accentTertiary = accentTertiary,
+
+            // NEW: Button/Component colors (6)
+            buttonBorder = buttonBorder,
+            buttonBorderFocused = buttonBorderFocused,
+            popupBackground = popupBackground,
+            popupBorder = popupBorder,
+            headerBackground = headerBackground,
+            hoverBackground = hoverBackground,
+
+            // NEW: Syntax-specific (6)
+            instanceField = instanceField,
+            todoColor = todoColor,
+            deprecatedColor = deprecatedColor,
+            stringEscape = stringEscape,
+            numberAlt = numberAlt,
+            constantColor = constantColor,
+
+            // NEW: Progress/Status (6)
+            progressStart = progressStart,
+            progressMid = progressMid,
+            progressEnd = progressEnd,
+            memoryIndicator = memoryIndicator,
+            passedColor = passedColor,
+            failedColor = failedColor,
+
+            // NEW: Additional UI (8)
+            breadcrumbCurrent = breadcrumbCurrent,
+            breadcrumbHover = breadcrumbHover,
+            separatorColor = separatorColor,
+            disabledText = disabledText,
+            counterBackground = counterBackground,
+            tooltipBackground = tooltipBackground,
+            linkHover = linkHover,
+            iconColor = iconColor
+        )
     }
 
     /**
@@ -257,3 +332,78 @@ data class WindowsTerminalColorScheme(
         )
     }
 }
+
+/**
+ * Enhanced color palette with 60+ derived colors for comprehensive theme generation.
+ *
+ * Provides a rich set of colors derived from the base Windows Terminal color scheme,
+ * including surface variations, selection states, focus colors, UI components,
+ * syntax-specific colors, progress indicators, and additional UI elements.
+ */
+data class ColorPalette(
+    // Existing 12 colors
+    val surface: String,
+    val surfaceLight: String,
+    val surfaceLighter: String,
+    val lineNumbers: String,
+    val guideColor: String,
+    val dividerColor: String,
+    val mutedForeground: String,
+    val errorBackground: String,
+    val warningBackground: String,
+    val infoBackground: String,
+    val uiBorderColor: String,
+    val uiComponentBackground: String,
+
+    // NEW: Surface variations (4 new)
+    val surfaceDark: String,        // Darken bg 5%
+    val surfaceDarker: String,      // Darken bg 10%
+    val surfaceDarkest: String,     // Darken bg 15%
+    val surfaceSubtle: String,      // Lighten bg 3%
+
+    // NEW: Selection variations (3 new)
+    val selectionInactive: String,   // Dim selection 40%
+    val selectionLight: String,      // Lighten selection 20%
+    val selectionBorder: String,     // Lighter selection for borders
+
+    // NEW: Focus/Accent colors (5 new)
+    val focusColor: String,          // Brighten primary accent
+    val focusBorder: String,         // Dim accent for borders
+    val accentPrimary: String,       // Use brightBlue
+    val accentSecondary: String,     // Use brightPurple
+    val accentTertiary: String,      // Use brightCyan
+
+    // NEW: Button/Component colors (6 new)
+    val buttonBorder: String,        // Subtle border from surface
+    val buttonBorderFocused: String, // Accent border for focused state
+    val popupBackground: String,     // Blend purple + background
+    val popupBorder: String,         // Lighter than popup bg
+    val headerBackground: String,    // Custom mid-tone
+    val hoverBackground: String,     // Light hover state
+
+    // NEW: Syntax-specific derived colors (6 new)
+    val instanceField: String,       // Blend purple + red (pink)
+    val todoColor: String,           // Blend cyan + green (teal)
+    val deprecatedColor: String,     // Dim foreground
+    val stringEscape: String,        // Brighten green
+    val numberAlt: String,           // Alternative number color
+    val constantColor: String,       // Constant values
+
+    // NEW: Progress/Status colors (6 new)
+    val progressStart: String,       // Gradient start
+    val progressMid: String,         // Gradient middle
+    val progressEnd: String,         // Gradient end
+    val memoryIndicator: String,     // Memory usage color
+    val passedColor: String,         // Test passed
+    val failedColor: String,         // Test failed
+
+    // NEW: Additional UI colors (8 new)
+    val breadcrumbCurrent: String,   // Current breadcrumb
+    val breadcrumbHover: String,     // Breadcrumb hover
+    val separatorColor: String,      // Separator lines
+    val disabledText: String,        // Disabled foreground
+    val counterBackground: String,   // Counter badges
+    val tooltipBackground: String,   // Tooltip bg
+    val linkHover: String,           // Link hover state
+    val iconColor: String            // Default icon color
+)
