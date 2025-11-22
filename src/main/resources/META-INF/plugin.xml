@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <idea-plugin>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -11,7 +15,11 @@
   
   
   <id>com.markskelton.one-dark-theme</id>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -22,7 +30,11 @@
   
   
   <name>Windows Terminal Theme for JetBrains</name>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -33,7 +45,11 @@
   
   
   <version>@version@</version>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -45,7 +61,11 @@
   
   <vendor email="one-dark@mskelton.dev" url="https://github.com/one-dark/jetbrains-one-dark-theme">Mark Skelton
   </vendor>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -89,7 +109,11 @@
   ]]>
       
   </description>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -114,7 +138,11 @@
   ]]>
       
   </change-notes>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -125,7 +153,11 @@
   
   
   <depends>com.intellij.modules.platform</depends>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -136,7 +168,11 @@
   
   
   <!--    Leave this in here so the IDE gives you feedback on-->
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -147,7 +183,11 @@
   
   
   <!--    What API's are available-->
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -158,7 +198,11 @@
   
   
   <idea-version since-build="203.7148.57"/>
-                      
+                              
+  
+  
+  
+  
   
   
   
@@ -169,7 +213,11 @@
   
   
   <extensions defaultExtensionNs="com.intellij">
-                                            
+                                                            
+    
+    
+    
+    
     
     
     
@@ -180,7 +228,11 @@
     
     
     <applicationService serviceImplementation="com.markskelton.settings.ThemeSettings"/>
-                                            
+                                                            
+    
+    
+    
+    
     
     
     
@@ -191,7 +243,11 @@
     
     
     <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="com.markskelton.integrations.ErrorReporter"/>
-                                            
+                                                            
+    
+    
+    
+    
     
     
     
@@ -202,185 +258,356 @@
     
     
     <notificationGroup displayType="BALLOON" id="Windows Terminal Theme" isLogByDefault="false"/>
-          
-  
+                    
+    
+    
     
     <themeProvider id="wt-ir-black-3f88f824" path="/themes/wt-ir-black-3f88f824.theme.json"/>
+      
+    
+    <themeProvider id="wt-ir-black-3f88f824.rounded" path="/themes/wt-ir-black-3f88f824_rounded.theme.json"/>
       
     
     <themeProvider id="wt-material-df2d13f6" path="/themes/wt-material-df2d13f6.theme.json"/>
       
     
+    <themeProvider id="wt-material-df2d13f6.rounded" path="/themes/wt-material-df2d13f6_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-atom-1cbb2ba5" path="/themes/wt-atom-1cbb2ba5.theme.json"/>
+      
+    
+    <themeProvider id="wt-atom-1cbb2ba5.rounded" path="/themes/wt-atom-1cbb2ba5_rounded.theme.json"/>
       
     
     <themeProvider id="wt-paraiso-dark-652ca807" path="/themes/wt-paraiso-dark-652ca807.theme.json"/>
       
     
+    <themeProvider id="wt-paraiso-dark-652ca807.rounded" path="/themes/wt-paraiso-dark-652ca807_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-catppuccin-mocha-1decf1cd" path="/themes/wt-catppuccin-mocha-1decf1cd.theme.json"/>
+      
+    
+    <themeProvider id="wt-catppuccin-mocha-1decf1cd.rounded" path="/themes/wt-catppuccin-mocha-1decf1cd_rounded.theme.json"/>
       
     
     <themeProvider id="wt-vercel-6c9bb3d9" path="/themes/wt-vercel-6c9bb3d9.theme.json"/>
       
     
+    <themeProvider id="wt-vercel-6c9bb3d9.rounded" path="/themes/wt-vercel-6c9bb3d9_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-tomorrow-night-5022fb49" path="/themes/wt-tomorrow-night-5022fb49.theme.json"/>
+      
+    
+    <themeProvider id="wt-tomorrow-night-5022fb49.rounded" path="/themes/wt-tomorrow-night-5022fb49_rounded.theme.json"/>
       
     
     <themeProvider id="wt-ayu-8f29cfb8" path="/themes/wt-ayu-8f29cfb8.theme.json"/>
       
     
+    <themeProvider id="wt-ayu-8f29cfb8.rounded" path="/themes/wt-ayu-8f29cfb8_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-wombat-da2feff3" path="/themes/wt-wombat-da2feff3.theme.json"/>
+      
+    
+    <themeProvider id="wt-wombat-da2feff3.rounded" path="/themes/wt-wombat-da2feff3_rounded.theme.json"/>
       
     
     <themeProvider id="wt-ubuntu-6e910ab3" path="/themes/wt-ubuntu-6e910ab3.theme.json"/>
       
     
+    <themeProvider id="wt-ubuntu-6e910ab3.rounded" path="/themes/wt-ubuntu-6e910ab3_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-batman-ff23e2f3" path="/themes/wt-batman-ff23e2f3.theme.json"/>
+      
+    
+    <themeProvider id="wt-batman-ff23e2f3.rounded" path="/themes/wt-batman-ff23e2f3_rounded.theme.json"/>
       
     
     <themeProvider id="wt-one-half-light-ffcb2890" path="/themes/wt-one-half-light-ffcb2890.theme.json"/>
       
     
+    <themeProvider id="wt-one-half-light-ffcb2890.rounded" path="/themes/wt-one-half-light-ffcb2890_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-hopscotch-43cc1b3f" path="/themes/wt-hopscotch-43cc1b3f.theme.json"/>
+      
+    
+    <themeProvider id="wt-hopscotch-43cc1b3f.rounded" path="/themes/wt-hopscotch-43cc1b3f_rounded.theme.json"/>
       
     
     <themeProvider id="wt-builtin-solarized-li-9b7e5e17" path="/themes/wt-builtin-solarized-li-9b7e5e17.theme.json"/>
       
     
+    <themeProvider id="wt-builtin-solarized-li-9b7e5e17.rounded" path="/themes/wt-builtin-solarized-li-9b7e5e17_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-afterglow-6d9c4103" path="/themes/wt-afterglow-6d9c4103.theme.json"/>
+      
+    
+    <themeProvider id="wt-afterglow-6d9c4103.rounded" path="/themes/wt-afterglow-6d9c4103_rounded.theme.json"/>
       
     
     <themeProvider id="wt-birds-of-paradise-274f30fe" path="/themes/wt-birds-of-paradise-274f30fe.theme.json"/>
       
     
+    <themeProvider id="wt-birds-of-paradise-274f30fe.rounded" path="/themes/wt-birds-of-paradise-274f30fe_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-pencil-dark-6a86cb79" path="/themes/wt-pencil-dark-6a86cb79.theme.json"/>
+      
+    
+    <themeProvider id="wt-pencil-dark-6a86cb79.rounded" path="/themes/wt-pencil-dark-6a86cb79_rounded.theme.json"/>
       
     
     <themeProvider id="wt-gruvbox-light-83f310d4" path="/themes/wt-gruvbox-light-83f310d4.theme.json"/>
       
     
+    <themeProvider id="wt-gruvbox-light-83f310d4.rounded" path="/themes/wt-gruvbox-light-83f310d4_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-molokai-07d57d60" path="/themes/wt-molokai-07d57d60.theme.json"/>
+      
+    
+    <themeProvider id="wt-molokai-07d57d60.rounded" path="/themes/wt-molokai-07d57d60_rounded.theme.json"/>
       
     
     <themeProvider id="wt-pencil-light-2761d83a" path="/themes/wt-pencil-light-2761d83a.theme.json"/>
       
     
+    <themeProvider id="wt-pencil-light-2761d83a.rounded" path="/themes/wt-pencil-light-2761d83a_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-mariana-1e2c6e82" path="/themes/wt-mariana-1e2c6e82.theme.json"/>
+      
+    
+    <themeProvider id="wt-mariana-1e2c6e82.rounded" path="/themes/wt-mariana-1e2c6e82_rounded.theme.json"/>
       
     
     <themeProvider id="wt-twilight-d774f3d9" path="/themes/wt-twilight-d774f3d9.theme.json"/>
       
     
+    <themeProvider id="wt-twilight-d774f3d9.rounded" path="/themes/wt-twilight-d774f3d9_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-gruvbox-dark-1a35f819" path="/themes/wt-gruvbox-dark-1a35f819.theme.json"/>
+      
+    
+    <themeProvider id="wt-gruvbox-dark-1a35f819.rounded" path="/themes/wt-gruvbox-dark-1a35f819_rounded.theme.json"/>
       
     
     <themeProvider id="wt-espresso-4835a201" path="/themes/wt-espresso-4835a201.theme.json"/>
       
     
+    <themeProvider id="wt-espresso-4835a201.rounded" path="/themes/wt-espresso-4835a201_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-tokyonight-cd358c58" path="/themes/wt-tokyonight-cd358c58.theme.json"/>
+      
+    
+    <themeProvider id="wt-tokyonight-cd358c58.rounded" path="/themes/wt-tokyonight-cd358c58_rounded.theme.json"/>
       
     
     <themeProvider id="wt-brogrammer-0b283fdc" path="/themes/wt-brogrammer-0b283fdc.theme.json"/>
       
     
+    <themeProvider id="wt-brogrammer-0b283fdc.rounded" path="/themes/wt-brogrammer-0b283fdc_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-monokai-soda-b02a5f18" path="/themes/wt-monokai-soda-b02a5f18.theme.json"/>
+      
+    
+    <themeProvider id="wt-monokai-soda-b02a5f18.rounded" path="/themes/wt-monokai-soda-b02a5f18_rounded.theme.json"/>
       
     
     <themeProvider id="wt-rose-pine-dawn-644ee1e6" path="/themes/wt-rose-pine-dawn-644ee1e6.theme.json"/>
       
     
+    <themeProvider id="wt-rose-pine-dawn-644ee1e6.rounded" path="/themes/wt-rose-pine-dawn-644ee1e6_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-misterioso-e4e7633a" path="/themes/wt-misterioso-e4e7633a.theme.json"/>
+      
+    
+    <themeProvider id="wt-misterioso-e4e7633a.rounded" path="/themes/wt-misterioso-e4e7633a_rounded.theme.json"/>
       
     
     <themeProvider id="wt-aardvark-blue-a487fdac" path="/themes/wt-aardvark-blue-a487fdac.theme.json"/>
       
     
+    <themeProvider id="wt-aardvark-blue-a487fdac.rounded" path="/themes/wt-aardvark-blue-a487fdac_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-argonaut-37b31af3" path="/themes/wt-argonaut-37b31af3.theme.json"/>
+      
+    
+    <themeProvider id="wt-argonaut-37b31af3.rounded" path="/themes/wt-argonaut-37b31af3_rounded.theme.json"/>
       
     
     <themeProvider id="wt-github-dark-0e1475a8" path="/themes/wt-github-dark-0e1475a8.theme.json"/>
       
     
+    <themeProvider id="wt-github-dark-0e1475a8.rounded" path="/themes/wt-github-dark-0e1475a8_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-tomorrow-70af638d" path="/themes/wt-tomorrow-70af638d.theme.json"/>
+      
+    
+    <themeProvider id="wt-tomorrow-70af638d.rounded" path="/themes/wt-tomorrow-70af638d_rounded.theme.json"/>
       
     
     <themeProvider id="wt-vesper-01d8e283" path="/themes/wt-vesper-01d8e283.theme.json"/>
       
     
+    <themeProvider id="wt-vesper-01d8e283.rounded" path="/themes/wt-vesper-01d8e283_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-spacegray-eighties-825a6d1c" path="/themes/wt-spacegray-eighties-825a6d1c.theme.json"/>
+      
+    
+    <themeProvider id="wt-spacegray-eighties-825a6d1c.rounded" path="/themes/wt-spacegray-eighties-825a6d1c_rounded.theme.json"/>
       
     
     <themeProvider id="wt-rose-pine-moon-8a586610" path="/themes/wt-rose-pine-moon-8a586610.theme.json"/>
       
     
+    <themeProvider id="wt-rose-pine-moon-8a586610.rounded" path="/themes/wt-rose-pine-moon-8a586610_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-lovelace-abd97252" path="/themes/wt-lovelace-abd97252.theme.json"/>
-
-
-    <!-- Lovelace Rounded -->
-    <themeProvider id="com.github.cubical6.lovelace.rounded" path="/themes/Lovelace Rounded.theme.json"/>
-
-
+      
+    
+    <themeProvider id="wt-lovelace-abd97252.rounded" path="/themes/wt-lovelace-abd97252_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-challenger-deep-9f1fae2e" path="/themes/wt-challenger-deep-9f1fae2e.theme.json"/>
+      
+    
+    <themeProvider id="wt-challenger-deep-9f1fae2e.rounded" path="/themes/wt-challenger-deep-9f1fae2e_rounded.theme.json"/>
       
     
     <themeProvider id="wt-breeze-7d860afc" path="/themes/wt-breeze-7d860afc.theme.json"/>
       
     
+    <themeProvider id="wt-breeze-7d860afc.rounded" path="/themes/wt-breeze-7d860afc_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-oceanic-next-309f3303" path="/themes/wt-oceanic-next-309f3303.theme.json"/>
+      
+    
+    <themeProvider id="wt-oceanic-next-309f3303.rounded" path="/themes/wt-oceanic-next-309f3303_rounded.theme.json"/>
       
     
     <themeProvider id="wt-cobalt2-30972317" path="/themes/wt-cobalt2-30972317.theme.json"/>
       
     
+    <themeProvider id="wt-cobalt2-30972317.rounded" path="/themes/wt-cobalt2-30972317_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-dracula-ede07c70" path="/themes/wt-dracula-ede07c70.theme.json"/>
+      
+    
+    <themeProvider id="wt-dracula-ede07c70.rounded" path="/themes/wt-dracula-ede07c70_rounded.theme.json"/>
       
     
     <themeProvider id="wt-zenburn-715c6507" path="/themes/wt-zenburn-715c6507.theme.json"/>
       
     
+    <themeProvider id="wt-zenburn-715c6507.rounded" path="/themes/wt-zenburn-715c6507_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-nord-49f8aa67" path="/themes/wt-nord-49f8aa67.theme.json"/>
+      
+    
+    <themeProvider id="wt-nord-49f8aa67.rounded" path="/themes/wt-nord-49f8aa67_rounded.theme.json"/>
       
     
     <themeProvider id="wt-neon-4dd51c52" path="/themes/wt-neon-4dd51c52.theme.json"/>
       
     
+    <themeProvider id="wt-neon-4dd51c52.rounded" path="/themes/wt-neon-4dd51c52_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-wild-cherry-cf5b4d20" path="/themes/wt-wild-cherry-cf5b4d20.theme.json"/>
+      
+    
+    <themeProvider id="wt-wild-cherry-cf5b4d20.rounded" path="/themes/wt-wild-cherry-cf5b4d20_rounded.theme.json"/>
       
     
     <themeProvider id="wt-ayu-light-fd444e66" path="/themes/wt-ayu-light-fd444e66.theme.json"/>
       
     
+    <themeProvider id="wt-ayu-light-fd444e66.rounded" path="/themes/wt-ayu-light-fd444e66_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-adventure-time-0cbd6fe0" path="/themes/wt-adventure-time-0cbd6fe0.theme.json"/>
+      
+    
+    <themeProvider id="wt-adventure-time-0cbd6fe0.rounded" path="/themes/wt-adventure-time-0cbd6fe0_rounded.theme.json"/>
       
     
     <themeProvider id="wt-andromeda-64975052" path="/themes/wt-andromeda-64975052.theme.json"/>
       
     
+    <themeProvider id="wt-andromeda-64975052.rounded" path="/themes/wt-andromeda-64975052_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-jetbrains-darcula-49f1a506" path="/themes/wt-jetbrains-darcula-49f1a506.theme.json"/>
+      
+    
+    <themeProvider id="wt-jetbrains-darcula-49f1a506.rounded" path="/themes/wt-jetbrains-darcula-49f1a506_rounded.theme.json"/>
       
     
     <themeProvider id="wt-snazzy-0ec1ad41" path="/themes/wt-snazzy-0ec1ad41.theme.json"/>
       
     
+    <themeProvider id="wt-snazzy-0ec1ad41.rounded" path="/themes/wt-snazzy-0ec1ad41_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-poimandres-9013d3f1" path="/themes/wt-poimandres-9013d3f1.theme.json"/>
+      
+    
+    <themeProvider id="wt-poimandres-9013d3f1.rounded" path="/themes/wt-poimandres-9013d3f1_rounded.theme.json"/>
       
     
     <themeProvider id="wt-vibrant-ink-9866d46c" path="/themes/wt-vibrant-ink-9866d46c.theme.json"/>
       
     
+    <themeProvider id="wt-vibrant-ink-9866d46c.rounded" path="/themes/wt-vibrant-ink-9866d46c_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-rose-pine-632c3589" path="/themes/wt-rose-pine-632c3589.theme.json"/>
+      
+    
+    <themeProvider id="wt-rose-pine-632c3589.rounded" path="/themes/wt-rose-pine-632c3589_rounded.theme.json"/>
       
     
     <themeProvider id="wt-ayu-mirage-7c284424" path="/themes/wt-ayu-mirage-7c284424.theme.json"/>
       
     
+    <themeProvider id="wt-ayu-mirage-7c284424.rounded" path="/themes/wt-ayu-mirage-7c284424_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-builtin-solarized-da-19c770b4" path="/themes/wt-builtin-solarized-da-19c770b4.theme.json"/>
+      
+    
+    <themeProvider id="wt-builtin-solarized-da-19c770b4.rounded" path="/themes/wt-builtin-solarized-da-19c770b4_rounded.theme.json"/>
       
     
     <themeProvider id="wt-firewatch-f7a62dee" path="/themes/wt-firewatch-f7a62dee.theme.json"/>
       
     
+    <themeProvider id="wt-firewatch-f7a62dee.rounded" path="/themes/wt-firewatch-f7a62dee_rounded.theme.json"/>
+      
+    
     <themeProvider id="wt-night-owl-59ed6018" path="/themes/wt-night-owl-59ed6018.theme.json"/>
+      
+    
+    <themeProvider id="wt-night-owl-59ed6018.rounded" path="/themes/wt-night-owl-59ed6018_rounded.theme.json"/>
       
     
     <bundledColorScheme path="/themes/wt-ir-black-3f88f824"/>
@@ -492,12 +719,8 @@
       
     
     <bundledColorScheme path="/themes/wt-lovelace-abd97252"/>
-
-
-    <!-- Lovelace Rounded -->
-    <bundledColorScheme path="/themes/Lovelace Rounded"/>
-
-
+      
+    
     <bundledColorScheme path="/themes/wt-challenger-deep-9f1fae2e"/>
       
     
@@ -561,7 +784,11 @@
     <bundledColorScheme path="/themes/wt-night-owl-59ed6018"/>
       
   </extensions>
-                    
+                            
+
+
+
+
 
 
 

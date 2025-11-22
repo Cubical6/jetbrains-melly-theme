@@ -2,7 +2,7 @@
   "name": "Lovelace",
   "dark": true,
   "author": "Windows Terminal Color Scheme Converter",
-  "editorScheme": "/themes/wt-lovelace-abd97252.xml",
+  "editorScheme": "/themes/lovelace.xml",
   "colors": {
     "accentColor": "#61AFEF",
     "backgroundColor": "#1D1F28",
