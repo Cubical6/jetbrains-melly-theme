@@ -406,4 +406,116 @@ data class ColorPalette(
     val tooltipBackground: String,   // Tooltip bg
     val linkHover: String,           // Link hover state
     val iconColor: String            // Default icon color
-)
+) {
+    /**
+     * Converts the ColorPalette to a Map for backward compatibility with template processors.
+     * All keys are prefixed with "wt_" to match the original toColorPalette() format.
+     *
+     * Note: This only contains the derived colors. Base ANSI colors (wt_background, wt_foreground, etc.)
+     * must be added separately by the calling code using WindowsTerminalColorScheme properties.
+     */
+    fun toMap(): Map<String, String> {
+        return mapOf(
+            // Existing 12 colors
+            "wt_surface" to surface,
+            "wt_surface_light" to surfaceLight,
+            "wt_surface_lighter" to surfaceLighter,
+            "wt_line_numbers" to lineNumbers,
+            "wt_guide_color" to guideColor,
+            "wt_divider_color" to dividerColor,
+            "wt_muted_foreground" to mutedForeground,
+            "wt_error_background" to errorBackground,
+            "wt_warning_background" to warningBackground,
+            "wt_info_background" to infoBackground,
+            "wt_uiBorderColor" to uiBorderColor,
+            "wt_uiComponentBackground" to uiComponentBackground,
+
+            // NEW: Surface variations (4)
+            "wt_surface_dark" to surfaceDark,
+            "wt_surface_darker" to surfaceDarker,
+            "wt_surface_darkest" to surfaceDarkest,
+            "wt_surface_subtle" to surfaceSubtle,
+
+            // NEW: Selection variations (3)
+            "wt_selection_inactive" to selectionInactive,
+            "wt_selection_light" to selectionLight,
+            "wt_selection_border" to selectionBorder,
+
+            // NEW: Focus/Accent colors (5)
+            "wt_focus_color" to focusColor,
+            "wt_focus_border" to focusBorder,
+            "wt_accent_primary" to accentPrimary,
+            "wt_accent_secondary" to accentSecondary,
+            "wt_accent_tertiary" to accentTertiary,
+
+            // NEW: Button/Component colors (6)
+            "wt_button_border" to buttonBorder,
+            "wt_button_border_focused" to buttonBorderFocused,
+            "wt_popup_background" to popupBackground,
+            "wt_popup_border" to popupBorder,
+            "wt_header_background" to headerBackground,
+            "wt_hover_background" to hoverBackground,
+
+            // NEW: Syntax-specific (6)
+            "wt_instance_field" to instanceField,
+            "wt_todo_color" to todoColor,
+            "wt_deprecated_color" to deprecatedColor,
+            "wt_string_escape" to stringEscape,
+            "wt_number_alt" to numberAlt,
+            "wt_constant_color" to constantColor,
+
+            // NEW: Progress/Status (6)
+            "wt_progress_start" to progressStart,
+            "wt_progress_mid" to progressMid,
+            "wt_progress_end" to progressEnd,
+            "wt_memory_indicator" to memoryIndicator,
+            "wt_passed_color" to passedColor,
+            "wt_failed_color" to failedColor,
+
+            // NEW: Additional UI (8)
+            "wt_breadcrumb_current" to breadcrumbCurrent,
+            "wt_breadcrumb_hover" to breadcrumbHover,
+            "wt_separator_color" to separatorColor,
+            "wt_disabled_text" to disabledText,
+            "wt_counter_background" to counterBackground,
+            "wt_tooltip_background" to tooltipBackground,
+            "wt_link_hover" to linkHover,
+            "wt_icon_color" to iconColor
+        )
+    }
+}
+
+/**
+ * Extension function to convert WindowsTerminalColorScheme to a complete Map including base colors.
+ * This provides backward compatibility with code that expects a Map<String, String>.
+ */
+fun WindowsTerminalColorScheme.toColorPaletteMap(): Map<String, String> {
+    return buildMap {
+        // Required colors
+        put("wt_background", background)
+        put("wt_foreground", foreground)
+        put("wt_black", black)
+        put("wt_red", red)
+        put("wt_green", green)
+        put("wt_yellow", yellow)
+        put("wt_blue", blue)
+        put("wt_purple", purple)
+        put("wt_cyan", cyan)
+        put("wt_white", white)
+        put("wt_brightBlack", brightBlack)
+        put("wt_brightRed", brightRed)
+        put("wt_brightGreen", brightGreen)
+        put("wt_brightYellow", brightYellow)
+        put("wt_brightBlue", brightBlue)
+        put("wt_brightPurple", brightPurple)
+        put("wt_brightCyan", brightCyan)
+        put("wt_brightWhite", brightWhite)
+
+        // Optional colors with fallbacks
+        put("wt_cursorColor", cursorColor ?: foreground)
+        put("wt_selectionBackground", selectionBackground ?: ColorUtils.blend(background, foreground, 0.2))
+
+        // Add all derived colors from ColorPalette
+        putAll(toColorPalette().toMap())
+    }
+}
