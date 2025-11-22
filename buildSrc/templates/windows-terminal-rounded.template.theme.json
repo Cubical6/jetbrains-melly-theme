@@ -224,14 +224,6 @@
       "selectionForeground": "$wt_brightWhite$"
     },
 
-    "MainToolbar": {
-      "inactiveBackground": "$wt_background$",
-      "background": "backgroundColor",
-      "Dropdown": {
-        "hoverBackground": "$wt_black$"
-      }
-    },
-
     "MemoryIndicator": {
       "allocatedBackground": "$wt_blue$",
       "usedBackground": "$wt_memory_indicator$"
@@ -500,6 +492,20 @@
       "inactiveAlpha": 0.44,
       "inactiveAlphaInStatusBar": 0.2,
       "borderColor": "$wt_island_border$"
+    },
+
+    "MainToolbar": {
+      "inactiveBackground": "$wt_background$",
+      "background": "$wt_background$",
+      "separatorColor": "$wt_uiBorderColor$",
+      "borderColor": "$wt_uiBorderColor$",
+      "Dropdown": {
+        "hoverBackground": "$wt_black$"
+      }
+    },
+
+    "MainWindow": {
+      "background": "$wt_background$"
     }
   },
 
