@@ -1896,12 +1896,15 @@ git commit -m "feat: update generators to handle new color placeholders"
 
 ### FASE 3 Verificatie ✓ VOLTOOID
 
-✓ **Compilatie check:** PASS
-✓ **Template generation:** PASS
+✓ **Compilatie check:** PASS (./gradlew compileKotlin)
+✓ **Template generation:** PASS (57/57 themes succesvol gegenereerd)
+
+**Beschikbare Gradle Tasks:**
+- `./gradlew createThemes` - Genereert alle themes vanuit Windows Terminal schemes
+- `./gradlew importITermSchemes` - Importeert iTerm2 .itermcolors naar WT JSON formaat
+- `./gradlew compileKotlin` - Compileert buildSrc en voert createThemes automatisch uit
 
 **FASE 3 is volledig afgerond. Alle templates zijn bijgewerkt met nieuwe color placeholders.**
-
----
 
 ## FASE 4: Lovelace Reference Implementation
 
@@ -2118,7 +2121,7 @@ git commit -m "feat: add Lovelace iTerm color scheme"
 
 **Subtask 4.3.1: Generate themes from lovelace.json**
 
-Run: `./gradlew generateThemesFromWindowsTerminal`
+Run: `./gradlew createThemes`
 Expected: Creates `src/main/resources/themes/Lovelace.theme.json` and `.xml`
 
 **Subtask 4.3.2: Read generated Lovelace.theme.json**
@@ -2157,7 +2160,7 @@ git commit -m "feat: generate Lovelace theme from color scheme"
 
 ```bash
 # Generate Lovelace theme
-./gradlew generateThemesFromWindowsTerminal
+./gradlew createThemes
 
 # Verify generated theme exists and is valid
 ls -la src/main/resources/themes/Lovelace.*
@@ -2194,7 +2197,7 @@ rm -rf src/main/resources/themes/*.xml
 
 **Subtask 5.1.3: Regenerate all themes**
 
-Run: `./gradlew generateThemesFromWindowsTerminal`
+Run: `./gradlew createThemes`
 Expected: Generates 50 themes successfully
 
 **Subtask 5.1.4: Count generated themes**
@@ -2309,7 +2312,7 @@ You can import iTerm2 `.itermcolors` files and automatically convert them to Jet
 3. Generated Windows Terminal JSON files will be in `windows-terminal-schemes/`
 4. Generate JetBrains themes:
    ```bash
-   ./gradlew generateThemesFromWindowsTerminal
+   ./gradlew createThemes
    ```
 
 The system now generates 50 derived colors from the base 16-color palette for richer, more polished themes.
@@ -2800,7 +2803,7 @@ rm src/main/resources/themes/*.theme.json
 
 **Subtask 6.4.2: Generate themes with variants**
 
-Run: `./gradlew generateThemesFromWindowsTerminal`
+Run: `./gradlew createThemes`
 Expected: Generates 120+ theme.json files (60 standard + 60 rounded)
 
 **Subtask 6.4.3: Verify Lovelace variants exist**
@@ -2950,7 +2953,7 @@ git tag -a v2.1.0-rounded -m "Add rounded theme variants"
 ./gradlew test --tests ThemeVariantTest
 
 # Generate themes with variants
-./gradlew generateThemesFromWindowsTerminal
+./gradlew createThemes
 
 # Verify both Standard and Rounded variants exist
 ls -la src/main/resources/themes/*.theme.json | grep -E "(Standard|Rounded)" | wc -l
