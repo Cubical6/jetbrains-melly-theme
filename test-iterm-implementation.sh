@@ -1,6 +1,6 @@
 #!/bin/bash
 # Standalone test runner for ITermColorScheme and ITermPlistParser tests
-# Bypasses pre-existing test compilation errors by temporarily excluding broken tests
+# Bypasses pre-existing test compilation errors by temporarily moving broken test files
 
 set -e
 
@@ -11,33 +11,40 @@ echo ""
 
 cd buildSrc
 
-# Create temporary build.gradle.kts with test exclusions
-echo "Creating temporary build configuration..."
-cp build.gradle.kts build.gradle.kts.backup
+# Backup directory for broken tests
+BACKUP_DIR="../.test-backup-$$"
 
-# Add sourceSets configuration to exclude broken tests from compilation
-cat >> build.gradle.kts << 'EOF'
+echo "Temporarily moving broken test files..."
 
-// Temporary: exclude broken pre-existing tests
-sourceSets {
-    test {
-        java {
-            exclude("integration/**")
-            exclude("mapping/**")
-            exclude("tasks/**")
-            exclude("utils/**")
-        }
-    }
-}
-EOF
+# Create backup directory
+mkdir -p "$BACKUP_DIR"
 
-echo "✓ Configured to compile only new tests"
+# Move broken test directories
+if [ -d "src/test/kotlin/integration" ]; then
+    mv src/test/kotlin/integration "$BACKUP_DIR/"
+    echo "  ✓ Moved integration/ tests"
+fi
+
+if [ -d "src/test/kotlin/mapping" ]; then
+    mv src/test/kotlin/mapping "$BACKUP_DIR/"
+    echo "  ✓ Moved mapping/ tests"
+fi
+
+if [ -d "src/test/kotlin/tasks" ]; then
+    mv src/test/kotlin/tasks "$BACKUP_DIR/"
+    echo "  ✓ Moved tasks/ tests"
+fi
+
+if [ -d "src/test/kotlin/utils" ]; then
+    mv src/test/kotlin/utils "$BACKUP_DIR/"
+    echo "  ✓ Moved utils/ tests"
+fi
+
 echo ""
-
-# Run the tests
 echo "Running ITermColorScheme and ITermPlistParser tests..."
 echo ""
 
+# Run the tests
 if ../gradlew clean test --tests ITermColorSchemeTest --tests ITermPlistParserTest; then
     echo ""
     echo "=========================================="
@@ -52,10 +59,34 @@ else
     RESULT=1
 fi
 
-# Restore original build.gradle.kts
+# Restore moved test files
 echo ""
-echo "Restoring original build configuration..."
-mv build.gradle.kts.backup build.gradle.kts
-echo "✓ Restored"
+echo "Restoring original test files..."
+
+if [ -d "$BACKUP_DIR/integration" ]; then
+    mv "$BACKUP_DIR/integration" src/test/kotlin/
+    echo "  ✓ Restored integration/ tests"
+fi
+
+if [ -d "$BACKUP_DIR/mapping" ]; then
+    mv "$BACKUP_DIR/mapping" src/test/kotlin/
+    echo "  ✓ Restored mapping/ tests"
+fi
+
+if [ -d "$BACKUP_DIR/tasks" ]; then
+    mv "$BACKUP_DIR/tasks" src/test/kotlin/
+    echo "  ✓ Restored tasks/ tests"
+fi
+
+if [ -d "$BACKUP_DIR/utils" ]; then
+    mv "$BACKUP_DIR/utils" src/test/kotlin/
+    echo "  ✓ Restored utils/ tests"
+fi
+
+# Remove backup directory
+rmdir "$BACKUP_DIR" 2>/dev/null || true
+
+echo ""
+echo "✓ Test environment restored"
 
 exit $RESULT
