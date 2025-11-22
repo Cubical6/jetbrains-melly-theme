@@ -2,6 +2,12 @@
 
 > **Voor Claude Code:** Voer deze taken fase voor fase uit. Elke subtask is een enkele actie (2-5 minuten). Gebruik TDD waar mogelijk. Commit regelmatig.
 
+> **⚠️ BELANGRIJK - Building & Testing:**
+> - Gradle builds werken NIET in Claude Code Web (geen netwerktoegang voor dependencies)
+> - Claude Code zal code schrijven en committen zonder tests te runnen
+> - **Na voltooiing van ALLE taken**: Run lokaal `./gradlew test` en `./gradlew build` om te verifiëren
+> - Als tests falen, maak issues aan voor fixes
+
 **Doel:** iTerm color schemes importeren en JetBrains themes genereren met Lovelace-kwaliteit (50+ afgeleide kleuren ipv 10).
 
 **Architectuur:** Breid bestaand Windows Terminal systeem uit met iTerm parser en enhanced color derivation. Backwards compatible.
@@ -103,6 +109,8 @@ data class ITermColorScheme(
 
 **Subtask 1.1.2: Test ITermColor conversions**
 
+> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Ga naar subtask 1.1.3.
+
 Run: `./gradlew test --tests ITermColorSchemeTest`
 Expected: Tests niet gevonden (we gaan ze nu schrijven)
 
@@ -197,6 +205,8 @@ class ITermColorSchemeTest {
 
 **Subtask 1.1.4: Run tests om te verifiëren dat ze falen**
 
+> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Ga naar subtask 1.1.5.
+
 Run: `./gradlew test --tests ITermColorSchemeTest`
 Expected: FAIL - tests compileren maar kunnen falen op fromHex (not implemented yet)
 
@@ -205,6 +215,8 @@ Expected: FAIL - tests compileren maar kunnen falen op fromHex (not implemented 
 Check of fromHex correct werkt. Als test faalt, fix de implementatie in ITermColorScheme.kt
 
 **Subtask 1.1.6: Run tests om te verifiëren dat ze slagen**
+
+> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Implementatie is geverifieerd via code review. Tests worden lokaal gerund na voltooiing.
 
 Run: `./gradlew test --tests ITermColorSchemeTest`
 Expected: PASS - alle tests groen
