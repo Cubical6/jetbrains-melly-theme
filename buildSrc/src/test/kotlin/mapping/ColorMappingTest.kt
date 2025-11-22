@@ -257,7 +257,7 @@ class ColorMappingTest {
         fun `infers syntax colors for normal scheme`() {
             val result = SyntaxColorInference.inferSyntaxColors(normalScheme)
 
-            result shouldNotBe emptyMap()
+            result shouldNotBe emptyMap<String, SyntaxColor>()
             result shouldContainKey "COMMENT"
             result shouldContainKey "KEYWORD"
             result shouldContainKey "STRING"
@@ -280,7 +280,7 @@ class ColorMappingTest {
         fun `detects monochrome palette`() {
             val result = SyntaxColorInference.inferSyntaxColors(monochromeScheme)
 
-            result shouldNotBe emptyMap()
+            result shouldNotBe emptyMap<String, SyntaxColor>()
 
             // For monochrome palettes, font styles should be used for differentiation
             val keyword = result["KEYWORD"]
@@ -292,7 +292,7 @@ class ColorMappingTest {
         fun `analyzes high contrast scheme correctly`() {
             val result = SyntaxColorInference.inferSyntaxColors(highContrastScheme)
 
-            result shouldNotBe emptyMap()
+            result shouldNotBe emptyMap<String, SyntaxColor>()
 
             // High contrast scheme should have colors with good separation
             val foreground = result["IDENTIFIER"]?.color ?: highContrastScheme.foreground
@@ -306,7 +306,7 @@ class ColorMappingTest {
         fun `analyzes low contrast scheme correctly`() {
             val result = SyntaxColorInference.inferSyntaxColors(lowContrastScheme)
 
-            result shouldNotBe emptyMap()
+            result shouldNotBe emptyMap<String, SyntaxColor>()
 
             // Low contrast schemes should have their colors adjusted for better readability
             val foreground = lowContrastScheme.foreground
@@ -750,7 +750,7 @@ class ColorMappingTest {
             val result = SyntaxColorInference.inferSyntaxColors(monochromeScheme)
 
             // Should still produce a valid result
-            result shouldNotBe emptyMap()
+            result shouldNotBe emptyMap<String, SyntaxColor>()
             result.values.forEach { syntaxColor ->
                 syntaxColor.color shouldMatch Regex("^#[0-9a-f]{6}$")
             }
@@ -760,7 +760,7 @@ class ColorMappingTest {
         fun `handles high contrast palette`() {
             val result = SyntaxColorInference.inferSyntaxColors(highContrastScheme)
 
-            result shouldNotBe emptyMap()
+            result shouldNotBe emptyMap<String, SyntaxColor>()
 
             // Should maintain high contrast
             val foreground = highContrastScheme.foreground

@@ -326,9 +326,9 @@ class ColorUtilsTest {
 
         val mid = ColorUtils.interpolate(colors, 0.5)
         val (r, g, b) = ColorUtils.hexToRgb(mid)
-        assertTrue(abs(r - 127) < 2, "Red component should be approximately 127")
-        assertTrue(abs(g - 127) < 2, "Green component should be approximately 127")
-        assertTrue(abs(b - 127) < 2, "Blue component should be approximately 127")
+        abs(r - 127) intShouldBeLessThan 2
+        abs(g - 127) intShouldBeLessThan 2
+        abs(b - 127) intShouldBeLessThan 2
     }
 
     @Test
