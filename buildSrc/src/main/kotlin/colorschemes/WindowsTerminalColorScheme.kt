@@ -165,6 +165,10 @@ data class WindowsTerminalColorScheme(
      * - wt_warning_background: Background for warning highlights
      * - wt_info_background: Background for info highlights
      *
+     * Dynamic UI colors with proper WCAG contrast:
+     * - wt_uiBorderColor: Border color with minimum 3:1 contrast (WCAG AA)
+     * - wt_uiComponentBackground: Component background with 1.5:1 contrast for visibility
+     *
      * All derived colors are calculated automatically using ColorUtils methods.
      */
     fun toColorPalette(): Map<String, String> {
@@ -208,6 +212,11 @@ data class WindowsTerminalColorScheme(
             put("wt_error_background", ColorUtils.blend(background, red, 0.20))
             put("wt_warning_background", ColorUtils.blend(background, yellow, 0.20))
             put("wt_info_background", ColorUtils.blend(background, blue, 0.20))
+
+            // Dynamic UI colors with proper WCAG contrast
+            // These ensure visibility across all color schemes
+            put("wt_uiBorderColor", ColorUtils.createVisibleBorderColor(background, minContrast = 3.0))
+            put("wt_uiComponentBackground", ColorUtils.createVisibleComponentBackground(background, minContrast = 1.5))
         }
     }
 

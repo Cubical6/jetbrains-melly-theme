@@ -6,7 +6,7 @@
   "colors": {
     "accentColor": "$wt_brightBlue$",
     "backgroundColor": "$wt_background$",
-    "borderColor": "$wt_brightBlack$",
+    "borderColor": "$wt_uiBorderColor$",
     "infoForeground": "$wt_cyan$",
     "foregroundColor": "$wt_foreground$",
     "notificationBackground": "$wt_black$",
@@ -41,12 +41,12 @@
 
       "errorForeground": "$wt_brightRed$",
 
-      "borderColor": "$wt_brightBlack$",
+      "borderColor": "$wt_uiBorderColor$",
       "disabledBorderColor": "$wt_black$",
       "focusColor": "backgroundColor",
       "focusedBorderColor": "accentColor",
 
-      "separatorColor": "$wt_brightBlack$"
+      "separatorColor": "$wt_uiBorderColor$"
     },
 
     "ActionButton": {
@@ -86,8 +86,8 @@
       "foreground": "$wt_white$",
       "startBackground": "$wt_black$",
       "endBackground": "$wt_black$",
-      "startBorderColor": "$wt_brightBlack$",
-      "endBorderColor": "$wt_brightBlack$",
+      "startBorderColor": "$wt_uiBorderColor$",
+      "endBorderColor": "$wt_uiBorderColor$",
       "shadowColor": "backgroundColor",
       "focusedBorderColor": "$wt_white$",
 
@@ -103,22 +103,22 @@
     },
 
     "Borders": {
-      "color": "$wt_brightBlack$",
-      "ContrastBorderColor": "$wt_brightBlack$"
+      "color": "$wt_uiBorderColor$",
+      "ContrastBorderColor": "$wt_uiBorderColor$"
     },
 
     "ComboBox": {
-      "nonEditableBackground": "$wt_black$",
-      "background": "$wt_black$",
+      "nonEditableBackground": "$wt_uiComponentBackground$",
+      "background": "$wt_uiComponentBackground$",
       "selectionBackground": "$wt_blue$",
       "ArrowButton": {
         "iconColor": "$wt_foreground$",
         "disabledIconColor": "$wt_brightBlack$",
-        "nonEditableBackground": "$wt_black$"
+        "nonEditableBackground": "$wt_uiComponentBackground$"
       }
     },
 
-    "ComboPopup.border": "1,1,1,1,$wt_brightBlack$",
+    "ComboPopup.border": "1,1,1,1,$wt_uiBorderColor$",
 
     "CompletionPopup":  {
       "background": "$wt_black$",
@@ -153,7 +153,7 @@
     "DragAndDrop": {
       "areaForeground": "$wt_foreground$",
       "areaBackground": "$wt_selectionBackground$",
-      "areaBorderColor": "$wt_brightBlack$"
+      "areaBorderColor": "$wt_uiBorderColor$"
     },
 
     "Editor": {
@@ -186,7 +186,7 @@
     "GotItTooltip" : {
       "foreground" : "$wt_foreground$",
       "background" : "$wt_black$",
-      "borderColor" : "$wt_brightBlack$",
+      "borderColor" : "$wt_uiBorderColor$",
       "linkForeground" : "$wt_brightBlue$",
       "shortcutForeground" : "infoForeground"
     },
@@ -229,7 +229,7 @@
 
     "Notification": {
       "background": "notificationBackground",
-      "borderColor": "$wt_brightBlack$",
+      "borderColor": "$wt_uiBorderColor$",
 
       "errorForeground": "$wt_foreground$",
       "errorBackground": "$wt_red$",
@@ -237,7 +237,7 @@
 
       "MoreButton": {
         "background": "$wt_black$",
-        "innerBorderColor": "$wt_brightBlack$"
+        "innerBorderColor": "$wt_uiBorderColor$"
       },
 
       "ToolWindow": {
@@ -309,7 +309,7 @@
       "Header.inactiveBackground": "$wt_black$",
       "Advertiser": {
         "foreground": "$wt_cyan$",
-        "borderColor": "$wt_brightBlack$"
+        "borderColor": "$wt_uiBorderColor$"
       }
     },
 
@@ -376,7 +376,7 @@
       "foreground": "$wt_foreground$",
       "dropLineColor": "$wt_foreground$",
       "focusCellForeground": "$wt_foreground$",
-      "gridColor": "$wt_brightBlack$",
+      "gridColor": "$wt_uiBorderColor$",
       "lightSelectionInactiveForeground": "$wt_foreground$",
       "lightSelectionForeground": "$wt_foreground$",
       "selectionBackground": "$wt_black$",

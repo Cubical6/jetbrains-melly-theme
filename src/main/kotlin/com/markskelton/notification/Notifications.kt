@@ -10,19 +10,19 @@ import org.intellij.lang.annotations.Language
 const val PLUGIN_ID = "com.markskelton.one-dark-theme"
 
 @Language("HTML")
-val UPDATE_MESSAGE: String = """
-      What's New?<br>
-      <ul>
-          <li>60+ Windows Terminal color schemes now available!</li>
-          <li>Improved performance and accessibility.</li>
-      </ul>
-      <br>Please see the <a href='https://github.com/one-dark/jetbrains-one-dark-theme/blob/master/CHANGELOG.md'>Changelog</a> for more details.
-      <br>
-      Thank you for choosing our Windows Terminal Theme Plugin!<br>
-""".trimIndent()
+val UPDATE_MESSAGE: String =
+  """
+  What's New?<br>
+  <ul>
+      <li>60+ Windows Terminal color schemes now available!</li>
+      <li>Improved performance and accessibility.</li>
+  </ul>
+  <br>Please see the <a href='https://github.com/one-dark/jetbrains-one-dark-theme/blob/master/CHANGELOG.md'>Changelog</a> for more details.
+  <br>
+  Thank you for choosing our Windows Terminal Theme Plugin!<br>
+  """.trimIndent()
 
 object Notifications {
-
   private val notificationGroup = NotificationGroupManager.getInstance().getNotificationGroup("Windows Terminal Theme")
 
   fun displayUpdateNotification(versionNumber: String) {
@@ -31,7 +31,7 @@ object Notifications {
 
     notificationGroup.createNotification(
       UPDATE_MESSAGE,
-      NotificationType.INFORMATION
+      NotificationType.INFORMATION,
     )
       .setTitle("$pluginName updated to v$versionNumber")
       .setListener(NotificationListener.UrlOpeningListener(false))
