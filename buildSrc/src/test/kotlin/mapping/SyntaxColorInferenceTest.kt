@@ -4,6 +4,8 @@ import colorschemes.ColorSchemeParser
 import colorschemes.WindowsTerminalColorScheme
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeLessThan
+import io.kotest.matchers.ints.shouldBeGreaterThan as intShouldBeGreaterThan
+import io.kotest.matchers.ints.shouldBeLessThan as intShouldBeLessThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldStartWith
@@ -168,7 +170,7 @@ class SyntaxColorInferenceTest {
         ).apply { isAccessible = true }.invoke(SyntaxColorInference, limitedScheme) as PaletteAnalysis
 
         analysis.isLimitedPalette shouldBe true
-        analysis.uniqueHueCount shouldBeLessThan 5
+        analysis.uniqueHueCount intShouldBeLessThan 5
     }
 
     @Test
@@ -180,7 +182,7 @@ class SyntaxColorInferenceTest {
         ).apply { isAccessible = true }.invoke(SyntaxColorInference, normalScheme) as PaletteAnalysis
 
         analysis.isLimitedPalette shouldBe false
-        analysis.uniqueHueCount shouldBeGreaterThan ColorMappingConfig.LIMITED_PALETTE_HUE_COUNT
+        analysis.uniqueHueCount intShouldBeGreaterThan ColorMappingConfig.LIMITED_PALETTE_HUE_COUNT
     }
 
     @Test
@@ -204,7 +206,7 @@ class SyntaxColorInferenceTest {
 
         // Check that common attributes are present
         syntaxColors.keys shouldNotBe emptySet<String>()
-        syntaxColors.size shouldBeGreaterThan 10  // At least 10 attributes
+        syntaxColors.size intShouldBeGreaterThan 10
     }
 
     @Test
@@ -267,7 +269,7 @@ class SyntaxColorInferenceTest {
         val syntaxColors = SyntaxColorInference.inferSyntaxColors(highContrastScheme)
 
         // Should have assigned colors
-        syntaxColors.size shouldBeGreaterThan 10
+        syntaxColors.size intShouldBeGreaterThan 10
 
         // Colors should be valid
         syntaxColors.values.forEach { syntaxColor ->
@@ -282,7 +284,7 @@ class SyntaxColorInferenceTest {
         val syntaxColors = SyntaxColorInference.inferSyntaxColors(lowContrastScheme)
 
         // Should have assigned colors
-        syntaxColors.size shouldBeGreaterThan 10
+        syntaxColors.size intShouldBeGreaterThan 10
 
         // Colors should be valid
         syntaxColors.values.forEach { syntaxColor ->
@@ -305,7 +307,7 @@ class SyntaxColorInferenceTest {
         val syntaxColors = SyntaxColorInference.inferSyntaxColors(limitedScheme)
 
         // Should still assign colors even with limited palette
-        syntaxColors.size shouldBeGreaterThan 10
+        syntaxColors.size intShouldBeGreaterThan 10
 
         // All colors should be valid
         syntaxColors.values.forEach { syntaxColor ->
@@ -445,7 +447,7 @@ class SyntaxColorInferenceTest {
         // As per acceptance criteria: at least 50 common IntelliJ attributes
         // Note: We have rules for ~14 attributes in ColorMappingConfig, plus 5 common attributes
         // This test just checks that the basic mapping works
-        syntaxColors.size shouldBeGreaterThan 5
+        syntaxColors.size intShouldBeGreaterThan 5
     }
 
     @Test

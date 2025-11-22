@@ -359,7 +359,7 @@ class ColorPaletteExpanderTest {
 
         // Complementary hue should be ~180 degrees away
         val hueDiff = abs(complementHue - baseHue)
-        (hueDiff shouldBeBetween (170.0..190.0))
+        hueDiff.shouldBeBetween(170.0, 190.0, 0.01)
     }
 
     @Test
@@ -410,11 +410,11 @@ class ColorPaletteExpanderTest {
 
         // Left should be ~30 degrees counterclockwise
         val leftDiff = (baseHue - leftHue + 360) % 360
-        (leftDiff shouldBeBetween (25.0..35.0))
+        leftDiff.shouldBeBetween(25.0, 35.0, 0.01)
 
         // Right should be ~30 degrees clockwise
         val rightDiff = (rightHue - baseHue + 360) % 360
-        (rightDiff shouldBeBetween (25.0..35.0))
+        rightDiff.shouldBeBetween(25.0, 35.0, 0.01)
     }
 
     @Test
@@ -455,11 +455,11 @@ class ColorPaletteExpanderTest {
 
         // First triad should be ~120 degrees away
         val diff1 = (triad1Hue - baseHue + 360) % 360
-        (diff1 shouldBeBetween (115.0..125.0))
+        diff1.shouldBeBetween(115.0, 125.0, 0.01)
 
         // Second triad should be ~240 degrees away
         val diff2 = (triad2Hue - baseHue + 360) % 360
-        (diff2 shouldBeBetween (235.0..245.0))
+        diff2.shouldBeBetween(235.0, 245.0, 0.01)
     }
 
     @Test
@@ -495,8 +495,8 @@ class ColorPaletteExpanderTest {
         val diff2 = abs(split2Hue - complementHue)
 
         // One should be ~30 degrees before complement, one ~30 degrees after
-        (diff1 shouldBeBetween (25.0..35.0))
-        (diff2 shouldBeBetween (25.0..35.0))
+        diff1.shouldBeBetween(25.0, 35.0, 0.01)
+        diff2.shouldBeBetween(25.0, 35.0, 0.01)
     }
 
     @Test

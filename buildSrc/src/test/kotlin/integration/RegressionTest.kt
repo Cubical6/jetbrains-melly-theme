@@ -9,6 +9,7 @@ import generators.XMLColorSchemeGenerator
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.string.shouldNotContain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
