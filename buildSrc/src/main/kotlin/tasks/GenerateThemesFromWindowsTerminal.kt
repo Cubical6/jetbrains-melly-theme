@@ -250,42 +250,18 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
         val syntaxColors = SyntaxColorInference.inferSyntaxColors(scheme)
         logger.debug("  Inferred ${syntaxColors.size} syntax colors for ${scheme.name}")
 
-        // Generate XML editor color scheme
+        // Generate UI theme variants (standard + rounded)
+        val uiThemeFiles = generators.UIThemeGenerator.generate(scheme, outputDirectory.toFile())
+        logger.debug("  Generated ${uiThemeFiles.size} UI theme variant(s)")
+
+        // Generate XML editor color scheme (shared between variants)
         val xmlOutputPath = outputDirectory.resolve("$baseName.xml")
         xmlGenerator.generate(scheme, xmlOutputPath)
-        logger.debug("  Generated XML: $xmlOutputPath")
+        logger.debug("  Generated editor scheme: ${xmlOutputPath.fileName}")
 
-        // Generate JSON UI theme
-        val jsonOutputPath = outputDirectory.resolve("$baseName.theme.json")
-        val result = uiThemeGenerator.generateUITheme(
-            scheme = scheme,
-            outputPath = jsonOutputPath,
-            overwriteExisting = true
-        )
-
-        if (!result.success) {
-            throw IllegalStateException("UI theme generation failed: ${result.error}")
-        }
-
-        if (result.warnings.isNotEmpty()) {
-            logger.warn("  Warnings during UI theme generation:")
-            result.warnings.forEach { warning ->
-                logger.warn("    - $warning")
-            }
-        }
-
-        logger.debug("  Generated JSON: $jsonOutputPath")
-
-        // Generate variants if requested
-        if (generateVariants) {
-            generateThemeVariants(
-                scheme = scheme,
-                baseName = baseName,
-                outputDirectory = outputDirectory,
-                xmlGenerator = xmlGenerator,
-                uiThemeGenerator = uiThemeGenerator
-            )
-        }
+        // Note: The generateVariants parameter is now deprecated since variants
+        // are always generated. The old variant generation method is kept for
+        // backward compatibility but not called.
     }
 
     /**
@@ -437,6 +413,10 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
         if (successCount > 0) {
             val successRate = (successCount.toDouble() / totalSchemes * 100)
             logger.lifecycle("  Success rate:            ${"%.1f".format(successRate)}%")
+            logger.lifecycle("")
+            logger.lifecycle("Generated files:")
+            logger.lifecycle("  UI theme variants:       ${successCount * 2} (2 per scheme)")
+            logger.lifecycle("  Editor schemes:          $successCount")
         }
 
         logger.lifecycle("")
@@ -444,9 +424,9 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
         logger.lifecycle("  Total time:              ${"%.2f".format(durationSeconds)} seconds")
         if (successCount > 0) {
             val avgTime = durationSeconds / successCount
-            logger.lifecycle("  Average per theme:       ${"%.2f".format(avgTime)} seconds")
+            logger.lifecycle("  Average per scheme:      ${"%.2f".format(avgTime)} seconds")
             val throughput = successCount / durationSeconds
-            logger.lifecycle("  Throughput:              ${"%.1f".format(throughput)} themes/second")
+            logger.lifecycle("  Throughput:              ${"%.1f".format(throughput)} schemes/second")
         }
 
         logger.lifecycle("")

@@ -9,6 +9,8 @@ import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import themes.TemplateProcessor
 import utils.ColorUtils
+import variants.ThemeVariant
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
@@ -70,6 +72,101 @@ class UIThemeGenerator {
          * Author string used in generated theme metadata
          */
         const val DEFAULT_AUTHOR = "Windows Terminal Color Scheme Converter"
+
+        /**
+         * Generate UI theme for specific variant
+         */
+        fun generateVariant(
+            scheme: WindowsTerminalColorScheme,
+            variant: ThemeVariant,
+            outputDir: File
+        ): File {
+            // Validate the color scheme
+            val validationErrors = scheme.validate()
+            require(validationErrors.isEmpty()) {
+                "Invalid color scheme: ${validationErrors.joinToString("; ")}"
+            }
+
+            val palette = scheme.toColorPaletteMap()
+
+            // Choose template based on variant
+            val templateName = when (variant) {
+                ThemeVariant.Standard -> "windows-terminal.template.theme.json"
+                ThemeVariant.Rounded -> "windows-terminal-rounded.template.theme.json"
+            }
+
+            val templateFile = File("buildSrc/templates/$templateName")
+            require(templateFile.exists()) { "Template not found: $templateName" }
+
+            val template = templateFile.readText()
+
+            // Detect if theme is dark or light
+            val isDark = ColorUtils.calculateLuminance(scheme.background) < DARK_LIGHT_THRESHOLD
+
+            // Replace all placeholders (colors + arc values)
+            var content = template
+
+            // Replace color placeholders
+            palette.forEach { (key, value) ->
+                content = content.replace("\$$key$", value)
+            }
+
+            // Replace metadata placeholders
+            val themeName = scheme.name + variant.suffix
+            content = content.replace("\$wt_name$", themeName)
+            content = content.replace("\$wt_scheme_name$", sanitizeFileNameStatic(scheme.name))
+            content = content.replace("\$wt_dark$", isDark.toString())
+            content = content.replace("\$wt_author$", DEFAULT_AUTHOR)
+
+            // Replace arc value placeholders
+            variant.arcValues.toPlaceholders().forEach { (placeholder, value) ->
+                content = content.replace(placeholder, value)
+            }
+
+            // Validate the generated JSON
+            try {
+                JsonParser.parseString(content).asJsonObject
+            } catch (e: Exception) {
+                throw IllegalStateException("Generated content is not valid JSON: ${e.message}", e)
+            }
+
+            // Write output
+            val fileName = "${sanitizeFileNameStatic(scheme.name)}${variant.suffix.replace(" ", "_").lowercase()}.theme.json"
+            outputDir.mkdirs()
+            val outputFile = File(outputDir, fileName)
+            outputFile.writeText(content)
+
+            return outputFile
+        }
+
+        /**
+         * Generate UI themes for all variants
+         */
+        fun generate(scheme: WindowsTerminalColorScheme, outputDir: File): List<File> {
+            val generatedFiles = mutableListOf<File>()
+
+            // Generate all variants
+            for (variant in ThemeVariant.all()) {
+                val file = generateVariant(scheme, variant, outputDir)
+                generatedFiles.add(file)
+                val variantLabel = if (variant.displayName.isNotEmpty()) variant.displayName else "Standard"
+                println("Generated $variantLabel variant: ${file.name}")
+            }
+
+            return generatedFiles
+        }
+
+        /**
+         * Sanitizes a theme name for use as a file name (static version).
+         */
+        private fun sanitizeFileNameStatic(name: String): String {
+            return name
+                .trim()
+                .replace(Regex("[^a-zA-Z0-9\\s-]"), "")  // Remove special chars
+                .replace(Regex("\\s+"), "_")              // Spaces to underscores
+                .replace(Regex("_+"), "_")                // Multiple underscores to single
+                .lowercase()
+        }
     }
 
     /**
