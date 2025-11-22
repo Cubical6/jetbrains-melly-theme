@@ -246,13 +246,22 @@ class PluginXmlUpdater(private val pluginXmlPath: Path) {
             removeAllWtThemeProviders(doc)
             removeAllWtBundledColorSchemes(doc)
 
-            // Add new theme providers
+            // Add new theme providers for BOTH variants (Standard and Rounded)
+            var totalThemesAdded = 0
             themes.forEach { metadata ->
-                val themePath = "$themesDir/${metadata.id}.theme.json"
-                addThemeProviderToDocument(doc, metadata.id, themePath)
+                // Standard variant (no suffix)
+                val standardThemePath = "$themesDir/${metadata.id}.theme.json"
+                addThemeProviderToDocument(doc, metadata.id, standardThemePath)
+                totalThemesAdded++
+
+                // Rounded variant (with .rounded suffix in ID and _rounded in filename)
+                val roundedThemeId = "${metadata.id}.rounded"
+                val roundedThemePath = "$themesDir/${metadata.id}_rounded.theme.json"
+                addThemeProviderToDocument(doc, roundedThemeId, roundedThemePath)
+                totalThemesAdded++
             }
 
-            // Add new bundled color schemes
+            // Add bundled color schemes (shared between variants, so only one per scheme)
             themes.forEach { metadata ->
                 val colorSchemePath = "$themesDir/${metadata.id}"
                 addBundledColorSchemeToDocument(doc, colorSchemePath)
@@ -263,7 +272,7 @@ class PluginXmlUpdater(private val pluginXmlPath: Path) {
 
             return UpdateResult(
                 success = true,
-                themesAdded = themes.size,
+                themesAdded = totalThemesAdded,
                 themesRemoved = existingWtThemes,
                 backupPath = backupPath,
                 error = null
