@@ -12,8 +12,8 @@ import java.io.File
  *
  * Usage: ./gradlew importITermSchemes
  *
- * Input: iterm-schemes/*.itermcolors
- * Output: windows-terminal-schemes/*.json
+ * Input: iterm-schemes/ directory (*.itermcolors files)
+ * Output: windows-terminal-schemes/ directory (*.json files)
  */
 open class ImportITermSchemes : DefaultTask() {
 
