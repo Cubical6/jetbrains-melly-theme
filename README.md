@@ -24,14 +24,19 @@ Console Mapping   Syntax Inference
 Complete JetBrains Theme
 ```
 
-**Key Features:**
-- ✅ Full ANSI color mapping (all 16 colors + foreground/background)
-- ✅ Intelligent syntax highlighting inference from terminal colors
-- ✅ 60+ pre-configured popular color schemes included
-- ✅ Easy addition of custom Windows Terminal schemes
-- ✅ Consistent colors between terminal and IDE
-- ✅ Edge case handling (monochrome, high/low contrast)
-- ✅ WCAG accessibility support
+## Features
+
+- **120+ Theme Variants**: Import iTerm color schemes and generate both Standard and Rounded UI variants
+- **Standard Variant**: Classic sharp corners (arc = 0)
+- **Rounded Variant**: Modern rounded UI with polished corners (arc = 6-12)
+- **50 Editor Color Schemes**: Syntax highlighting shared between variants
+- **Enhanced Color Derivation**: 50 algorithmically derived colors from 16-color palette
+- **Automatic iTerm Import**: Convert .itermcolors files to JetBrains themes
+- **Full ANSI color mapping**: All 16 colors + foreground/background
+- **Intelligent syntax highlighting**: Inference from terminal colors
+- **Easy customization**: Add your own Windows Terminal schemes
+- **Consistent colors**: Match between terminal and IDE
+- **WCAG accessibility**: All themes audited for compliance
 
 ## Available Themes
 

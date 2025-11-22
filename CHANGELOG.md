@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Rounded Theme Variants**
+  - Rounded theme variants for modern UI style
+  - ThemeVariant infrastructure (Standard and Rounded)
+  - Rounded template with arc properties for UI components
+  - Automatic generation of both variants for each color scheme
+
 - **iTerm2 Color Scheme Import System**
   - Added `importITermSchemes` Gradle task to convert `.itermcolors` files to JSON format
   - Added `ITermColorsParser` to parse iTerm2 XML color scheme files
@@ -46,6 +52,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added CHANGELOG.md to track project changes
 
 ### Changed
+
+- **Theme Generation Updates**
+  - UIThemeGenerator now generates 2 variants per color scheme
+  - GenerateThemesFromWindowsTerminal outputs 120+ theme files (60 standard + 60 rounded)
+  - Theme count increased from 50 to 120+ UI themes
 
 - **Extended ColorPalette Model**
   - Extended `ColorPalette` class to support derived semantic colors
