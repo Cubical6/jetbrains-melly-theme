@@ -3,6 +3,7 @@ package utils
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.doubles.shouldBeLessThan
+import io.kotest.matchers.ints.shouldBeLessThan as intShouldBeLessThan
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import kotlin.math.abs
@@ -159,9 +160,9 @@ class ColorUtilsTest {
         val (r, g, b) = ColorUtils.hexToRgb(result)
 
         // Should be approximately gray (127, 127, 127)
-        abs(r - 127) shouldBeLessThan 2
-        abs(g - 127) shouldBeLessThan 2
-        abs(b - 127) shouldBeLessThan 2
+        abs(r - 127) intShouldBeLessThan 2
+        abs(g - 127) intShouldBeLessThan 2
+        abs(b - 127) intShouldBeLessThan 2
     }
 
     @Test
@@ -325,9 +326,9 @@ class ColorUtilsTest {
 
         val mid = ColorUtils.interpolate(colors, 0.5)
         val (r, g, b) = ColorUtils.hexToRgb(mid)
-        abs(r - 127) shouldBeLessThan 2
-        abs(g - 127) shouldBeLessThan 2
-        abs(b - 127) shouldBeLessThan 2
+        abs(r - 127) intShouldBeLessThan 2
+        abs(g - 127) intShouldBeLessThan 2
+        abs(b - 127) intShouldBeLessThan 2
     }
 
     @Test

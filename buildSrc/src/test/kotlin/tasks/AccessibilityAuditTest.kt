@@ -5,7 +5,9 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
+import io.kotest.matchers.ints.shouldBeGreaterThanOrEqual as intShouldBeGreaterThanOrEqual
 import io.kotest.matchers.collections.shouldNotBeEmpty
+import io.kotest.matchers.string.shouldNotBeEmpty as stringShouldNotBeEmpty
 
 class AccessibilityAuditTest {
 
@@ -53,7 +55,7 @@ class AccessibilityAuditTest {
 
         result.themeName shouldBe "Poor Contrast Test"
         result.overallPass shouldBe false // Should fail due to poor fg/bg contrast
-        result.failureCount shouldBeGreaterThanOrEqual 1
+        result.failureCount intShouldBeGreaterThanOrEqual 1
     }
 
     @Test
@@ -125,7 +127,7 @@ class AccessibilityAuditTest {
         val results = listOf(AccessibilityAudit.auditTheme(themeFile))
         val report = AccessibilityAudit.generateReport(results)
 
-        report.shouldNotBeEmpty()
+        report.stringShouldNotBeEmpty()
         report.contains("WCAG AA ACCESSIBILITY AUDIT REPORT") shouldBe true
         report.contains("Test Theme") shouldBe true
     }

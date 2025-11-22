@@ -492,7 +492,7 @@ class BuildIntegrationTest {
         val consoleColors = consoleColorMapper.mapToConsoleColors(scheme)
 
         // Verify exact color preservation (high contrast has distinct values)
-        consoleColors.shouldNotBeEmpty()
+        consoleColors.values.shouldNotBeEmpty()
 
         // Generate XML and verify colors
         val xmlPath = tempOutputDir.resolve("rgb-exact.xml")

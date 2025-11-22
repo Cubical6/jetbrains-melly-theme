@@ -395,7 +395,6 @@ object ColorUtils {
         var minValue = 0.0
         var maxValue = 1.0
         var bestColor = foregroundColor
-        var bestContrast = currentContrast
 
         for (iteration in 0 until maxIterations) {
             val testValue = (minValue + maxValue) / 2.0
@@ -404,7 +403,6 @@ object ColorUtils {
 
             if (testContrast >= minContrast) {
                 bestColor = testColor
-                bestContrast = testContrast
 
                 // Try to get closer to original color while maintaining contrast
                 if (shouldLighten) {
@@ -491,7 +489,7 @@ object ColorUtils {
         backgroundColor: String,
         minContrast: Double = 3.0
     ): String {
-        val (hue, saturation, value) = hexToHsv(backgroundColor)
+        val (hue, saturation, _) = hexToHsv(backgroundColor)
         val bgLuminance = calculateRelativeLuminance(backgroundColor)
 
         // Determine if background is dark or light
@@ -513,5 +511,28 @@ object ColorUtils {
 
         // Ensure minimum contrast is met
         return ensureMinimumContrast(borderColor, backgroundColor, minContrast, maxIterations = 50)
+    }
+
+    /**
+     * Normalize color string to standard hex format (#RRGGBB).
+     *
+     * This function ensures colors are in the standard #RRGGBB format by:
+     * - Adding # prefix if missing
+     * - Converting to lowercase for consistency (matching rgbToHex output)
+     * - Validating the format
+     *
+     * @param color Color string (with or without # prefix)
+     * @return Normalized color in #RRGGBB format (lowercase)
+     * @throws IllegalArgumentException if color format is invalid
+     */
+    fun normalizeColor(color: String): String {
+        val trimmed = color.trim()
+        val withHash = if (trimmed.startsWith("#")) trimmed else "#$trimmed"
+
+        // Validate by using hexToRgb (which validates format)
+        val (r, g, b) = hexToRgb(withHash)
+
+        // Return normalized lowercase format (consistent with rgbToHex)
+        return rgbToHex(r, g, b)
     }
 }
