@@ -1,6 +1,7 @@
 package themes
 
 import colorschemes.WindowsTerminalColorScheme
+import colorschemes.toColorPaletteMap
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
@@ -49,7 +50,7 @@ class TemplateProcessorIntegrationTest {
         assertTrue(validationErrors.isEmpty(), "Windows Terminal scheme should be valid")
 
         // Step 3: Convert to color palette map
-        val colorVariables = wtScheme.toColorPalette()
+        val colorVariables = wtScheme.toColorPaletteMap()
         assertEquals(20, colorVariables.size, "Should have all Windows Terminal color variables")
 
         // Step 4: Create a simple template
@@ -121,7 +122,7 @@ class TemplateProcessorIntegrationTest {
         )
 
         // Convert to variables and process
-        val variables = wtScheme.toColorPalette()
+        val variables = wtScheme.toColorPaletteMap()
         val result = processor.processTemplate(template, variables)
 
         // Verify
@@ -166,8 +167,8 @@ class TemplateProcessorIntegrationTest {
         )
 
         // Process both schemes
-        val oneDarkVars = oneDark.toColorPalette() + mapOf("name" to oneDark.name)
-        val draculaVars = dracula.toColorPalette() + mapOf("name" to dracula.name)
+        val oneDarkVars = oneDark.toColorPaletteMap() + mapOf("name" to oneDark.name)
+        val draculaVars = dracula.toColorPaletteMap() + mapOf("name" to dracula.name)
 
         val oneDarkResult = processor.processTemplate(template, oneDarkVars)
         val draculaResult = processor.processTemplate(template, draculaVars)
@@ -245,7 +246,7 @@ class TemplateProcessorIntegrationTest {
         // Merge all variables
         val allVariables = processor.mergeVariables(
             defaultVariables,
-            wtScheme.toColorPalette()
+            wtScheme.toColorPaletteMap()
         )
 
         // Should have both default and Windows Terminal variables
