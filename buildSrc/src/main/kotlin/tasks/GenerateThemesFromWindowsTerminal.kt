@@ -223,6 +223,7 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
     /**
      * Generates theme files (XML and JSON) for a single color scheme.
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun generateThemeForScheme(
         scheme: WindowsTerminalColorScheme,
         outputDirectory: Path,
@@ -266,8 +267,11 @@ open class GenerateThemesFromWindowsTerminal : DefaultTask() {
 
     /**
      * Generates theme variants (e.g., italic version).
-     * Note: Full variant generation will be implemented in TASK-505.
+     * Note: This method is deprecated - variants are now always generated.
+     * Kept for backward compatibility.
      */
+    @Deprecated("Variants are now always generated via UIThemeGenerator.generate()")
+    @Suppress("UNUSED_PARAMETER")
     private fun generateThemeVariants(
         scheme: WindowsTerminalColorScheme,
         baseName: String,
