@@ -302,7 +302,7 @@
     "Popup": {
       "background": "$wt_popup_background$",
       "paintBorder": false,
-      "borderColor": "$wt_background$",
+      "borderColor": "$wt_popup_border$",
       "Toolbar.borderColor": "$wt_black$",
       "Header.activeBackground": "$wt_black$",
       "Header.inactiveBackground": "$wt_black$",
