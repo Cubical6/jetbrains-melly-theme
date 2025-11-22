@@ -13,6 +13,7 @@ import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldNotContain
 import mapping.ColorMappingConfig
+import org.junit.jupiter.api.Assertions.assertTrue
 import mapping.ConsoleColorMapper
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -116,7 +117,7 @@ class BuildIntegrationTest {
         loadedCount shouldNotBe 0
 
         val schemes = registry.getSchemesList()
-        schemes.shouldNotBeEmpty()
+        assertTrue(schemes.isNotEmpty(), "Schemes list should not be empty")
 
         val generatedFiles = mutableListOf<Pair<Path, Path>>()
 
@@ -492,7 +493,7 @@ class BuildIntegrationTest {
         val consoleColors = consoleColorMapper.mapToConsoleColors(scheme)
 
         // Verify exact color preservation (high contrast has distinct values)
-        consoleColors.shouldNotBeEmpty()
+        assertTrue(consoleColors.isNotEmpty(), "Console colors should not be empty")
 
         // Generate XML and verify colors
         val xmlPath = tempOutputDir.resolve("rgb-exact.xml")
