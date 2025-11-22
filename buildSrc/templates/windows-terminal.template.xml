@@ -611,7 +611,7 @@
     </option>
     <option name="DEFAULT_CONSTANT">
       <value>
-        <option name="FOREGROUND" value="$wt_bright_yellow$"/>
+        <option name="FOREGROUND" value="$wt_constant_color$"/>
       </value>
     </option>
     <option name="DEFAULT_DOC_COMMENT">
@@ -657,7 +657,7 @@
     </option>
     <option name="DEFAULT_INSTANCE_FIELD">
       <value>
-        <option name="FOREGROUND" value="$wt_red$"/>
+        <option name="FOREGROUND" value="$wt_instance_field$"/>
       </value>
     </option>
     <option name="DEFAULT_INTERFACE_NAME">
@@ -746,8 +746,7 @@
     </option>
     <option name="DEPRECATED_ATTRIBUTES">
       <value>
-        <option name="EFFECT_COLOR" value="$wt_white$"/>
-        <option name="EFFECT_TYPE" value="3"/>
+        <option name="FOREGROUND" value="$wt_deprecated_color$"/>
       </value>
     </option>
     <option name="DIFF_CONFLICT">
@@ -2193,8 +2192,7 @@
     </option>
     <option name="TODO_DEFAULT_ATTRIBUTES">
       <value>
-        <option name="FOREGROUND" value="ff8c00"/>
-        <option name="FONT_TYPE" value="%theme^attributes%"/>
+        <option name="FOREGROUND" value="$wt_todo_color$"/>
       </value>
     </option>
     <option name="TS.MODULE_NAME">
