@@ -2,11 +2,294 @@
 
 > **Voor Claude Code:** Voer deze taken fase voor fase uit. Elke subtask is een enkele actie (2-5 minuten). Gebruik TDD waar mogelijk. Commit regelmatig.
 
+> **⚠️ BELANGRIJK - Building & Testing:**
+> - Gradle builds werken NIET in Claude Code Web (geen netwerktoegang voor dependencies)
+> - Claude Code zal code schrijven en committen zonder tests te runnen
+> - **Na voltooiing van ALLE taken**: Run lokaal `./gradlew test` en `./gradlew build` om te verifiëren
+> - Als tests falen, maak issues aan voor fixes
+
 **Doel:** iTerm color schemes importeren en JetBrains themes genereren met Lovelace-kwaliteit (50+ afgeleide kleuren ipv 10).
 
 **Architectuur:** Breid bestaand Windows Terminal systeem uit met iTerm parser en enhanced color derivation. Backwards compatible.
 
 **Tech Stack:** Kotlin, Gradle, Gson (JSON), javax.xml (plist parsing)
+
+---
+
+## FASE 0: Pre-existing Test Cleanup (OPTIONEEL)
+
+> **⚠️ Note:** Deze fase is OPTIONEEL. De iTerm implementatie (Tasks 1.1 & 1.2) werkt correct en tests slagen met `./test-iterm-implementation.sh`. Deze fase lost pre-existing test compilation errors op die NIET gerelateerd zijn aan iTerm work.
+
+**Context:** Het project heeft 37+ pre-existing test compilation errors in 6 test files. Deze blokkeren `./gradlew test` maar zijn NIET veroorzaakt door recente iTerm work. De standalone test script werkt eromheen door broken tests tijdelijk te verplaatsen.
+
+**Root Causes:**
+1. **Missing Public API** (16 errors): `ColorUtils.normalizeColor()` is private maar wordt aangeroepen in tests
+2. **Kotest API Mismatches** (11 errors): Oude kotest syntax en missing assertions
+3. **Type Inference Issues** (10 errors): Map types in ColorMappingTest niet properly inferred
+
+**Bestanden:**
+- Fix: `buildSrc/src/main/kotlin/utils/ColorUtils.kt`
+- Fix: `buildSrc/src/test/kotlin/integration/BuildIntegrationTest.kt`
+- Fix: `buildSrc/src/test/kotlin/integration/RegressionTest.kt`
+- Fix: `buildSrc/src/test/kotlin/mapping/ColorMappingTest.kt`
+- Fix: `buildSrc/src/test/kotlin/mapping/ColorPaletteExpanderTest.kt`
+- Fix: `buildSrc/src/test/kotlin/mapping/SyntaxColorInferenceTest.kt`
+- Fix: `buildSrc/src/test/kotlin/tasks/AccessibilityAuditTest.kt`
+- Fix: `buildSrc/src/test/kotlin/utils/ColorUtilsTest.kt`
+
+### Task 0.1: Fix ColorUtils Missing Public API
+
+**Subtask 0.1.1: Make normalizeColor() public**
+
+Bestand: `buildSrc/src/main/kotlin/utils/ColorUtils.kt`
+
+Zoek de `normalizeColor()` functie (momenteel private) en maak het public:
+
+```kotlin
+// Zoek:
+private fun normalizeColor(color: String): String {
+    // ... implementation
+}
+
+// Verander naar:
+/**
+ * Normalize color string to standard hex format (#RRGGBB)
+ */
+fun normalizeColor(color: String): String {
+    // ... implementation (unchanged)
+}
+```
+
+Run: Check dat de change correct is
+```bash
+cd buildSrc
+grep -n "fun normalizeColor" src/main/kotlin/utils/ColorUtils.kt
+```
+Expected: Moet "fun normalizeColor" tonen (zonder "private")
+
+**Subtask 0.1.2: Verify BuildIntegrationTest compiles**
+
+Run: `cd buildSrc && ../gradlew compileTestKotlin 2>&1 | grep normalizeColor`
+Expected: Geen "Unresolved reference: normalizeColor" errors meer (was 16 errors)
+
+**Subtask 0.1.3: Commit ColorUtils fix**
+
+```bash
+git add buildSrc/src/main/kotlin/utils/ColorUtils.kt
+git commit -m "fix: make normalizeColor() public API in ColorUtils
+
+Make normalizeColor() public instead of private to fix 16 test
+compilation errors in BuildIntegrationTest.kt.
+
+This function is used by integration tests to validate theme color
+normalization. Making it public allows proper testing of color
+string normalization behavior."
+```
+
+---
+
+### Task 0.2: Fix Kotest API Mismatches
+
+**Subtask 0.2.1: Fix shouldBeBetween in ColorPaletteExpanderTest**
+
+Bestand: `buildSrc/src/test/kotlin/mapping/ColorPaletteExpanderTest.kt`
+
+Zoek alle 7 occurrences van `shouldBeBetween` met range syntax:
+
+```kotlin
+// VOOR (incorrect - 7 occurrences):
+value shouldBeBetween (min..max)
+
+// NA (correct):
+value.shouldBeBetween(min, max, 0.01)
+```
+
+Specifieke lines to fix (ongeveer):
+- Line 362: `hue shouldBeBetween (0.0..360.0)` → `hue.shouldBeBetween(0.0, 360.0, 0.01)`
+- Line 413, 417, 458, 462, 498, 499: Similar changes
+
+**Subtask 0.2.2: Fix missing shouldNotContain in RegressionTest**
+
+Bestand: `buildSrc/src/test/kotlin/integration/RegressionTest.kt`
+
+Lines ~370-373 gebruiken `shouldNotContain` op String - vervang met proper assertion:
+
+```kotlin
+// VOOR:
+themeXml shouldNotContain "null"
+themeJson shouldNotContain "null"
+uiThemeJson shouldNotContain "null"
+
+// NA:
+assertFalse(themeXml.contains("null"), "Theme XML should not contain 'null'")
+assertFalse(themeJson.contains("null"), "Theme JSON should not contain 'null'")
+assertFalse(uiThemeJson.contains("null"), "UI theme JSON should not contain 'null'")
+```
+
+Add import: `import org.junit.jupiter.api.Assertions.assertFalse`
+
+**Subtask 0.2.3: Fix Int.shouldBeLessThan type mismatches**
+
+Bestand: `buildSrc/src/test/kotlin/mapping/SyntaxColorInferenceTest.kt`
+
+Lines 171, 183, 207, 270, 285, 308, 448 gebruiken Double matchers op Int values:
+
+```kotlin
+// VOOR (7 occurrences):
+colorCount.shouldBeLessThan(10)  // colorCount is Int, matcher expects Double
+
+// NA - cast to Double:
+colorCount.toDouble().shouldBeLessThan(10.0)
+// Of gebruik standaard assertions:
+assertTrue(colorCount < 10, "Color count should be less than 10")
+```
+
+**Subtask 0.2.4: Fix shouldBeGreaterThanOrEqual in AccessibilityAuditTest**
+
+Bestand: `buildSrc/src/test/kotlin/tasks/AccessibilityAuditTest.kt`
+
+Line 56:
+```kotlin
+// VOOR:
+contrastRatio.shouldBeGreaterThanOrEqual(4.5)  // contrastRatio is Float
+
+// NA:
+contrastRatio.toDouble().shouldBeGreaterThanOrEqual(4.5)
+// Of:
+assertTrue(contrastRatio >= 4.5, "Contrast ratio should be >= 4.5")
+```
+
+**Subtask 0.2.5: Fix shouldNotBeEmpty type mismatch**
+
+Bestand: `buildSrc/src/test/kotlin/integration/BuildIntegrationTest.kt` (line 495)
+Bestand: `buildSrc/src/test/kotlin/tasks/AccessibilityAuditTest.kt` (line 128)
+
+```kotlin
+// VOOR:
+themes.shouldNotBeEmpty()  // themes is Set or incorrect type
+
+// NA (check actual type first):
+assertTrue(themes.isNotEmpty(), "Themes should not be empty")
+// Of if it's proper Collection:
+assertFalse(themes.isEmpty())
+```
+
+**Subtask 0.2.6: Verify Kotest fixes compile**
+
+Run: `cd buildSrc && ../gradlew compileTestKotlin 2>&1 | grep -E "shouldBeBetween|shouldNotContain|shouldBeLessThan"`
+Expected: No more errors on these matchers (was 11+ errors)
+
+**Subtask 0.2.7: Commit Kotest fixes**
+
+```bash
+git add buildSrc/src/test/kotlin/mapping/ColorPaletteExpanderTest.kt
+git add buildSrc/src/test/kotlin/integration/RegressionTest.kt
+git add buildSrc/src/test/kotlin/mapping/SyntaxColorInferenceTest.kt
+git add buildSrc/src/test/kotlin/tasks/AccessibilityAuditTest.kt
+git add buildSrc/src/test/kotlin/integration/BuildIntegrationTest.kt
+git commit -m "fix: update kotest assertions to correct API
+
+Fix 11+ kotest matcher errors:
+- shouldBeBetween: use method syntax with tolerance param
+- shouldNotContain: replace with standard assertFalse
+- shouldBeLessThan/shouldBeGreaterThan: cast Int to Double
+- shouldNotBeEmpty: use standard assertions for type safety
+
+These were API incompatibilities from kotest version changes."
+```
+
+---
+
+### Task 0.3: Fix Type Inference Issues
+
+**Subtask 0.3.1: Fix ColorMappingTest map type inference**
+
+Bestand: `buildSrc/src/test/kotlin/mapping/ColorMappingTest.kt`
+
+Lines 260, 283, 295, 309, 753, 763, 776, 832, 852, 855 hebben "Not enough information to infer type variable K" errors.
+
+Deze zijn meestal `mapOf()` calls waar Kotlin de key type niet kan inferren. Voeg explicit types toe:
+
+```kotlin
+// VOOR:
+val expectedColors = mapOf(
+    "foreground" to "#FFFFFF",
+    "background" to "#000000"
+)
+
+// NA - explicit type:
+val expectedColors: Map<String, String> = mapOf(
+    "foreground" to "#FFFFFF",
+    "background" to "#000000"
+)
+// Of:
+val expectedColors = mapOf<String, String>(
+    "foreground" to "#FFFFFF",
+    "background" to "#000000"
+)
+```
+
+Check each occurrence around the line numbers and add explicit types.
+
+**Subtask 0.3.2: Verify type inference fixes**
+
+Run: `cd buildSrc && ../gradlew compileTestKotlin 2>&1 | grep "infer type variable"`
+Expected: No more "Not enough information to infer type variable K" (was 10 errors)
+
+**Subtask 0.3.3: Commit type inference fixes**
+
+```bash
+git add buildSrc/src/test/kotlin/mapping/ColorMappingTest.kt
+git commit -m "fix: add explicit map types in ColorMappingTest
+
+Add explicit Map<String, String> types to fix 10 type inference errors.
+Kotlin couldn't infer generic type K from mapOf() context in these cases."
+```
+
+---
+
+### Task 0.4: Full Test Suite Verification
+
+**Subtask 0.4.1: Run complete test suite**
+
+Run: `cd buildSrc && ../gradlew clean test`
+Expected: BUILD SUCCESSFUL with all tests passing
+
+Als er nog failures zijn, debug individueel:
+```bash
+# Check specific test class:
+cd buildSrc
+../gradlew test --tests BuildIntegrationTest
+../gradlew test --tests ColorMappingTest
+# etc.
+```
+
+**Subtask 0.4.2: Verify iTerm tests still pass**
+
+Run: `./test-iterm-implementation.sh`
+Expected: All 9 tests PASSED (same as before cleanup)
+
+**Subtask 0.4.3: Run full project build**
+
+Run: `./gradlew build`
+Expected: BUILD SUCCESSFUL
+
+**Subtask 0.4.4: Final cleanup commit**
+
+If all tests pass:
+```bash
+git commit --allow-empty -m "chore: verify all tests pass after cleanup
+
+✅ All 37+ pre-existing test errors fixed:
+- 16 normalizeColor() errors - fixed by making public
+- 11 kotest matcher errors - fixed by updating to current API
+- 10 type inference errors - fixed by adding explicit types
+
+Full test suite now runs with ./gradlew test without needing
+the standalone test script workaround.
+
+iTerm implementation tests (Tasks 1.1 & 1.2) continue to pass."
+```
 
 ---
 
@@ -103,6 +386,8 @@ data class ITermColorScheme(
 
 **Subtask 1.1.2: Test ITermColor conversions**
 
+> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Ga naar subtask 1.1.3.
+
 Run: `./gradlew test --tests ITermColorSchemeTest`
 Expected: Tests niet gevonden (we gaan ze nu schrijven)
 
@@ -197,6 +482,8 @@ class ITermColorSchemeTest {
 
 **Subtask 1.1.4: Run tests om te verifiëren dat ze falen**
 
+> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Ga naar subtask 1.1.5.
+
 Run: `./gradlew test --tests ITermColorSchemeTest`
 Expected: FAIL - tests compileren maar kunnen falen op fromHex (not implemented yet)
 
@@ -205,6 +492,8 @@ Expected: FAIL - tests compileren maar kunnen falen op fromHex (not implemented 
 Check of fromHex correct werkt. Als test faalt, fix de implementatie in ITermColorScheme.kt
 
 **Subtask 1.1.6: Run tests om te verifiëren dat ze slagen**
+
+> ⚠️ **Skip in Claude Code Web** - Gradle werkt niet. Implementatie is geverifieerd via code review. Tests worden lokaal gerund na voltooiing.
 
 Run: `./gradlew test --tests ITermColorSchemeTest`
 Expected: PASS - alle tests groen
