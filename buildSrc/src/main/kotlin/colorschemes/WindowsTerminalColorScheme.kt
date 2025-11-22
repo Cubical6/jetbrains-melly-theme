@@ -231,9 +231,9 @@ data class WindowsTerminalColorScheme(
 
         // Editor tab underline styling
         val underlinedTabBorderColor = selectionBg
-        val underlinedTabBackground = ColorUtils.mix(background, selectionBg, 0.3)
+        val underlinedTabBackground = ColorUtils.blend(background, selectionBg, 0.3)
         val inactiveUnderlinedTabBorderColor = ColorUtils.desaturate(selectionBg, 0.5)
-        val inactiveUnderlinedTabBackground = ColorUtils.mix(background, surface, 0.5)
+        val inactiveUnderlinedTabBackground = ColorUtils.blend(background, surface, 0.5)
 
         // Icon colors - Actions category
         val actionsRed = ColorUtils.blend(background, "#DB5860", 0.7)
@@ -498,6 +498,9 @@ data class ColorPalette(
             "wt_info_background" to infoBackground,
             "wt_uiBorderColor" to uiBorderColor,
             "wt_uiComponentBackground" to uiComponentBackground,
+            // Snake_case aliases for consistency
+            "wt_ui_border_color" to uiBorderColor,
+            "wt_ui_component_background" to uiComponentBackground,
 
             // NEW: Surface variations (4)
             "wt_surface_dark" to surfaceDark,
