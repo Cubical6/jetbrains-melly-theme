@@ -1,0 +1,49 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>org.strassburger.lovelace</id>
+    <version>1.0.2</version>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+    <name>LoveLace Theme</name>
+    <category>UI</category>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://strassburger.org/">Jan Straßburger</vendor>
+
+    <idea-version since-build="251"/>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+    <description><![CDATA[
+        A dark theme for JetBrains IDEs featuring shades of pink, purple, and blue, inspired by the LoveLace theme for iTerm2.
+    ]]></description>
+
+    <!-- Short summary of new features and bugfixes in the latest plugin version.
+         Displayed on the Plugin Page and IDE Plugin Manager. Simple HTML elements can be included between <![CDATA[  ]]> tags. -->
+    <change-notes><![CDATA[
+        <b>Version 1.0.2:</b>
+        <ul>
+            <li>Matched braces now have a blue border around them for better visibility</li>
+            <li>The line between matched braces has been changed to grey to reduce visual clutter</li>
+        </ul>
+
+        <b>Version 1.0.1:</b>
+        <ul>
+            <li>Adjusted base text color</li>
+            <li>Added proper background color for the documentation popover</li>
+            <li>Added proper background color for the completion popover</li>
+        </ul>
+
+        Initial release of the theme
+    ]]></change-notes>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <themeProvider id="LoveLace-Theme" path="/theme/LoveLaceTheme.theme.json"/>
+    </extensions>
+</idea-plugin>

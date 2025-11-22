@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <idea-plugin>
-        
+          
+  
   
   
   <id>com.markskelton.one-dark-theme</id>
-        
+          
+  
   
   
   <name>Windows Terminal Theme for JetBrains</name>
-        
+          
+  
   
   
   <version>@version@</version>
-        
+          
+  
   
   
   <vendor email="one-dark@mskelton.dev" url="https://github.com/one-dark/jetbrains-one-dark-theme">Mark Skelton
   </vendor>
-        
+          
+  
   
   
   <description>
@@ -54,7 +59,8 @@
   ]]>
       
   </description>
-        
+          
+  
   
   
   <change-notes>
@@ -72,35 +78,43 @@
   ]]>
       
   </change-notes>
-        
+          
+  
   
   
   <depends>com.intellij.modules.platform</depends>
-        
+          
+  
   
   
   <!--    Leave this in here so the IDE gives you feedback on-->
-        
+          
+  
   
   
   <!--    What API's are available-->
-        
+          
+  
   
   
   <idea-version since-build="203.7148.57"/>
-        
+          
+  
   
   
   <extensions defaultExtensionNs="com.intellij">
-                
+                    
+    
     
     
     <applicationService serviceImplementation="com.markskelton.settings.ThemeSettings"/>
-                
+                    
+    
     
     
     <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="com.markskelton.integrations.ErrorReporter"/>
-                
+                    
+    
     
     
     <notificationGroup displayType="BALLOON" id="Windows Terminal Theme" isLogByDefault="false"/>
@@ -449,7 +463,8 @@
     <bundledColorScheme path="/themes/wt-night-owl-59ed6018"/>
       
   </extensions>
-      
+        
+
 
 
 </idea-plugin>
