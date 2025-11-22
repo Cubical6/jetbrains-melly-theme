@@ -167,20 +167,25 @@ open class GenerateThemesWithMetadata : DefaultTask() {
 
         logger.lifecycle("-".repeat(70))
 
-        // Update plugin.xml
+        // Update plugin.xml with theme providers and bundled color schemes
         if (shouldUpdatePluginXml && allMetadata.isNotEmpty()) {
             logger.lifecycle("")
             logger.lifecycle("Updating plugin.xml...")
+            logger.lifecycle("  Registering themeProvider entries (UI themes)")
+            logger.lifecycle("  Registering bundledColorScheme entries (editor color schemes)")
 
             try {
                 val pluginXmlPath = project.file("src/main/resources/META-INF/plugin.xml").toPath()
                 val xmlUpdater = PluginXmlUpdater(pluginXmlPath)
 
+                // This call registers BOTH themeProvider and bundledColorScheme for each theme
                 val result = xmlUpdater.updatePluginXml(allMetadata, themesDir = "/themes")
 
                 if (result.success) {
                     logger.lifecycle("✓ plugin.xml updated successfully")
                     logger.lifecycle("  Themes added: ${result.themesAdded}")
+                    logger.lifecycle("  - ${result.themesAdded} themeProvider entries (UI themes)")
+                    logger.lifecycle("  - ${result.themesAdded} bundledColorScheme entries (editor color schemes)")
                     logger.lifecycle("  Themes removed: ${result.themesRemoved}")
                     logger.lifecycle("  Backup created: ${result.backupPath}")
                 } else {

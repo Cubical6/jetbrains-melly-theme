@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <idea-plugin>
-    
+      
+  
   <id>com.markskelton.one-dark-theme</id>
-    
+      
+  
   <name>Windows Terminal Theme for JetBrains</name>
-    
+      
+  
   <version>@version@</version>
-    
+      
+  
   <vendor email="one-dark@mskelton.dev" url="https://github.com/one-dark/jetbrains-one-dark-theme">Mark Skelton
   </vendor>
-    
+      
+  
   <description>
+        
     <![CDATA[
     <h2>Windows Terminal & PowerShell Themes for JetBrains IDEs</h2>
     <p>Import any Windows Terminal color scheme as a complete IntelliJ theme with matching console colors!</p>
@@ -41,9 +47,12 @@
 
     <p>See the <a href="https://github.com/one-dark/jetbrains-one-dark-theme">GitHub repository</a> for documentation, screenshots, and contribution guidelines.</p>
   ]]>
+      
   </description>
-    
+      
+  
   <change-notes>
+        
     <![CDATA[
     <h3>Version 7.0.0 - Windows Terminal Focus</h3>
     <ul>
@@ -55,24 +64,34 @@
     </ul>
     <p>See <a href="https://github.com/one-dark/jetbrains-one-dark-theme/blob/master/CHANGELOG.md">CHANGELOG.md</a> for complete release notes.</p>
   ]]>
-  </change-notes>
-    
-  <depends>com.intellij.modules.platform</depends>
-    
-  <!--    Leave this in here so the IDE gives you feedback on-->
-    
-  <!--    What API's are available-->
-    
-  <idea-version since-build="203.7148.57"/>
-    
-  <extensions defaultExtensionNs="com.intellij">
-        
-    <applicationService serviceImplementation="com.markskelton.settings.ThemeSettings"/>
-        
-    <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="com.markskelton.integrations.ErrorReporter"/>
-        
-    <notificationGroup displayType="BALLOON" id="Windows Terminal Theme" isLogByDefault="false" toolWindowId="Windows Terminal Theme"/>
       
+  </change-notes>
+      
+  
+  <depends>com.intellij.modules.platform</depends>
+      
+  
+  <!--    Leave this in here so the IDE gives you feedback on-->
+      
+  
+  <!--    What API's are available-->
+      
+  
+  <idea-version since-build="203.7148.57"/>
+      
+  
+  <extensions defaultExtensionNs="com.intellij">
+            
+    
+    <applicationService serviceImplementation="com.markskelton.settings.ThemeSettings"/>
+            
+    
+    <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="com.markskelton.integrations.ErrorReporter"/>
+            
+    
+    <notificationGroup displayType="BALLOON" id="Windows Terminal Theme" isLogByDefault="false" toolWindowId="Windows Terminal Theme"/>
+          
+  
     
     <themeProvider id="wt-ir-black-3f88f824" path="/themes/wt-ir-black-3f88f824.theme.json"/>
       
@@ -244,6 +263,178 @@
     
     <themeProvider id="wt-night-owl-59ed6018" path="/themes/wt-night-owl-59ed6018.theme.json"/>
       
+    
+    <bundledColorScheme path="/themes/wt-ir-black-3f88f824"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-material-df2d13f6"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-atom-1cbb2ba5"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-paraiso-dark-652ca807"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-catppuccin-mocha-1decf1cd"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-vercel-6c9bb3d9"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-tomorrow-night-5022fb49"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-ayu-8f29cfb8"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-wombat-da2feff3"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-ubuntu-6e910ab3"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-batman-ff23e2f3"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-one-half-light-ffcb2890"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-hopscotch-43cc1b3f"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-builtin-solarized-li-9b7e5e17"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-afterglow-6d9c4103"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-birds-of-paradise-274f30fe"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-pencil-dark-6a86cb79"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-gruvbox-light-83f310d4"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-molokai-07d57d60"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-pencil-light-2761d83a"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-mariana-1e2c6e82"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-twilight-d774f3d9"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-gruvbox-dark-1a35f819"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-espresso-4835a201"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-tokyonight-cd358c58"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-brogrammer-0b283fdc"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-monokai-soda-b02a5f18"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-rose-pine-dawn-644ee1e6"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-misterioso-e4e7633a"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-aardvark-blue-a487fdac"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-argonaut-37b31af3"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-github-dark-0e1475a8"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-tomorrow-70af638d"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-vesper-01d8e283"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-spacegray-eighties-825a6d1c"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-rose-pine-moon-8a586610"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-challenger-deep-9f1fae2e"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-breeze-7d860afc"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-oceanic-next-309f3303"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-cobalt2-30972317"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-dracula-ede07c70"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-zenburn-715c6507"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-nord-49f8aa67"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-neon-4dd51c52"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-wild-cherry-cf5b4d20"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-ayu-light-fd444e66"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-adventure-time-0cbd6fe0"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-andromeda-64975052"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-jetbrains-darcula-49f1a506"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-snazzy-0ec1ad41"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-poimandres-9013d3f1"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-vibrant-ink-9866d46c"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-rose-pine-632c3589"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-ayu-mirage-7c284424"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-builtin-solarized-da-19c770b4"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-firewatch-f7a62dee"/>
+      
+    
+    <bundledColorScheme path="/themes/wt-night-owl-59ed6018"/>
+      
   </extensions>
-  
+    
+
 </idea-plugin>
