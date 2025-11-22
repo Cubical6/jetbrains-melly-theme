@@ -518,11 +518,11 @@ object ColorUtils {
      *
      * This function ensures colors are in the standard #RRGGBB format by:
      * - Adding # prefix if missing
-     * - Converting to uppercase for consistency
+     * - Converting to lowercase for consistency (matching rgbToHex output)
      * - Validating the format
      *
      * @param color Color string (with or without # prefix)
-     * @return Normalized color in #RRGGBB format
+     * @return Normalized color in #RRGGBB format (lowercase)
      * @throws IllegalArgumentException if color format is invalid
      */
     fun normalizeColor(color: String): String {
@@ -532,7 +532,7 @@ object ColorUtils {
         // Validate by using hexToRgb (which validates format)
         val (r, g, b) = hexToRgb(withHash)
 
-        // Return normalized uppercase format
-        return rgbToHex(r, g, b).uppercase()
+        // Return normalized lowercase format (consistent with rgbToHex)
+        return rgbToHex(r, g, b)
     }
 }

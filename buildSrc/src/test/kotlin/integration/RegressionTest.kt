@@ -9,8 +9,8 @@ import generators.XMLColorSchemeGenerator
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.string.shouldNotContain
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.nio.file.Files
@@ -368,10 +368,10 @@ class RegressionTest {
         val jsonContent = jsonPath.readText()
 
         // Verify no placeholders remain
-        assertFalse(xmlContent.contains("\$SCHEME_NAME$"), "XML content should not contain '\$SCHEME_NAME$' placeholder")
-        assertFalse(xmlContent.contains("\$wt_"), "XML content should not contain '\$wt_' placeholders")
+        xmlContent.shouldNotContain("\$SCHEME_NAME$")
+        xmlContent.shouldNotContain("\$wt_")
 
-        assertFalse(jsonContent.contains("\$wt_"), "JSON content should not contain '\$wt_' placeholders")
+        jsonContent.shouldNotContain("\$wt_")
 
         // Verify scheme name was replaced
         xmlContent.shouldContain(oneDarkScheme.name)
