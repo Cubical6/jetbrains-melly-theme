@@ -226,6 +226,9 @@ data class WindowsTerminalColorScheme(
         val linkHover = ColorUtils.lighten(blue, 0.15)
         val iconColor = mutedForeground
 
+        // Island styling (modern floating tool windows)
+        val islandBorderColor = ColorUtils.darken(background, 0.15)
+
         return ColorPalette(
             // Existing 12
             surface = surface,
@@ -291,7 +294,10 @@ data class WindowsTerminalColorScheme(
             counterBackground = counterBackground,
             tooltipBackground = tooltipBackground,
             linkHover = linkHover,
-            iconColor = iconColor
+            iconColor = iconColor,
+
+            // Island
+            islandBorderColor = islandBorderColor
         )
     }
 
@@ -407,7 +413,10 @@ data class ColorPalette(
     val counterBackground: String,   // Counter badges
     val tooltipBackground: String,   // Tooltip bg
     val linkHover: String,           // Link hover state
-    val iconColor: String            // Default icon color
+    val iconColor: String,           // Default icon color
+
+    // Island (1 new)
+    val islandBorderColor: String    // Border color for floating Islands
 ) {
     /**
      * Converts the ColorPalette to a Map for backward compatibility with template processors.
@@ -482,7 +491,10 @@ data class ColorPalette(
             "wt_counter_background" to counterBackground,
             "wt_tooltip_background" to tooltipBackground,
             "wt_link_hover" to linkHover,
-            "wt_icon_color" to iconColor
+            "wt_icon_color" to iconColor,
+
+            // Island (1)
+            "wt_island_border" to islandBorderColor
         )
     }
 }

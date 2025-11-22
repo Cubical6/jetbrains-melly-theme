@@ -477,6 +477,15 @@
       "separatorColor": "$wt_black$",
       "SidePanel.background": "$wt_background$",
       "Details.background": "backgroundColor"
+    },
+
+    "Islands": 1,
+    "Island": {
+      "arc": 20,
+      "borderWidth": 5,
+      "inactiveAlpha": 0.44,
+      "inactiveAlphaInStatusBar": 0.2,
+      "borderColor": "$wt_island_border$"
     }
   },
 
