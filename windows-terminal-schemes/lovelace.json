@@ -1,0 +1,23 @@
+{
+  "name": "Lovelace",
+  "background": "#1D1F28",
+  "foreground": "#D0D0D9",
+  "cursorColor": "#FFFFFF",
+  "selectionBackground": "#70618D",
+  "black": "#1D1F28",
+  "red": "#FF6B6B",
+  "green": "#A4D490",
+  "yellow": "#FFD479",
+  "blue": "#5AA6FF",
+  "purple": "#C678DD",
+  "cyan": "#4DD0E1",
+  "white": "#A3A9B6",
+  "brightBlack": "#646078",
+  "brightRed": "#F26C8D",
+  "brightGreen": "#B5CEA8",
+  "brightYellow": "#FFC26F",
+  "brightBlue": "#61AFEF",
+  "brightPurple": "#D081FF",
+  "brightCyan": "#5FDACB",
+  "brightWhite": "#DCDCDC"
+}
