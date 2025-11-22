@@ -61,7 +61,7 @@ open class ImportITermSchemes : DefaultTask() {
                 // Validate
                 val errors = iTermScheme.validate()
                 if (errors.isNotEmpty()) {
-                    println("  ⚠️  Validation errors:")
+                    println("  Warning: Validation errors:")
                     errors.forEach { println("     - $it") }
                     errorCount++
                     continue
@@ -74,11 +74,11 @@ open class ImportITermSchemes : DefaultTask() {
                 val outputFile = File(outputDir, "${wtScheme.name}.json")
                 outputFile.writeText(gson.toJson(wtScheme))
 
-                println("  ✓ Converted to: ${outputFile.name}")
+                println("  Success: Converted to: ${outputFile.name}")
                 successCount++
 
             } catch (e: Exception) {
-                println("  ✗ Error: ${e.message}")
+                println("  Error: ${e.message}")
                 errorCount++
             }
         }
