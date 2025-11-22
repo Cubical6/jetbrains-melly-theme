@@ -145,6 +145,10 @@ data class WindowsTerminalColorScheme(
     /**
      * Converts the color scheme to a color palette map compatible with ThemeConstructor.
      * Maps Windows Terminal property names to their hex color values.
+     *
+     * Automatically generates dynamic UI colors with proper WCAG contrast:
+     * - wt_uiBorderColor: Border color with minimum 3:1 contrast (WCAG AA)
+     * - wt_uiComponentBackground: Component background with 1.5:1 contrast for visibility
      */
     fun toColorPalette(): Map<String, String> {
         return buildMap {
@@ -171,6 +175,11 @@ data class WindowsTerminalColorScheme(
             // Optional colors with fallbacks
             put("wt_cursorColor", cursorColor ?: foreground)
             put("wt_selectionBackground", selectionBackground ?: ColorUtils.blend(background, foreground, 0.2))
+
+            // Dynamic UI colors with proper WCAG contrast
+            // These ensure visibility across all color schemes
+            put("wt_uiBorderColor", ColorUtils.createVisibleBorderColor(background, minContrast = 3.0))
+            put("wt_uiComponentBackground", ColorUtils.createVisibleComponentBackground(background, minContrast = 1.5))
         }
     }
 

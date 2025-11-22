@@ -351,4 +351,164 @@ object ColorUtils {
         val newSaturation = (s - amount).coerceIn(0.0, 1.0)
         return hsvToHex(h, newSaturation, v)
     }
+
+    /**
+     * Adjusts a foreground/border color to ensure minimum WCAG contrast against a background.
+     *
+     * If the color already meets the minimum contrast, it is returned unchanged.
+     * Otherwise, the color is iteratively lightened or darkened (maintaining hue) until
+     * the minimum contrast is achieved.
+     *
+     * @param foregroundColor The foreground/border color to adjust
+     * @param backgroundColor The background color to contrast against
+     * @param minContrast Minimum WCAG contrast ratio (default: 3.0 for UI components)
+     * @param maxIterations Maximum adjustment iterations (default: 50)
+     * @return Adjusted color that meets minimum contrast requirement
+     */
+    fun ensureMinimumContrast(
+        foregroundColor: String,
+        backgroundColor: String,
+        minContrast: Double = 3.0,
+        maxIterations: Int = 50
+    ): String {
+        require(minContrast > 1.0) { "Minimum contrast must be greater than 1.0" }
+        require(maxIterations > 0) { "Maximum iterations must be positive" }
+
+        // Check if current contrast is sufficient
+        val currentContrast = calculateContrastRatio(foregroundColor, backgroundColor)
+        if (currentContrast >= minContrast) {
+            return foregroundColor
+        }
+
+        // Determine if we should lighten or darken
+        val bgLuminance = calculateRelativeLuminance(backgroundColor)
+        val fgLuminance = calculateRelativeLuminance(foregroundColor)
+        val shouldLighten = bgLuminance < 0.5
+
+        // Extract HSV to maintain hue during adjustment
+        val (hue, saturation, _) = hexToHsv(foregroundColor)
+
+        // Binary search for the optimal value (brightness)
+        var minValue = 0.0
+        var maxValue = 1.0
+        var bestColor = foregroundColor
+        var bestContrast = currentContrast
+
+        for (iteration in 0 until maxIterations) {
+            val testValue = (minValue + maxValue) / 2.0
+            val testColor = hsvToHex(hue, saturation, testValue)
+            val testContrast = calculateContrastRatio(testColor, backgroundColor)
+
+            if (testContrast >= minContrast) {
+                bestColor = testColor
+                bestContrast = testContrast
+
+                // Try to get closer to original color while maintaining contrast
+                if (shouldLighten) {
+                    maxValue = testValue
+                } else {
+                    minValue = testValue
+                }
+            } else {
+                if (shouldLighten) {
+                    minValue = testValue
+                } else {
+                    maxValue = testValue
+                }
+            }
+
+            // If we're close enough, stop
+            if (kotlin.math.abs(maxValue - minValue) < 0.01) {
+                break
+            }
+        }
+
+        return bestColor
+    }
+
+    /**
+     * Creates a UI component background that is visibly distinct from the main background.
+     *
+     * This function creates a background color for UI components (like ComboBox, Button, etc.)
+     * that has sufficient contrast against the main background while maintaining the theme's
+     * color harmony by preserving hue relationships.
+     *
+     * Strategy:
+     * 1. If background is dark: create a slightly lighter component background
+     * 2. If background is light: create a slightly darker component background
+     * 3. Maintain the hue of the background for color harmony
+     * 4. Ensure minimum 1.5:1 contrast for subtle visibility
+     *
+     * @param backgroundColor Main background color
+     * @param minContrast Minimum contrast ratio (default: 1.5)
+     * @return Component background color with sufficient contrast
+     */
+    fun createVisibleComponentBackground(
+        backgroundColor: String,
+        minContrast: Double = 1.5
+    ): String {
+        val (hue, saturation, value) = hexToHsv(backgroundColor)
+        val bgLuminance = calculateRelativeLuminance(backgroundColor)
+
+        // Determine adjustment direction based on background brightness
+        val isDark = bgLuminance < 0.5
+
+        // Calculate target value for component background
+        // For dark backgrounds: lighten by 10-20%
+        // For light backgrounds: darken by 10-20%
+        val targetValue = if (isDark) {
+            (value + 0.15).coerceIn(0.0, 1.0)
+        } else {
+            (value - 0.15).coerceIn(0.0, 1.0)
+        }
+
+        // Reduce saturation slightly for UI components (looks more professional)
+        val componentSaturation = (saturation * 0.8).coerceIn(0.0, 1.0)
+
+        val componentColor = hsvToHex(hue, componentSaturation, targetValue)
+
+        // Ensure minimum contrast is met
+        return ensureMinimumContrast(componentColor, backgroundColor, minContrast, maxIterations = 30)
+    }
+
+    /**
+     * Creates a border color that has good visibility against a background.
+     *
+     * Borders need higher contrast than component backgrounds (WCAG AA requires 3:1 for UI components).
+     * This function creates a border color by:
+     * 1. Maintaining the hue of the background for visual harmony
+     * 2. Reducing saturation for a subtle, professional look
+     * 3. Ensuring WCAG AA minimum contrast (3:1)
+     *
+     * @param backgroundColor Background color the border will be displayed against
+     * @param minContrast Minimum WCAG contrast ratio (default: 3.0 for WCAG AA)
+     * @return Border color with sufficient contrast
+     */
+    fun createVisibleBorderColor(
+        backgroundColor: String,
+        minContrast: Double = 3.0
+    ): String {
+        val (hue, saturation, value) = hexToHsv(backgroundColor)
+        val bgLuminance = calculateRelativeLuminance(backgroundColor)
+
+        // Determine if background is dark or light
+        val isDark = bgLuminance < 0.5
+
+        // For borders, we want significant contrast
+        // Dark backgrounds: use much lighter border
+        // Light backgrounds: use much darker border
+        val borderValue = if (isDark) {
+            0.4 // Lighter border for dark background
+        } else {
+            0.3 // Darker border for light background
+        }
+
+        // Reduce saturation for professional look
+        val borderSaturation = (saturation * 0.5).coerceIn(0.0, 1.0)
+
+        val borderColor = hsvToHex(hue, borderSaturation, borderValue)
+
+        // Ensure minimum contrast is met
+        return ensureMinimumContrast(borderColor, backgroundColor, minContrast, maxIterations = 50)
+    }
 }
