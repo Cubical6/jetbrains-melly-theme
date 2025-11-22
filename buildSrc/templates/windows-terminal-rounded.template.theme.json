@@ -181,7 +181,10 @@
     "EditorPane.inactiveBackground": "$wt_background$",
 
     "EditorTabs": {
-      "underlinedTabBackground": "$wt_black$"
+      "underlinedTabBorderColor": "$wt_underlined_tab_border_color$",
+      "underlinedTabBackground": "$wt_underlined_tab_background$",
+      "inactiveUnderlinedTabBorderColor": "$wt_inactive_underlined_tab_border_color$",
+      "inactiveUnderlinedTabBackground": "$wt_inactive_underlined_tab_background$"
     },
 
     "FileColor": {

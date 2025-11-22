@@ -229,6 +229,12 @@ data class WindowsTerminalColorScheme(
         // Island styling (modern floating tool windows)
         val islandBorderColor = ColorUtils.darken(background, 0.15)
 
+        // Editor tab underline styling
+        val underlinedTabBorderColor = selectionBg
+        val underlinedTabBackground = ColorUtils.mix(background, selectionBg, 0.3)
+        val inactiveUnderlinedTabBorderColor = ColorUtils.desaturate(selectionBg, 0.5)
+        val inactiveUnderlinedTabBackground = ColorUtils.mix(background, surface, 0.5)
+
         return ColorPalette(
             // Existing 12
             surface = surface,
@@ -297,7 +303,13 @@ data class WindowsTerminalColorScheme(
             iconColor = iconColor,
 
             // Island
-            islandBorderColor = islandBorderColor
+            islandBorderColor = islandBorderColor,
+
+            // Editor tab underline styling
+            underlinedTabBorderColor = underlinedTabBorderColor,
+            underlinedTabBackground = underlinedTabBackground,
+            inactiveUnderlinedTabBorderColor = inactiveUnderlinedTabBorderColor,
+            inactiveUnderlinedTabBackground = inactiveUnderlinedTabBackground
         )
     }
 
@@ -416,7 +428,13 @@ data class ColorPalette(
     val iconColor: String,           // Default icon color
 
     // Island (1 new)
-    val islandBorderColor: String    // Border color for floating Islands
+    val islandBorderColor: String,   // Border color for floating Islands
+
+    // Editor tab underline styling (4 new)
+    val underlinedTabBorderColor: String,
+    val underlinedTabBackground: String,
+    val inactiveUnderlinedTabBorderColor: String,
+    val inactiveUnderlinedTabBackground: String
 ) {
     /**
      * Converts the ColorPalette to a Map for backward compatibility with template processors.
@@ -494,7 +512,13 @@ data class ColorPalette(
             "wt_icon_color" to iconColor,
 
             // Island (1)
-            "wt_island_border" to islandBorderColor
+            "wt_island_border" to islandBorderColor,
+
+            // Editor tab underline styling (4)
+            "wt_underlined_tab_border_color" to underlinedTabBorderColor,
+            "wt_underlined_tab_background" to underlinedTabBackground,
+            "wt_inactive_underlined_tab_border_color" to inactiveUnderlinedTabBorderColor,
+            "wt_inactive_underlined_tab_background" to inactiveUnderlinedTabBackground
         )
     }
 }
