@@ -185,7 +185,7 @@ open class GenerateThemesWithMetadata : DefaultTask() {
                     logger.lifecycle("✓ plugin.xml updated successfully")
                     logger.lifecycle("  Themes added: ${result.themesAdded}")
                     logger.lifecycle("  - ${result.themesAdded} themeProvider entries (UI themes)")
-                    logger.lifecycle("  - ${result.themesAdded} bundledColorScheme entries (editor color schemes)")
+                    logger.lifecycle("  - ${allMetadata.size} bundledColorScheme entries (editor color schemes)")
                     logger.lifecycle("  Themes removed: ${result.themesRemoved}")
                     logger.lifecycle("  Backup created: ${result.backupPath}")
                 } else {
@@ -207,6 +207,7 @@ open class GenerateThemesWithMetadata : DefaultTask() {
         )
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun generateThemeForScheme(
         scheme: WindowsTerminalColorScheme,
         metadata: ThemeMetadata,
@@ -225,40 +226,24 @@ open class GenerateThemesWithMetadata : DefaultTask() {
         // Use metadata.id as base filename for consistency with plugin.xml
         val baseName = metadata.id
 
-        // Map colors
-        val consoleColors = consoleColorMapper.mapToConsoleColors(scheme)
-        val syntaxColors = SyntaxColorInference.inferSyntaxColors(scheme)
-
-        // Generate XML editor color scheme
+        // Generate XML editor color scheme (shared between variants)
         val xmlOutputPath = outputDirectory.resolve("$baseName.xml")
         xmlGenerator.generate(scheme, xmlOutputPath)
 
-        // Generate JSON UI theme
-        val jsonOutputPath = outputDirectory.resolve("$baseName.theme.json")
-        val result = uiThemeGenerator.generateUITheme(
-            scheme = scheme,
-            outputPath = jsonOutputPath,
-            overwriteExisting = true
-        )
+        // Generate UI theme variants (standard + rounded) using metadata.id as base filename
+        val uiThemeFiles = generators.UIThemeGenerator.generate(scheme, outputDirectory.toFile(), baseFileName = metadata.id)
+        logger.debug("  Generated ${uiThemeFiles.size} UI theme variant(s)")
 
-        if (!result.success) {
-            throw IllegalStateException("UI theme generation failed: ${result.error}")
+        // Validate that at least one theme was generated
+        if (uiThemeFiles.isEmpty()) {
+            throw IllegalStateException("UI theme generation failed: no variants generated")
         }
 
-        // Log warnings if any
-        if (result.warnings.isNotEmpty()) {
-            logger.debug("  Warnings:")
-            result.warnings.forEach { warning ->
-                logger.debug("    - $warning")
-            }
-        }
-
-        // TODO: Implement variant generation in TASK-505
-        if (generateVariants) {
-            logger.debug("  Variant generation not yet implemented (see TASK-505)")
-        }
+        // Note: The generateVariants parameter is now deprecated since variants
+        // are always generated. Kept for backward compatibility.
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun printHeader(
         inputDirectory: Path,
         outputDirectory: Path,
@@ -272,7 +257,7 @@ open class GenerateThemesWithMetadata : DefaultTask() {
         logger.lifecycle("")
         logger.lifecycle("Input directory:    $inputDirectory")
         logger.lifecycle("Output directory:   $outputDirectory")
-        logger.lifecycle("Generate variants:  $generateVariants")
+        logger.lifecycle("Theme variants:     Standard + Rounded (always generated)")
         logger.lifecycle("Update plugin.xml:  $updatePluginXml")
         logger.lifecycle("Project version:    ${project.version}")
         logger.lifecycle("")
@@ -296,6 +281,10 @@ open class GenerateThemesWithMetadata : DefaultTask() {
         if (successCount > 0) {
             val successRate = (successCount.toDouble() / totalSchemes * 100)
             logger.lifecycle("  Success rate:            ${"%.1f".format(successRate)}%")
+            logger.lifecycle("")
+            logger.lifecycle("Generated files:")
+            logger.lifecycle("  UI theme variants:       ${successCount * 2} (2 per scheme)")
+            logger.lifecycle("  Editor schemes:          $successCount")
         }
 
         logger.lifecycle("")

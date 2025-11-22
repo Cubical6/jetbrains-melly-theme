@@ -314,8 +314,12 @@
       
     
     <themeProvider id="wt-lovelace-abd97252" path="/themes/wt-lovelace-abd97252.theme.json"/>
-      
-    
+
+
+    <!-- Lovelace Rounded -->
+    <themeProvider id="com.github.cubical6.lovelace.rounded" path="/themes/Lovelace Rounded.theme.json"/>
+
+
     <themeProvider id="wt-challenger-deep-9f1fae2e" path="/themes/wt-challenger-deep-9f1fae2e.theme.json"/>
       
     
@@ -488,8 +492,12 @@
       
     
     <bundledColorScheme path="/themes/wt-lovelace-abd97252"/>
-      
-    
+
+
+    <!-- Lovelace Rounded -->
+    <bundledColorScheme path="/themes/Lovelace Rounded"/>
+
+
     <bundledColorScheme path="/themes/wt-challenger-deep-9f1fae2e"/>
       
     
