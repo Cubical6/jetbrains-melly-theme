@@ -1,6 +1,7 @@
 package mapping
 
 import colorschemes.WindowsTerminalColorScheme
+import colorschemes.toColorPaletteMap
 import utils.ColorUtils
 import kotlin.math.abs
 
@@ -34,8 +35,8 @@ object ColorPaletteExpander {
     fun expandPalette(scheme: WindowsTerminalColorScheme): Map<String, String> {
         val expanded = mutableMapOf<String, String>()
 
-        // Start with the base palette from the scheme
-        expanded.putAll(scheme.toColorPalette())
+        // Start with the base palette from the scheme (includes base colors + derived colors)
+        expanded.putAll(scheme.toColorPaletteMap())
 
         // Generate background variants for UI panels and borders
         expanded.putAll(generateBackgroundVariants(scheme.background, scheme.foreground))

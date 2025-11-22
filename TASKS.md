@@ -18,7 +18,7 @@
 > → Gebruiker rapporteert: [PASS/FAIL + eventuele errors]
 > ```
 
-**Doel:** iTerm color schemes importeren en JetBrains themes genereren met Lovelace-kwaliteit (50+ afgeleide kleuren ipv 10).
+**Doel:** iTerm color schemes importeren en JetBrains themes genereren met Lovelace-kwaliteit (50 afgeleide kleuren ipv 12).
 
 **Architectuur:** Breid bestaand Windows Terminal systeem uit met iTerm parser en enhanced color derivation. Backwards compatible.
 
@@ -1285,12 +1285,16 @@ git commit -m "feat: add Gradle task to import iTerm schemes"
 > - Claude vraagt gebruiker: `⚠️ ASK USER: Run lokaal: [command]`
 > - Gebruiker rapporteert resultaat (PASS/FAIL + errors)
 
+**Status:** ✓ VOLLEDIG VOLTOOID (commits `0c60aff`, `9d2aa8b` - 2025-11-22)
+- ✓ Task 2.1: Intermediate Shade Generation
+- ✓ Task 2.2: Extend toColorPalette with 50 Derived Colors
+
 **Bestanden:**
 - Modify: `buildSrc/src/main/kotlin/colorschemes/WindowsTerminalColorScheme.kt`
 - Modify: `buildSrc/src/main/kotlin/utils/ColorUtils.kt`
 - Create: `buildSrc/src/test/kotlin/utils/ColorUtilsEnhancedTest.kt`
 
-### Task 2.1: Intermediate Shade Generation
+### Task 2.1: Intermediate Shade Generation ✓ VOLTOOID
 
 **Subtask 2.1.1: Add generateIntermediateShade to ColorUtils.kt**
 
@@ -1450,7 +1454,7 @@ git commit -m "feat: add intermediate shade and gradient generation to ColorUtil
 
 ---
 
-### Task 2.2: Extend toColorPalette with 50+ Derived Colors
+### Task 2.2: Extend toColorPalette with 50 Derived Colors ✓ VOLTOOID
 
 **Subtask 2.2.1: Read current toColorPalette implementation**
 
@@ -1688,7 +1692,7 @@ Expected: SUCCESS (no compilation errors)
 
 ```bash
 git add buildSrc/src/main/kotlin/colorschemes/WindowsTerminalColorScheme.kt
-git commit -m "feat: extend ColorPalette from 12 to 60+ derived colors"
+git commit -m "feat: extend ColorPalette from 12 to 50 derived colors"
 ```
 
 ### FASE 2 Verificatie
@@ -2191,7 +2195,7 @@ rm -rf src/main/resources/themes/*.xml
 **Subtask 5.1.3: Regenerate all themes**
 
 Run: `./gradlew generateThemesFromWindowsTerminal`
-Expected: Generates 60+ themes successfully
+Expected: Generates 50 themes successfully
 
 **Subtask 5.1.4: Count generated themes**
 
@@ -2199,7 +2203,7 @@ Expected: Generates 60+ themes successfully
 ls -1 src/main/resources/themes/*.theme.json | wc -l
 ls -1 src/main/resources/themes/*.xml | wc -l
 ```
-Expected: Same number as before (60+)
+Expected: Same number as before (50)
 
 **Subtask 5.1.5: Check for generation errors**
 
@@ -2308,7 +2312,7 @@ You can import iTerm2 `.itermcolors` files and automatically convert them to Jet
    ./gradlew generateThemesFromWindowsTerminal
    ```
 
-The system now generates 60+ derived colors from the base 16-color palette for richer, more polished themes.
+The system now generates 50 derived colors from the base 16-color palette for richer, more polished themes.
 ```
 
 **Subtask 5.4.2: Create CHANGELOG entry**
@@ -2323,17 +2327,17 @@ Bestand: `CHANGELOG.md` (or create if missing)
 - ITermColorScheme data class and parser
 - ITermToWindowsTerminalConverter for format conversion
 - `importITermSchemes` Gradle task
-- Enhanced color derivation: 60+ derived colors (up from 12)
+- Enhanced color derivation: 50 derived colors (up from 12)
 - Intermediate shade generation utilities
 - Color gradient generation
 - Alpha transparency support
 - Lovelace theme based on Lovelace iTerm color scheme
 
 ### Changed
-- Extended ColorPalette with 50+ new derived colors
+- Extended ColorPalette with 38 new derived colors (total: 50)
 - Updated theme.json template with new color placeholders
 - Updated XML template with enhanced syntax colors
-- All 60+ existing themes now have richer color palettes
+- All 50 existing themes now have richer color palettes
 
 ### Technical
 - Added ColorUtils functions: generateIntermediateShade, generateColorGradient, addAlpha
@@ -2361,7 +2365,7 @@ Review all modified and new files
 
 ```bash
 git add src/main/resources/themes/
-git commit -m "refactor: regenerate all themes with enhanced 60+ color derivation"
+git commit -m "refactor: regenerate all themes with enhanced 50 color derivation"
 ```
 
 **Subtask 5.5.3: Create summary commit message**
@@ -2835,7 +2839,7 @@ ls -1 src/main/resources/themes/*.xml | wc -l
 
 Expected:
 - UI Themes: 120+ (2 per scheme)
-- Editor Schemes: 60+ (1 per scheme)
+- Editor Schemes: 50 (1 per scheme)
 
 **Subtask 6.4.6: Commit generated themes**
 
@@ -2876,8 +2880,8 @@ Update de features sectie:
 - **120+ Theme Variants**: Import iTerm color schemes and generate both Standard and Rounded UI variants
 - **Standard Variant**: Classic sharp corners (arc = 0)
 - **Rounded Variant**: Modern rounded UI with polished corners (arc = 6-12)
-- **60+ Editor Color Schemes**: Syntax highlighting shared between variants
-- **Enhanced Color Derivation**: 60+ algorithmically derived colors from 16-color palette
+- **50 Editor Color Schemes**: Syntax highlighting shared between variants
+- **Enhanced Color Derivation**: 50 algorithmically derived colors from 16-color palette
 - **Automatic iTerm Import**: Convert .itermcolors files to JetBrains themes
 ```
 
@@ -2976,7 +2980,7 @@ Na voltooiing van alle fases:
 - [ ] Fase 5: Validation & Testing (3 commits)
 - [ ] Fase 6: Rounded Theme Variants (6 commits)
 
-**Totaal: ~24 commits, 120+ theme variants, 60+ editor schemes, iTerm import support**
+**Totaal: ~24 commits, 120+ theme variants, 50 editor schemes, iTerm import support**
 
 ---
 

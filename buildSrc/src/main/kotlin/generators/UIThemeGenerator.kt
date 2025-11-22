@@ -1,6 +1,7 @@
 package generators
 
 import colorschemes.WindowsTerminalColorScheme
+import colorschemes.toColorPaletteMap
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -274,8 +275,8 @@ class UIThemeGenerator {
         isDark: Boolean
     ): Map<String, String> {
         return buildMap {
-            // Add all color palette variables
-            putAll(scheme.toColorPalette())
+            // Add all color palette variables (base colors + derived colors)
+            putAll(scheme.toColorPaletteMap())
 
             // Add metadata variables
             put("wt_name", scheme.name)

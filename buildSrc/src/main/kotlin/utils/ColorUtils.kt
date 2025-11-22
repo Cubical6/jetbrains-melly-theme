@@ -201,6 +201,76 @@ object ColorUtils {
     }
 
     /**
+     * Generate intermediate shade between two colors
+     * @param color1 First color in hex format
+     * @param color2 Second color in hex format
+     * @param ratio Mix ratio (0.0 = color1, 1.0 = color2, 0.5 = halfway)
+     */
+    fun generateIntermediateShade(color1: String, color2: String, ratio: Float = 0.5f): String {
+        require(ratio in 0.0f..1.0f) { "Ratio must be 0.0-1.0, got $ratio" }
+
+        val rgb1 = parseHexColor(color1)
+        val rgb2 = parseHexColor(color2)
+
+        val r = (rgb1.red * (1 - ratio) + rgb2.red * ratio).toInt()
+        val g = (rgb1.green * (1 - ratio) + rgb2.green * ratio).toInt()
+        val b = (rgb1.blue * (1 - ratio) + rgb2.blue * ratio).toInt()
+
+        return "#%02x%02x%02x".format(r, g, b)
+    }
+
+    /**
+     * Generate series of shades between two colors
+     * @param start Start color in hex
+     * @param end End color in hex
+     * @param steps Number of intermediate steps (not including start/end)
+     */
+    fun generateColorGradient(start: String, end: String, steps: Int): List<String> {
+        require(steps >= 0) { "Steps must be >= 0" }
+
+        if (steps == 0) return listOf(start, end)
+
+        val gradient = mutableListOf(start)
+        for (i in 1..steps) {
+            val ratio = i.toFloat() / (steps + 1)
+            gradient.add(generateIntermediateShade(start, end, ratio))
+        }
+        gradient.add(end)
+
+        return gradient
+    }
+
+    /**
+     * Create a color with alpha transparency (ARGB format)
+     * @param color Base color in hex
+     * @param alpha Alpha value 0.0-1.0 (0=transparent, 1=opaque)
+     */
+    fun addAlpha(color: String, alpha: Float): String {
+        require(alpha in 0.0f..1.0f) { "Alpha must be 0.0-1.0, got $alpha" }
+
+        val alphaHex = (alpha * 255).toInt().coerceIn(0, 255)
+        val rgb = parseHexColor(color)
+
+        return "#%02x%02x%02x%02x".format(alphaHex, rgb.red, rgb.green, rgb.blue)
+    }
+
+    private data class RGB(val red: Int, val green: Int, val blue: Int)
+
+    private fun parseHexColor(hex: String): RGB {
+        val clean = hex.removePrefix("#")
+        require(clean.length == 6 || clean.length == 8) { "Invalid hex color: $hex" }
+
+        // For 8-char ARGB format, skip the first 2 chars (alpha channel)
+        val offset = if (clean.length == 8) 2 else 0
+
+        val r = clean.substring(offset + 0, offset + 2).toInt(16)
+        val g = clean.substring(offset + 2, offset + 4).toInt(16)
+        val b = clean.substring(offset + 4, offset + 6).toInt(16)
+
+        return RGB(r, g, b)
+    }
+
+    /**
      * Converts hex color to HSV (Hue, Saturation, Value) with caching.
      *
      * @param hexColor Color in #RRGGBB format
