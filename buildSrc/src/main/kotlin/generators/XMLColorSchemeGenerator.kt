@@ -4,6 +4,7 @@ import colorschemes.WindowsTerminalColorScheme
 import mapping.ColorMappingConfig
 import mapping.ConsoleColorMapper
 import mapping.SyntaxColorInference
+import utils.ColorUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.xml.parsers.DocumentBuilderFactory
@@ -67,6 +68,37 @@ class XMLColorSchemeGenerator(
     }
 
     /**
+     * Validates that all required color attributes are present and non-empty.
+     * @throws IllegalArgumentException if required colors are missing
+     */
+    private fun validateRequiredAttributes(colorPalette: Map<String, String>) {
+        val required = listOf(
+            "wt_background", "wt_foreground",
+            "wt_black", "wt_red", "wt_green", "wt_yellow",
+            "wt_blue", "wt_purple", "wt_cyan", "wt_white"
+        )
+
+        required.forEach { key ->
+            val value = colorPalette[key]
+            require(!value.isNullOrBlank()) {
+                "Required color placeholder '$key' is missing or empty in color palette"
+            }
+        }
+    }
+
+    /**
+     * Validates contrast ratio between background and foreground colors.
+     * Warns if contrast is too low for readability.
+     */
+    private fun validateContrast(background: String, foreground: String) {
+        val ratio = ColorUtils.calculateContrastRatio(background, foreground)
+        if (ratio < 3.0) {
+            println("⚠️  WARNING: Low contrast ratio (${"%.2f".format(ratio)}) between background ($background) and foreground ($foreground)")
+            println("   WCAG recommends minimum 4.5:1 for normal text, 3:1 for large text")
+        }
+    }
+
+    /**
      * Generates an IntelliJ XML color scheme file from a Windows Terminal color scheme.
      *
      * @param scheme Windows Terminal color scheme to convert
@@ -87,6 +119,27 @@ class XMLColorSchemeGenerator(
 
         // Build replacement map
         val replacements = buildReplacementMap(scheme)
+
+        // Build color palette for validation
+        val colorPalette = mapOf(
+            "wt_background" to scheme.background,
+            "wt_foreground" to scheme.foreground,
+            "wt_black" to scheme.black,
+            "wt_red" to scheme.red,
+            "wt_green" to scheme.green,
+            "wt_yellow" to scheme.yellow,
+            "wt_blue" to scheme.blue,
+            "wt_purple" to scheme.purple,
+            "wt_cyan" to scheme.cyan,
+            "wt_white" to scheme.white
+        )
+
+        // Validate color palette
+        validateRequiredAttributes(colorPalette)
+        validateContrast(
+            colorPalette["wt_background"] ?: "",
+            colorPalette["wt_foreground"] ?: ""
+        )
 
         // Replace all placeholders
         var result = template
@@ -222,6 +275,27 @@ class XMLColorSchemeGenerator(
 
         // Build replacement map
         val replacements = buildReplacementMap(scheme)
+
+        // Build color palette for validation
+        val colorPalette = mapOf(
+            "wt_background" to scheme.background,
+            "wt_foreground" to scheme.foreground,
+            "wt_black" to scheme.black,
+            "wt_red" to scheme.red,
+            "wt_green" to scheme.green,
+            "wt_yellow" to scheme.yellow,
+            "wt_blue" to scheme.blue,
+            "wt_purple" to scheme.purple,
+            "wt_cyan" to scheme.cyan,
+            "wt_white" to scheme.white
+        )
+
+        // Validate color palette
+        validateRequiredAttributes(colorPalette)
+        validateContrast(
+            colorPalette["wt_background"] ?: "",
+            colorPalette["wt_foreground"] ?: ""
+        )
 
         // Replace all placeholders
         var result = template
