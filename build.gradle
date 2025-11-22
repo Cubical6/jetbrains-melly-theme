@@ -93,11 +93,18 @@ tasks.patchPluginXml {
 
 // Import task classes from buildSrc
 import tasks.GenerateThemesWithMetadata
+import tasks.ImportITermSchemes
 
 // Register theme generation task
 tasks.register('createThemes', GenerateThemesWithMetadata) {
     description = 'Generate all Windows Terminal themes with metadata'
     group = 'themes'
+}
+
+// Register iTerm import task
+tasks.register('importITermSchemes', ImportITermSchemes) {
+    description = 'Import iTerm2 .itermcolors files to Windows Terminal JSON format'
+    group = 'theme'
 }
 
 // Task dependencies commented out - these tasks may not exist or may have been renamed
