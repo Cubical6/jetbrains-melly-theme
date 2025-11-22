@@ -4,7 +4,7 @@
 # Task 5.2.5: Validate XML syntax
 # This script validates all .xml theme files in the themes directory
 
-set -e
+# Note: set -e removed - we use explicit error handling with error counters
 
 THEMES_DIR="src/main/resources/themes"
 ERRORS=0

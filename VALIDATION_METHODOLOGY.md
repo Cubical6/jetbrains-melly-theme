@@ -195,8 +195,9 @@ git diff --stat src/main/resources/themes/
 ```diff
 -  "Console.Blue": "#4080D0",
 +  "Console.Blue": "#4080D0"
-+  "Terminal.AnsiBlack": "#000000",  // Missing comma above!
++  "Terminal.AnsiBlack": "#000000",
 ```
+*(Missing comma after "Console.Blue" line will cause JSON parse error)*
 
 #### XML Files (.xml)
 

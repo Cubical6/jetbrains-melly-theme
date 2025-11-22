@@ -4,7 +4,7 @@
 # Task 5.2.4: Validate JSON syntax
 # This script validates all .theme.json files in the themes directory
 
-set -e
+# Note: set -e removed - we use explicit error handling with error counters
 
 THEMES_DIR="src/main/resources/themes"
 ERRORS=0

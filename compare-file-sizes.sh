@@ -4,7 +4,7 @@
 # Task 5.2.3: Compare file sizes before and after regeneration
 # This script compares current theme file sizes with their git HEAD versions
 
-set -e
+# Note: set -e removed - we use explicit error handling with || fallbacks
 
 THEMES_DIR="src/main/resources/themes"
 
@@ -40,9 +40,9 @@ find "$THEMES_DIR" -name "*.theme.json" 2>/dev/null | sort | while IFS= read -r 
         DIFF=$((NEW_SIZE - OLD_SIZE))
 
         echo "File: $FILENAME"
-        printf "  Before: %'d bytes\n" "$OLD_SIZE"
-        printf "  After:  %'d bytes\n" "$NEW_SIZE"
-        printf "  Change: %'d bytes" "$DIFF"
+        printf "  Before: %d bytes\n" "$OLD_SIZE"
+        printf "  After:  %d bytes\n" "$NEW_SIZE"
+        printf "  Change: %d bytes" "$DIFF"
 
         if [ "$USE_BC" = true ]; then
             PERCENT=$(echo "scale=1; $DIFF * 100 / $OLD_SIZE" | bc)
@@ -64,7 +64,7 @@ find "$THEMES_DIR" -name "*.theme.json" 2>/dev/null | sort | while IFS= read -r 
         echo ""
     else
         echo "File: $FILENAME"
-        printf "  Current: %'d bytes\n" "$NEW_SIZE"
+        printf "  Current: %d bytes\n" "$NEW_SIZE"
         echo "  Status: New file (no git history)"
         echo ""
     fi
@@ -86,9 +86,9 @@ find "$THEMES_DIR" -name "*.xml" 2>/dev/null | sort | while IFS= read -r file; d
         DIFF=$((NEW_SIZE - OLD_SIZE))
 
         echo "File: $FILENAME"
-        printf "  Before: %'d bytes\n" "$OLD_SIZE"
-        printf "  After:  %'d bytes\n" "$NEW_SIZE"
-        printf "  Change: %'d bytes" "$DIFF"
+        printf "  Before: %d bytes\n" "$OLD_SIZE"
+        printf "  After:  %d bytes\n" "$NEW_SIZE"
+        printf "  Change: %d bytes" "$DIFF"
 
         if [ "$USE_BC" = true ]; then
             PERCENT=$(echo "scale=1; $DIFF * 100 / $OLD_SIZE" | bc)
@@ -110,7 +110,7 @@ find "$THEMES_DIR" -name "*.xml" 2>/dev/null | sort | while IFS= read -r file; d
         echo ""
     else
         echo "File: $FILENAME"
-        printf "  Current: %'d bytes\n" "$NEW_SIZE"
+        printf "  Current: %d bytes\n" "$NEW_SIZE"
         echo "  Status: New file (no git history)"
         echo ""
     fi

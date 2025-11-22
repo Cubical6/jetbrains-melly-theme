@@ -4,7 +4,7 @@
 # Task 5.2.2: Analyze git diffs for theme regeneration validation
 # This script provides comprehensive diff analysis for theme files
 
-set -e
+# Note: set -e removed - we use explicit error handling with || fallbacks
 
 THEMES_DIR="src/main/resources/themes"
 
@@ -41,9 +41,9 @@ if ! git diff --quiet "$THEMES_DIR"; then
             echo "File: $FILENAME"
             echo "----------------------------------------"
 
-            # Count additions and deletions
-            ADDITIONS=$(git diff "$file" | grep -c "^+" | grep -v "^+++" || echo "0")
-            DELETIONS=$(git diff "$file" | grep -c "^-" | grep -v "^---" || echo "0")
+            # Count additions and deletions (filter before counting)
+            ADDITIONS=$(git diff "$file" | grep "^+" | grep -v "^+++" | wc -l || echo "0")
+            DELETIONS=$(git diff "$file" | grep "^-" | grep -v "^---" | wc -l || echo "0")
 
             echo "Lines added: $ADDITIONS"
             echo "Lines deleted: $DELETIONS"
@@ -85,9 +85,9 @@ if ! git diff --quiet "$THEMES_DIR"; then
             echo "File: $FILENAME"
             echo "----------------------------------------"
 
-            # Count additions and deletions
-            ADDITIONS=$(git diff "$file" | grep -c "^+" | grep -v "^+++" || echo "0")
-            DELETIONS=$(git diff "$file" | grep -c "^-" | grep -v "^---" || echo "0")
+            # Count additions and deletions (filter before counting)
+            ADDITIONS=$(git diff "$file" | grep "^+" | grep -v "^+++" | wc -l || echo "0")
+            DELETIONS=$(git diff "$file" | grep "^-" | grep -v "^---" | wc -l || echo "0")
 
             echo "Lines added: $ADDITIONS"
             echo "Lines deleted: $DELETIONS"
