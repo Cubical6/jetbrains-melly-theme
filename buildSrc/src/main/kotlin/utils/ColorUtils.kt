@@ -395,7 +395,6 @@ object ColorUtils {
         var minValue = 0.0
         var maxValue = 1.0
         var bestColor = foregroundColor
-        var bestContrast = currentContrast
 
         for (iteration in 0 until maxIterations) {
             val testValue = (minValue + maxValue) / 2.0
@@ -404,7 +403,6 @@ object ColorUtils {
 
             if (testContrast >= minContrast) {
                 bestColor = testColor
-                bestContrast = testContrast
 
                 // Try to get closer to original color while maintaining contrast
                 if (shouldLighten) {
@@ -491,7 +489,7 @@ object ColorUtils {
         backgroundColor: String,
         minContrast: Double = 3.0
     ): String {
-        val (hue, saturation, value) = hexToHsv(backgroundColor)
+        val (hue, saturation, _) = hexToHsv(backgroundColor)
         val bgLuminance = calculateRelativeLuminance(backgroundColor)
 
         // Determine if background is dark or light
