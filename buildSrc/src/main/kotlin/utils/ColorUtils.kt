@@ -380,10 +380,13 @@ object ColorUtils {
             return foregroundColor
         }
 
-        // Determine if we should lighten or darken
+        // Determine if we should lighten or darken by comparing luminance values
+        // If foreground is already lighter than background, make it even lighter
+        // If foreground is already darker than background, make it even darker
+        // This maximizes contrast in the natural direction
         val bgLuminance = calculateRelativeLuminance(backgroundColor)
         val fgLuminance = calculateRelativeLuminance(foregroundColor)
-        val shouldLighten = bgLuminance < 0.5
+        val shouldLighten = fgLuminance > bgLuminance
 
         // Extract HSV to maintain hue during adjustment
         val (hue, saturation, _) = hexToHsv(foregroundColor)
