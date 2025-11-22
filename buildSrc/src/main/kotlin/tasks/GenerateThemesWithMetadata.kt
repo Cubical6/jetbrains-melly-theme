@@ -243,6 +243,7 @@ open class GenerateThemesWithMetadata : DefaultTask() {
         // are always generated. Kept for backward compatibility.
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun printHeader(
         inputDirectory: Path,
         outputDirectory: Path,
