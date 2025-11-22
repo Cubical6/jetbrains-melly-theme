@@ -514,4 +514,27 @@ object ColorUtils {
         // Ensure minimum contrast is met
         return ensureMinimumContrast(borderColor, backgroundColor, minContrast, maxIterations = 50)
     }
+
+    /**
+     * Normalize color string to standard hex format (#RRGGBB).
+     *
+     * This function ensures colors are in the standard #RRGGBB format by:
+     * - Adding # prefix if missing
+     * - Converting to uppercase for consistency
+     * - Validating the format
+     *
+     * @param color Color string (with or without # prefix)
+     * @return Normalized color in #RRGGBB format
+     * @throws IllegalArgumentException if color format is invalid
+     */
+    fun normalizeColor(color: String): String {
+        val trimmed = color.trim()
+        val withHash = if (trimmed.startsWith("#")) trimmed else "#$trimmed"
+
+        // Validate by using hexToRgb (which validates format)
+        val (r, g, b) = hexToRgb(withHash)
+
+        // Return normalized uppercase format
+        return rgbToHex(r, g, b).uppercase()
+    }
 }
