@@ -216,7 +216,7 @@ object ColorUtils {
         val g = (rgb1.green * (1 - ratio) + rgb2.green * ratio).toInt()
         val b = (rgb1.blue * (1 - ratio) + rgb2.blue * ratio).toInt()
 
-        return "#%02X%02X%02X".format(r, g, b)
+        return "#%02x%02x%02x".format(r, g, b)
     }
 
     /**
@@ -251,7 +251,7 @@ object ColorUtils {
         val alphaHex = (alpha * 255).toInt().coerceIn(0, 255)
         val rgb = parseHexColor(color)
 
-        return "#%02X%02X%02X%02X".format(alphaHex, rgb.red, rgb.green, rgb.blue)
+        return "#%02x%02x%02x%02x".format(alphaHex, rgb.red, rgb.green, rgb.blue)
     }
 
     private data class RGB(val red: Int, val green: Int, val blue: Int)
@@ -260,9 +260,12 @@ object ColorUtils {
         val clean = hex.removePrefix("#")
         require(clean.length == 6 || clean.length == 8) { "Invalid hex color: $hex" }
 
-        val r = clean.substring(0, 2).toInt(16)
-        val g = clean.substring(2, 4).toInt(16)
-        val b = clean.substring(4, 6).toInt(16)
+        // For 8-char ARGB format, skip the first 2 chars (alpha channel)
+        val offset = if (clean.length == 8) 2 else 0
+
+        val r = clean.substring(offset + 0, offset + 2).toInt(16)
+        val g = clean.substring(offset + 2, offset + 4).toInt(16)
+        val b = clean.substring(offset + 4, offset + 6).toInt(16)
 
         return RGB(r, g, b)
     }
