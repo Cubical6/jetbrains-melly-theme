@@ -97,8 +97,8 @@
         "startBackground": "$wt_blue$",
         "endBackground": "$wt_blue$",
         "foreground": "$wt_background$",
-        "focusedBorderColor": "$wt_buttonBorderFocused$",
-        "borderColor": "$wt_buttonBorder$"
+        "focusedBorderColor": "$wt_button_border_focused$",
+        "borderColor": "$wt_button_border$"
       }
     },
 
@@ -313,7 +313,7 @@
       "arc": "$arc_popup$",
       "background": "$wt_popup_background$",
       "paintBorder": false,
-      "borderColor": "$wt_popupBorder$",
+      "borderColor": "$wt_popup_border$",
       "Toolbar.borderColor": "$wt_black$",
       "Header.activeBackground": "$wt_black$",
       "Header.inactiveBackground": "$wt_black$",
