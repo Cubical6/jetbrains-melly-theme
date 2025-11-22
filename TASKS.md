@@ -1681,6 +1681,22 @@ git add buildSrc/src/main/kotlin/colorschemes/WindowsTerminalColorScheme.kt
 git commit -m "feat: extend ColorPalette from 12 to 60+ derived colors"
 ```
 
+### FASE 2 Verificatie
+
+⚠️ **ASK USER:** Run lokaal:
+
+```bash
+# Test nieuwe color derivation functies
+./gradlew test --tests ColorUtilsEnhancedTest
+
+# Verificeer compilatie
+./gradlew compileKotlin
+```
+
+→ **Gebruiker rapporteert:** _[PASS/FAIL + errors]_
+
+**Als PASS:** Ga verder naar FASE 3.
+
 ---
 
 ## FASE 3: Template Updates
@@ -1854,6 +1870,22 @@ git add buildSrc/src/main/kotlin/generators/UIThemeGenerator.kt
 git add buildSrc/src/main/kotlin/generators/XMLColorSchemeGenerator.kt
 git commit -m "feat: update generators to handle new color placeholders"
 ```
+
+### FASE 3 Verificatie
+
+⚠️ **ASK USER:** Run lokaal:
+
+```bash
+# Compilatie check
+./gradlew compileKotlin
+
+# Test dat templates correct werken
+./gradlew generateThemesFromWindowsTerminal
+```
+
+→ **Gebruiker rapporteert:** _[PASS/FAIL + errors]_
+
+**Als PASS:** Ga verder naar FASE 4.
 
 ---
 
@@ -2105,6 +2137,22 @@ git add src/main/resources/themes/Lovelace.xml
 git commit -m "feat: generate Lovelace theme from color scheme"
 ```
 
+### FASE 4 Verificatie
+
+⚠️ **ASK USER:** Run lokaal:
+
+```bash
+# Generate Lovelace theme
+./gradlew generateThemesFromWindowsTerminal
+
+# Verify generated theme exists and is valid
+ls -la src/main/resources/themes/Lovelace.*
+```
+
+→ **Gebruiker rapporteert:** _[PASS/FAIL + file output]_
+
+**Als PASS:** Ga verder naar FASE 5.
+
 ---
 
 ## FASE 5: Validation & Testing
@@ -2321,6 +2369,28 @@ Review of alle commits logisch zijn
 ```bash
 git tag -a v2.0.0-lovelace -m "Add iTerm import and enhanced color derivation"
 ```
+
+### FASE 5 Verificatie
+
+⚠️ **ASK USER:** Run lokaal:
+
+```bash
+# Full test suite
+./gradlew test
+
+# Build plugin
+./gradlew buildPlugin
+
+# Verify all themes generated correctly
+ls -la src/main/resources/themes/ | wc -l
+```
+
+→ **Gebruiker rapporteert:**
+- [ ] Tests: _[PASS/FAIL + which failed]_
+- [ ] Build: _[PASS/FAIL + errors]_
+- [ ] Themes count: _[aantal themes]_
+
+**Als PASS:** Ga verder naar FASE 6.
 
 ---
 
@@ -2856,6 +2926,32 @@ Expected: Both Lovelace.theme.json AND "Lovelace Rounded.theme.json"
 ```bash
 git tag -a v2.1.0-rounded -m "Add rounded theme variants"
 ```
+
+### FASE 6 Verificatie
+
+⚠️ **ASK USER:** Run lokaal:
+
+```bash
+# Test variant generation
+./gradlew test --tests ThemeVariantTest
+
+# Generate themes with variants
+./gradlew generateThemesFromWindowsTerminal
+
+# Verify both Standard and Rounded variants exist
+ls -la src/main/resources/themes/*.theme.json | grep -E "(Standard|Rounded)" | wc -l
+
+# Build final plugin
+./gradlew buildPlugin
+```
+
+→ **Gebruiker rapporteert:**
+- [ ] Tests: _[PASS/FAIL]_
+- [ ] Theme generation: _[PASS/FAIL]_
+- [ ] Variant count: _[aantal Standard + Rounded themes]_
+- [ ] Plugin build: _[PASS/FAIL + path to .zip]_
+
+**Als PASS:** FASE 6 voltooid! ✅ Ga naar COMPLETION CHECKLIST.
 
 ---
 
