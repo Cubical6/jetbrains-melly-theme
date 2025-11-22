@@ -79,7 +79,8 @@ class UIThemeGenerator {
         fun generateVariant(
             scheme: WindowsTerminalColorScheme,
             variant: ThemeVariant,
-            outputDir: File
+            outputDir: File,
+            baseFileName: String? = null
         ): File {
             // Validate the color scheme
             val validationErrors = scheme.validate()
@@ -131,7 +132,9 @@ class UIThemeGenerator {
             }
 
             // Write output
-            val fileName = "${sanitizeFileNameStatic(scheme.name)}${variant.suffix.replace(" ", "_").lowercase()}.theme.json"
+            val baseName = baseFileName ?: sanitizeFileNameStatic(scheme.name)
+            val variantSuffix = variant.suffix.replace(" ", "_").lowercase()
+            val fileName = "${baseName}${variantSuffix}.theme.json"
             outputDir.mkdirs()
             val outputFile = File(outputDir, fileName)
             outputFile.writeText(content)
@@ -142,12 +145,12 @@ class UIThemeGenerator {
         /**
          * Generate UI themes for all variants
          */
-        fun generate(scheme: WindowsTerminalColorScheme, outputDir: File): List<File> {
+        fun generate(scheme: WindowsTerminalColorScheme, outputDir: File, baseFileName: String? = null): List<File> {
             val generatedFiles = mutableListOf<File>()
 
             // Generate all variants
             for (variant in ThemeVariant.all()) {
-                val file = generateVariant(scheme, variant, outputDir)
+                val file = generateVariant(scheme, variant, outputDir, baseFileName)
                 generatedFiles.add(file)
                 val variantLabel = if (variant.displayName.isNotEmpty()) variant.displayName else "Standard"
                 println("Generated $variantLabel variant: ${file.name}")
