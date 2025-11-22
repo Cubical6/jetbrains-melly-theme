@@ -500,6 +500,16 @@
 
   "icons": {
     "ColorPalette": {
+      "Actions.Red": "$Actions.Red$",
+      "Actions.Yellow": "$Actions.Yellow$",
+      "Actions.Green": "$Actions.Green$",
+      "Actions.Blue": "$Actions.Blue$",
+      "Actions.Grey": "$Actions.Grey$",
+      "Objects.Green": "$Objects.Green$",
+      "Objects.Yellow": "$Objects.Yellow$",
+      "Objects.Blue": "$Objects.Blue$",
+      "Objects.Grey": "$Objects.Grey$",
+      "Objects.Red": "$Objects.Red$",
       "Checkbox.Background.Default.Dark": "$wt_background$",
       "Checkbox.Border.Default.Dark": "$wt_black$",
       "Checkbox.Foreground.Selected.Dark": "$wt_foreground$",

@@ -235,6 +235,20 @@ data class WindowsTerminalColorScheme(
         val inactiveUnderlinedTabBorderColor = ColorUtils.desaturate(selectionBg, 0.5)
         val inactiveUnderlinedTabBackground = ColorUtils.mix(background, surface, 0.5)
 
+        // Icon colors - Actions category
+        val actionsRed = ColorUtils.blend(background, "#DB5860", 0.7)
+        val actionsYellow = ColorUtils.blend(background, "#EDA200", 0.7)
+        val actionsGreen = ColorUtils.blend(background, "#59A869", 0.7)
+        val actionsBlue = selectionBg
+        val actionsGrey = ColorUtils.desaturate(foreground, 0.3)
+
+        // Icon colors - Objects category
+        val objectsGreen = actionsGreen
+        val objectsYellow = actionsYellow
+        val objectsBlue = actionsBlue
+        val objectsGrey = actionsGrey
+        val objectsRed = actionsRed
+
         return ColorPalette(
             // Existing 12
             surface = surface,
@@ -309,7 +323,19 @@ data class WindowsTerminalColorScheme(
             underlinedTabBorderColor = underlinedTabBorderColor,
             underlinedTabBackground = underlinedTabBackground,
             inactiveUnderlinedTabBorderColor = inactiveUnderlinedTabBorderColor,
-            inactiveUnderlinedTabBackground = inactiveUnderlinedTabBackground
+            inactiveUnderlinedTabBackground = inactiveUnderlinedTabBackground,
+
+            // Icon colors
+            actionsRed = actionsRed,
+            actionsYellow = actionsYellow,
+            actionsGreen = actionsGreen,
+            actionsBlue = actionsBlue,
+            actionsGrey = actionsGrey,
+            objectsGreen = objectsGreen,
+            objectsYellow = objectsYellow,
+            objectsBlue = objectsBlue,
+            objectsGrey = objectsGrey,
+            objectsRed = objectsRed
         )
     }
 
@@ -434,7 +460,21 @@ data class ColorPalette(
     val underlinedTabBorderColor: String,
     val underlinedTabBackground: String,
     val inactiveUnderlinedTabBorderColor: String,
-    val inactiveUnderlinedTabBackground: String
+    val inactiveUnderlinedTabBackground: String,
+
+    // Icon colors - Actions category (5 new)
+    val actionsRed: String,
+    val actionsYellow: String,
+    val actionsGreen: String,
+    val actionsBlue: String,
+    val actionsGrey: String,
+
+    // Icon colors - Objects category (5 new)
+    val objectsGreen: String,
+    val objectsYellow: String,
+    val objectsBlue: String,
+    val objectsGrey: String,
+    val objectsRed: String
 ) {
     /**
      * Converts the ColorPalette to a Map for backward compatibility with template processors.
@@ -518,7 +558,21 @@ data class ColorPalette(
             "wt_underlined_tab_border_color" to underlinedTabBorderColor,
             "wt_underlined_tab_background" to underlinedTabBackground,
             "wt_inactive_underlined_tab_border_color" to inactiveUnderlinedTabBorderColor,
-            "wt_inactive_underlined_tab_background" to inactiveUnderlinedTabBackground
+            "wt_inactive_underlined_tab_background" to inactiveUnderlinedTabBackground,
+
+            // Icon colors - Actions (5)
+            "Actions.Red" to actionsRed,
+            "Actions.Yellow" to actionsYellow,
+            "Actions.Green" to actionsGreen,
+            "Actions.Blue" to actionsBlue,
+            "Actions.Grey" to actionsGrey,
+
+            // Icon colors - Objects (5)
+            "Objects.Green" to objectsGreen,
+            "Objects.Yellow" to objectsYellow,
+            "Objects.Blue" to objectsBlue,
+            "Objects.Grey" to objectsGrey,
+            "Objects.Red" to objectsRed
         )
     }
 }
