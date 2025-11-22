@@ -129,8 +129,8 @@ grep -n 'underlined' buildSrc/templates/windows-terminal.template.theme.json
 - Expanded icon ColorPalette from 1 to 10 entries:
   - Actions: Red, Yellow, Green, Blue, Grey (5 colors)
   - Objects: Green, Yellow, Blue, Grey, Red (5 colors)
-- Added corresponding properties to WindowsTerminalColorScheme.kt (15 new color definitions)
-- Locations: Lines 503-512 in template
+- Added corresponding properties to WindowsTerminalColorScheme.kt (10 new color definitions)
+- Locations: Lines 506-517 in template
 
 **Verification:**
 ```bash

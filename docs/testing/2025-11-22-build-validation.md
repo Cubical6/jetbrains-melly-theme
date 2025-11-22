@@ -27,7 +27,7 @@ This report documents the validation of template files, Kotlin code, and build a
 **Validation Summary:**
 - Both template files have syntactically correct JSON structure
 - All required properties are present
-- Template variable placeholders (`{{...}}`) are properly formatted
+- Template variable placeholders (`$variable_name$`) are properly formatted
 - No syntax errors detected
 
 ### 2. Kotlin Code Syntax Validation
@@ -59,7 +59,7 @@ This report documents the validation of template files, Kotlin code, and build a
    - Valid lambda expressions in ColorUtils method calls
    - No obvious compilation errors
 
-4. **New Derived Colors (38 added):**
+4. **New Derived Colors (53 added):**
    - Surface variations (4): `surfaceDark`, `surfaceDarker`, `surfaceDarkest`, `surfaceSubtle`
    - Selection variations (3): `selectionInactive`, `selectionLight`, `selectionBorder`
    - Focus/Accent colors (5): `focusColor`, `focusBorder`, `accentPrimary`, `accentSecondary`, `accentTertiary`
@@ -67,6 +67,11 @@ This report documents the validation of template files, Kotlin code, and build a
    - Syntax-specific (6): `instanceField`, `todoColor`, `deprecatedColor`, `stringEscape`, `numberAlt`, `constantColor`
    - Progress/Status (6): `progressStart`, `progressMid`, `progressEnd`, `memoryIndicator`, `passedColor`, `failedColor`
    - Additional UI (8): `breadcrumbCurrent`, `breadcrumbHover`, `separatorColor`, `disabledText`, `counterBackground`, `tooltipBackground`, `linkHover`, `iconColor`
+   - Island (1): `islandBorderColor`
+   - Editor tab underlines (4): `underlinedTabBorderColor`, `underlinedTabBackground`, `inactiveUnderlinedTabBorderColor`, `inactiveUnderlinedTabBackground`
+   - Icon Actions (5): `actionsRed`, `actionsYellow`, `actionsGreen`, `actionsBlue`, `actionsGrey`
+   - Icon Objects (5): `objectsGreen`, `objectsYellow`, `objectsBlue`, `objectsGrey`, `objectsRed`
+   - Total: 53 new colors
 
 ### 3. Build Attempt
 

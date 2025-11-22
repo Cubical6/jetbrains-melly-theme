@@ -378,13 +378,13 @@ data class WindowsTerminalColorScheme(
 }
 
 /**
- * Enhanced color palette with 50 derived colors for comprehensive theme generation.
+ * Enhanced color palette with 65 derived colors for comprehensive theme generation.
  *
  * Provides a rich set of colors derived from the base Windows Terminal color scheme,
  * including surface variations, selection states, focus colors, UI components,
  * syntax-specific colors, progress indicators, and additional UI elements.
  *
- * Total: 12 existing + 38 new = 50 derived colors
+ * Total: 12 existing + 53 new = 65 derived colors
  */
 data class ColorPalette(
     // Existing 12 colors
