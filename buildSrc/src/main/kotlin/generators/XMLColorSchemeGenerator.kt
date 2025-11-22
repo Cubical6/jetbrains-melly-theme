@@ -23,9 +23,14 @@ import java.io.ByteArrayInputStream
  *
  * Template placeholders:
  * - `$SCHEME_NAME$` - Replaced with the scheme name
- * - `$wt_background$`, `$wt_foreground$` - Special colors
+ * - `$wt_background$`, `$wt_foreground$` - Base colors
  * - `$wt_<color>$` - ANSI colors (black, red, green, yellow, blue, magenta, cyan, white)
  * - `$wt_bright_<color>$` - Bright ANSI colors
+ * - `$wt_<derived>$` - 60+ derived colors from ColorPalette (e.g., instance_field, todo_color,
+ *   surface, surface_light, line_numbers, error_background, etc.)
+ *
+ * All placeholders are automatically generated from WindowsTerminalColorScheme.toColorPaletteMap(),
+ * which includes both base ANSI colors and derived colors for comprehensive theming.
  *
  * @property templatePath Path to the Windows Terminal template XML file
  * @property consoleColorMapper Mapper for console color attributes
@@ -42,7 +47,13 @@ class XMLColorSchemeGenerator(
 
     companion object {
         /**
-         * Expected template placeholders and their meanings
+         * Core template placeholders that are always required.
+         *
+         * Note: The generator now supports 60+ additional derived color placeholders
+         * from ColorPalette (e.g., $wt_instance_field$, $wt_todo_color$, $wt_surface$, etc.)
+         * These are automatically generated via toColorPaletteMap() and are not listed here.
+         *
+         * This set represents the minimum base placeholders needed for a valid color scheme.
          */
         private val EXPECTED_PLACEHOLDERS = setOf(
             "\$SCHEME_NAME$",
@@ -189,6 +200,7 @@ class XMLColorSchemeGenerator(
 
     /**
      * Builds a complete replacement map for all template placeholders.
+     * Uses toColorPaletteMap() to get all base + derived colors automatically.
      *
      * @param scheme Windows Terminal color scheme
      * @return Map of placeholder strings to their replacement values
@@ -198,31 +210,36 @@ class XMLColorSchemeGenerator(
     ): Map<String, String> {
         val replacements = mutableMapOf<String, String>()
 
-        // Scheme name
+        // Scheme name (no normalization needed)
         replacements["\$SCHEME_NAME$"] = scheme.name
 
-        // Map Windows Terminal colors to template placeholders
-        // Note: Windows Terminal uses "purple" but template uses "magenta"
-        replacements["\$wt_background$"] = normalizeColor(scheme.background)
-        replacements["\$wt_foreground$"] = normalizeColor(scheme.foreground)
-        replacements["\$wt_black$"] = normalizeColor(scheme.black)
-        replacements["\$wt_red$"] = normalizeColor(scheme.red)
-        replacements["\$wt_green$"] = normalizeColor(scheme.green)
-        replacements["\$wt_yellow$"] = normalizeColor(scheme.yellow)
-        replacements["\$wt_blue$"] = normalizeColor(scheme.blue)
-        replacements["\$wt_magenta$"] = normalizeColor(scheme.purple)  // purple → magenta
-        replacements["\$wt_cyan$"] = normalizeColor(scheme.cyan)
-        replacements["\$wt_white$"] = normalizeColor(scheme.white)
-        replacements["\$wt_bright_black$"] = normalizeColor(scheme.brightBlack)
-        replacements["\$wt_bright_red$"] = normalizeColor(scheme.brightRed)
-        replacements["\$wt_bright_green$"] = normalizeColor(scheme.brightGreen)
-        replacements["\$wt_bright_yellow$"] = normalizeColor(scheme.brightYellow)
-        replacements["\$wt_bright_blue$"] = normalizeColor(scheme.brightBlue)
-        replacements["\$wt_bright_magenta$"] = normalizeColor(scheme.brightPurple)  // brightPurple → bright_magenta
-        replacements["\$wt_bright_cyan$"] = normalizeColor(scheme.brightCyan)
-        replacements["\$wt_bright_white$"] = normalizeColor(scheme.brightWhite)
+        // Get all colors from toColorPaletteMap() (base + derived) and normalize them
+        scheme.toColorPaletteMap().forEach { (key, value) ->
+            val templateKey = normalizeTemplateKey(key)
+            replacements["\$$templateKey$"] = normalizeColor(value)
+        }
 
         return replacements
+    }
+
+    /**
+     * Normalizes color palette keys to match template placeholder format.
+     * Handles purple → magenta mapping and brightX → bright_x conversion.
+     *
+     * @param key Color palette key (e.g., "wt_purple", "wt_brightBlack")
+     * @return Template-compatible key (e.g., "wt_magenta", "wt_bright_black")
+     */
+    private fun normalizeTemplateKey(key: String): String {
+        return when {
+            key == "wt_purple" -> "wt_magenta"
+            key == "wt_brightPurple" -> "wt_bright_magenta"
+            key.startsWith("wt_bright") && key.length > 9 -> {
+                // Convert wt_brightX to wt_bright_x (e.g., wt_brightBlack -> wt_bright_black)
+                val colorName = key.substring(9).lowercase()
+                "wt_bright_$colorName"
+            }
+            else -> key
+        }
     }
 
     /**

@@ -30,10 +30,11 @@
         "os.windows": "selectionForeground",
         "os.mac": "selectionForeground"
       },
-      "selectionInactiveBackground": "$wt_black$",
-      "selectionBackgroundInactive": "$wt_black$",
+      "selectionInactiveBackground": "$wt_selection_inactive$",
+      "selectionBackgroundInactive": "$wt_selection_inactive$",
 
       "disabledBackground": "backgroundColor",
+      "disabledForeground": "$wt_disabled_text$",
       "inactiveBackground": "backgroundColor",
 
       "acceleratorForeground": "$wt_brightWhite$",
@@ -43,14 +44,14 @@
 
       "borderColor": "$wt_uiBorderColor$",
       "disabledBorderColor": "$wt_black$",
-      "focusColor": "backgroundColor",
-      "focusedBorderColor": "accentColor",
+      "focusColor": "$wt_focus_color$",
+      "focusedBorderColor": "$wt_focus_border$",
 
       "separatorColor": "$wt_uiBorderColor$"
     },
 
     "ActionButton": {
-      "hoverBackground": "$wt_black$",
+      "hoverBackground": "$wt_hover_background$",
       "hoverBorderColor": "$wt_black$",
       "pressedBackground": "$wt_brightBlack$",
       "pressedBorderColor": "$wt_brightBlack$"
@@ -97,7 +98,8 @@
         "endBackground": "accentColor",
         "startBorderColor": "accentColor",
         "endBorderColor": "accentColor",
-        "focusedBorderColor": "$wt_blue$",
+        "borderColor": "$wt_button_border$",
+        "focusedBorderColor": "$wt_button_border_focused$",
         "focusColor": "$wt_blue$"
       }
     },
@@ -128,8 +130,9 @@
 
     "ComplexPopup": {
       "Header": {
-        "background": "backgroundColor"
-      }
+        "background": "$wt_header_background$"
+      },
+      "Border.color": "$wt_popup_border$"
     },
 
     "Component": {
@@ -204,7 +207,7 @@
 
     "Link": {
       "activeForeground": "$wt_brightBlue$",
-      "hoverForeground": "$wt_brightBlue$",
+      "hoverForeground": "$wt_link_hover$",
       "pressedForeground": "$wt_brightBlue$",
       "visitedForeground": "$wt_brightBlue$"
     },
@@ -224,7 +227,7 @@
 
     "MemoryIndicator": {
       "allocatedBackground": "$wt_blue$",
-      "usedBackground": "$wt_brightBlue$"
+      "usedBackground": "$wt_memory_indicator$"
     },
 
     "Notification": {
@@ -301,7 +304,7 @@
     },
 
     "Popup": {
-      "background": "$wt_background$",
+      "background": "$wt_popup_background$",
       "paintBorder": false,
       "borderColor": "$wt_background$",
       "Toolbar.borderColor": "$wt_black$",
@@ -316,8 +319,8 @@
     "ProgressBar": {
       "trackColor": "$wt_black$",
       "progressColor": "accentColor",
-      "indeterminateStartColor": "$wt_blue$",
-      "indeterminateEndColor": "accentColor",
+      "indeterminateStartColor": "$wt_progress_start$",
+      "indeterminateEndColor": "$wt_progress_end$",
       "failedColor": "$wt_red$",
       "failedEndColor": "$wt_brightRed$",
       "passedColor": "$wt_green$",
