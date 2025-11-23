@@ -63,6 +63,14 @@ data class WindowsTerminalColorScheme(
     companion object {
         private val HEX_COLOR_REGEX = Regex("^#[0-9A-Fa-f]{6}$")
 
+        // Accent detection scoring weights
+        private const val SATURATION_WEIGHT = 0.4
+        private const val BRIGHTNESS_WEIGHT = 0.3
+        private const val UNIQUENESS_WEIGHT = 0.3
+
+        // Maximum Euclidean distance in RGB space: sqrt(255² + 255² + 255²)
+        private const val MAX_RGB_DISTANCE = 441.67
+
         /**
          * List of all required property names for validation
          */
@@ -143,6 +151,80 @@ data class WindowsTerminalColorScheme(
     }
 
     /**
+     * Detects the primary accent color from the Windows Terminal color scheme.
+     *
+     * Analyzes all bright colors (brightBlue, brightPurple, brightCyan, etc.) and scores them
+     * based on:
+     * - **Saturation** (40% weight): How vivid/colorful the color is
+     * - **Brightness** (30% weight): How light the color is (for visibility)
+     * - **Uniqueness** (30% weight): How distinct from other colors (for prominence)
+     *
+     * The highest-scoring color becomes the accent, used for:
+     * - Default/primary buttons
+     * - Focus indicators
+     * - Links and primary actions
+     *
+     * **Examples**:
+     * - Lovelace scheme → brightPurple (#A77AE6)
+     * - One Half Dark → brightBlue (#61AFEF)
+     * - Nord → brightCyan (#88C0D0)
+     *
+     * @return The detected accent color in #RRGGBB format
+     * @throws IllegalArgumentException if any color has invalid hex format
+     * @since 2.0
+     */
+    private fun detectAccentColor(): String {
+        val candidates = listOf(
+            "brightBlue" to brightBlue,
+            "brightPurple" to brightPurple,
+            "brightCyan" to brightCyan,
+            "brightGreen" to brightGreen,
+            "brightRed" to brightRed
+        )
+
+        /**
+         * Calculates uniqueness score for a color based on average RGB Euclidean distance
+         * from other colors in the candidate list.
+         *
+         * @param color The color to score
+         * @param allColors All candidate colors to compare against
+         * @return Normalized uniqueness score (0.0-1.0)
+         */
+        fun uniquenessScore(color: String, allColors: List<Pair<String, String>>): Double {
+            val distances = allColors
+                .filter { it.second != color }
+                .map { other ->
+                    val (r1, g1, b1) = ColorUtils.hexToRgb(color)
+                    val (r2, g2, b2) = ColorUtils.hexToRgb(other.second)
+                    // Euclidean distance in RGB space
+                    kotlin.math.sqrt(
+                        ((r1 - r2) * (r1 - r2) + (g1 - g2) * (g1 - g2) + (b1 - b2) * (b1 - b2)).toDouble()
+                    )
+                }
+            return if (distances.isNotEmpty()) {
+                distances.average() / MAX_RGB_DISTANCE  // Normalize to 0-1
+            } else {
+                0.0
+            }
+        }
+
+        // Score each candidate
+        val scored = candidates.map { (_, color) ->
+            val (_, saturation, value) = ColorUtils.hexToHsv(color)
+            val uniqueness = uniquenessScore(color, candidates)
+
+            val score = (saturation * SATURATION_WEIGHT) +
+                        (value * BRIGHTNESS_WEIGHT) +
+                        (uniqueness * UNIQUENESS_WEIGHT)
+
+            color to score
+        }
+
+        // Return the color with highest score, fallback to brightBlue
+        return scored.maxByOrNull { it.second }?.first ?: brightBlue
+    }
+
+    /**
      * Converts the color scheme to an enhanced ColorPalette with 50 derived colors.
      *
      * This method generates a comprehensive color palette from the base Windows Terminal
@@ -165,7 +247,8 @@ data class WindowsTerminalColorScheme(
         val errorBackground = ColorUtils.blend(background, red, 0.20)
         val warningBackground = ColorUtils.blend(background, yellow, 0.20)
         val infoBackground = ColorUtils.blend(background, blue, 0.20)
-        val uiBorderColor = ColorUtils.createVisibleBorderColor(background, minContrast = 3.0)
+        // Use subtle mode for borders - less obtrusive while maintaining usability
+        val uiBorderColor = ColorUtils.createVisibleBorderColor(background, subtle = true)
         val uiComponentBackground = ColorUtils.createVisibleComponentBackground(background, minContrast = 1.5)
 
         // NEW: Surface variations (4)
@@ -176,16 +259,18 @@ data class WindowsTerminalColorScheme(
 
         // NEW: Selection variations (3)
         val selectionBg = selectionBackground ?: ColorUtils.blend(background, brightBlue, 0.30)
-        val selectionInactive = ColorUtils.darken(selectionBg, 0.40)
+        // Tune: Make inactive selection darker to match demo (0.40 → 0.48)
+        val selectionInactive = ColorUtils.darken(selectionBg, 0.48)
         val selectionLight = ColorUtils.lighten(selectionBg, 0.20)
         val selectionBorder = ColorUtils.lighten(selectionBg, 0.30)
 
-        // NEW: Focus/Accent colors (5)
-        val accentPrimary = brightBlue
+        // NEW: Focus/Accent colors (5) - Use detected accent color
+        val detectedAccent = detectAccentColor()
+        val accentPrimary = detectedAccent
         val accentSecondary = brightPurple
         val accentTertiary = brightCyan
-        val focusColor = ColorUtils.lighten(accentSecondary, 0.15)
-        val focusBorder = ColorUtils.darken(accentSecondary, 0.15)
+        val focusColor = ColorUtils.lighten(detectedAccent, 0.15)
+        val focusBorder = detectedAccent
 
         // NEW: Button/Component colors (6)
         val buttonBorder = ColorUtils.lighten(surface, 0.10)
@@ -193,7 +278,8 @@ data class WindowsTerminalColorScheme(
         val popupBackground = ColorUtils.blend(background, purple, 0.15)
         val popupBorder = ColorUtils.lighten(popupBackground, 0.20)
         val headerBackground = ColorUtils.blend(surface, purple, 0.10)
-        val hoverBackground = ColorUtils.lighten(surface, 0.08)
+        // Tune: Use background instead of surface, with subtle elevation (matches demo button surface)
+        val hoverBackground = ColorUtils.lighten(background, 0.08)
 
         // NEW: Syntax-specific derived colors (6)
         val instanceField = ColorUtils.blend(purple, red, 0.40) // Pink
@@ -231,7 +317,20 @@ data class WindowsTerminalColorScheme(
 
         // Editor tab underline styling
         val underlinedTabBorderColor = selectionBg
-        val underlinedTabBackground = ColorUtils.blend(background, selectionBg, 0.3)
+        // Tune: Add purple tint for purple-themed schemes
+        val isPurpleThemed = run {
+            val accentHue = ColorUtils.extractHue(detectedAccent)
+            accentHue in 270.0..320.0  // Purple hue range
+        }
+        val underlinedTabBackground = if (isPurpleThemed) {
+            ColorUtils.blend(
+                ColorUtils.lighten(background, 0.08),
+                detectedAccent,
+                0.15  // 15% accent color for purple tint
+            )
+        } else {
+            ColorUtils.blend(background, selectionBg, 0.3)
+        }
         val inactiveUnderlinedTabBorderColor = ColorUtils.desaturate(selectionBg, 0.5)
         val inactiveUnderlinedTabBackground = ColorUtils.blend(background, surface, 0.5)
 
@@ -610,8 +709,11 @@ fun WindowsTerminalColorScheme.toColorPaletteMap(): Map<String, String> {
         put("wt_cursorColor", cursorColor ?: foreground)
         put("wt_selectionBackground", selectionBackground ?: ColorUtils.blend(background, foreground, 0.2))
 
+        // Cache toColorPalette() result to avoid redundant computation (CRITICAL FIX)
+        val palette = toColorPalette()
+
         // Add all derived colors from ColorPalette
-        putAll(toColorPalette().toMap())
+        putAll(palette.toMap())
 
         // Template compatibility aliases (snake_case for bright colors)
         put("wt_bright_black", brightBlack)
@@ -625,5 +727,13 @@ fun WindowsTerminalColorScheme.toColorPaletteMap(): Map<String, String> {
         // Magenta/Purple aliases (template uses 'magenta', WT uses 'purple')
         put("wt_magenta", purple)
         put("wt_bright_magenta", brightPurple)
+
+        // Accent and focus colors (auto-detected) - NEW in v2.0
+        put("wt_accent_color", palette.accentPrimary)
+        put("wt_focused_border_color", palette.focusBorder)
+
+        // Info foreground (muted gray for hints) - NEW in v2.0
+        val infoForeground = ColorUtils.blend(foreground, background, 0.35)
+        put("wt_info_foreground", infoForeground)
     }
 }

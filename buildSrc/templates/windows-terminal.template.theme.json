@@ -5,10 +5,10 @@
   "editorScheme": "/themes/$wt_scheme_name$.xml",
   "parentTheme": "ExperimentalDark",
   "colors": {
-    "accentColor": "$wt_brightBlue$",
+    "accentColor": "$wt_accent_color$",
     "backgroundColor": "$wt_background$",
     "borderColor": "$wt_uiBorderColor$",
-    "infoForeground": "$wt_cyan$",
+    "infoForeground": "$wt_info_foreground$",
     "foregroundColor": "$wt_foreground$",
     "notificationBackground": "$wt_black$",
     "selectionBackground": "$wt_selectionBackground$",
@@ -19,7 +19,7 @@
       "background": "backgroundColor",
       "foreground": "$wt_foreground$",
 
-      "infoForeground": "$wt_cyan$",
+      "infoForeground": "$wt_info_foreground$",
 
       "selectionBackground": {
         "os.default": "selectionBackground",
@@ -263,7 +263,7 @@
     "ParameterInfo": {
       "background": "$wt_black$",
       "foreground": "$wt_foreground$",
-      "infoForeground": "$wt_cyan$",
+      "infoForeground": "$wt_info_foreground$",
       "currentParameterForeground": "$wt_brightWhite$"
     },
 

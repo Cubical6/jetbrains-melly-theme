@@ -543,21 +543,33 @@ object ColorUtils {
     }
 
     /**
-     * Creates a border color that has good visibility against a background.
+     * Creates a border color that has good visibility against a background but is not overly prominent.
      *
-     * Borders need higher contrast than component backgrounds (WCAG AA requires 3:1 for UI components).
+     * **Subtle Mode** (default for theme generation):
+     * - HSV value: 0.22 (quite dark for dark backgrounds)
+     * - Saturation: 30% of original (neutral gray-ish)
+     * - Minimum contrast: 1.8:1 (visible but subtle)
+     *
+     * **Standard Mode** (for accessibility-critical borders):
+     * - HSV value: 0.40 (lighter, more visible)
+     * - Saturation: 50% of original
+     * - Minimum contrast: 3:1 (WCAG compliant)
+     *
      * This function creates a border color by:
      * 1. Maintaining the hue of the background for visual harmony
      * 2. Reducing saturation for a subtle, professional look
-     * 3. Ensuring WCAG AA minimum contrast (3:1)
+     * 3. Ensuring appropriate minimum contrast based on mode
      *
      * @param backgroundColor Background color the border will be displayed against
-     * @param minContrast Minimum WCAG contrast ratio (default: 3.0 for WCAG AA)
+     * @param minContrast Minimum WCAG contrast ratio (default: 3.0)
+     * @param subtle Whether to use subtle mode (default false)
      * @return Border color with sufficient contrast
+     * @since 1.0 (subtle mode added in 2.0)
      */
     fun createVisibleBorderColor(
         backgroundColor: String,
-        minContrast: Double = 3.0
+        minContrast: Double = 3.0,
+        subtle: Boolean = false
     ): String {
         val (hue, saturation, _) = hexToHsv(backgroundColor)
         val bgLuminance = calculateRelativeLuminance(backgroundColor)
@@ -565,22 +577,30 @@ object ColorUtils {
         // Determine if background is dark or light
         val isDark = bgLuminance < 0.5
 
-        // For borders, we want significant contrast
-        // Dark backgrounds: use much lighter border
-        // Light backgrounds: use much darker border
-        val borderValue = if (isDark) {
-            0.4 // Lighter border for dark background
+        // Choose parameters based on mode
+        val (targetValue, saturationMultiplier, contrast) = if (subtle) {
+            // SUBTLE MODE: for less obtrusive borders
+            if (isDark) {
+                Triple(0.22, 0.30, 1.8)
+            } else {
+                Triple(0.75, 0.30, 1.8)
+            }
         } else {
-            0.3 // Darker border for light background
+            // STANDARD MODE: for WCAG-compliant borders
+            if (isDark) {
+                Triple(0.40, 0.50, 3.0)
+            } else {
+                Triple(0.60, 0.50, 3.0)
+            }
         }
 
         // Reduce saturation for professional look
-        val borderSaturation = (saturation * 0.5).coerceIn(0.0, 1.0)
+        val borderSaturation = (saturation * saturationMultiplier).coerceIn(0.0, 1.0)
 
-        val borderColor = hsvToHex(hue, borderSaturation, borderValue)
+        val borderColor = hsvToHex(hue, borderSaturation, targetValue)
 
-        // Ensure minimum contrast is met
-        return ensureMinimumContrast(borderColor, backgroundColor, minContrast, maxIterations = 50)
+        // Ensure minimum contrast is met, using mode-appropriate threshold
+        return ensureMinimumContrast(borderColor, backgroundColor, if (subtle) contrast else minContrast, maxIterations = 50)
     }
 
     /**

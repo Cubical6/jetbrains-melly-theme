@@ -592,7 +592,7 @@
     </option>
     <option name="DEFAULT_BLOCK_COMMENT">
       <value>
-        <option name="FOREGROUND" value="$wt_black$"/>
+        <option name="FOREGROUND" value="$wt_brightBlack$"/>
         <option name="FONT_TYPE" value="%theme^comments%"/>
       </value>
     </option>
@@ -616,7 +616,7 @@
     </option>
     <option name="DEFAULT_DOC_COMMENT">
       <value>
-        <option name="FOREGROUND" value="$wt_black$"/>
+        <option name="FOREGROUND" value="$wt_brightBlack$"/>
         <option name="FONT_TYPE" value="%theme^comments%"/>
       </value>
     </option>
@@ -685,7 +685,7 @@
     </option>
     <option name="DEFAULT_LINE_COMMENT">
       <value>
-        <option name="FOREGROUND" value="$wt_black$"/>
+        <option name="FOREGROUND" value="$wt_brightBlack$"/>
         <option name="FONT_TYPE" value="%theme^comments%"/>
       </value>
     </option>
@@ -947,7 +947,7 @@
     </option>
     <option name="GO_LINE_COMMENT">
       <value>
-        <option name="FOREGROUND" value="$wt_black$"/>
+        <option name="FOREGROUND" value="$wt_brightBlack$"/>
         <option name="FONT_TYPE" value="%theme^comments%"/>
       </value>
     </option>
