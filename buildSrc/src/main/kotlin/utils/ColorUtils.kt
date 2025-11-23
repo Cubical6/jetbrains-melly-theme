@@ -545,15 +545,15 @@ object ColorUtils {
     /**
      * Creates a border color that has good visibility against a background but is not overly prominent.
      *
-     * **Subtle Mode** (default for theme generation):
+     * **Subtle Mode** (`subtle=true`, used for theme generation):
      * - HSV value: 0.22 (quite dark for dark backgrounds)
      * - Saturation: 30% of original (neutral gray-ish)
      * - Minimum contrast: 1.8:1 (visible but subtle)
      *
-     * **Standard Mode** (for accessibility-critical borders):
+     * **Standard Mode** (`subtle=false`, default for general use):
      * - HSV value: 0.40 (lighter, more visible)
      * - Saturation: 50% of original
-     * - Minimum contrast: 3:1 (WCAG compliant)
+     * - Minimum contrast: 3:1 (WCAG AA compliant)
      *
      * This function creates a border color by:
      * 1. Maintaining the hue of the background for visual harmony
@@ -561,8 +561,8 @@ object ColorUtils {
      * 3. Ensuring appropriate minimum contrast based on mode
      *
      * @param backgroundColor Background color the border will be displayed against
-     * @param minContrast Minimum WCAG contrast ratio (default: 3.0)
-     * @param subtle Whether to use subtle mode (default false)
+     * @param minContrast Minimum WCAG contrast ratio (default: 3.0, used when subtle=false)
+     * @param subtle Whether to use subtle mode (default: false)
      * @return Border color with sufficient contrast
      * @since 1.0 (subtle mode added in 2.0)
      */

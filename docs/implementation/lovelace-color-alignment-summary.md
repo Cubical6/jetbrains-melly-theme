@@ -17,7 +17,7 @@ All 9 phases of the Lovelace color alignment plan have been successfully impleme
 | 1. Accent Color Detection | ✅ COMPLETE | Auto-detect accent from bright colors | Purple accent for Lovelace |
 | 2. Border Colors Subtle Mode | ✅ COMPLETE | Subtle borders (1.8:1 contrast) | Less obtrusive UI borders |
 | 3. Derived Color Percentages | ✅ COMPLETE | Tuned 6 color calculations | Better visual harmony |
-| 4. Info Foreground Semantiek | ✅ COMPLETE | Muted gray for hints/info | Reduced visual noise |
+| 4. Info Foreground Semantics | ✅ COMPLETE | Muted gray for hints/info | Reduced visual noise |
 | 5. Focus Color Refinement | ✅ COMPLETE | Focus derived from accent | Consistent purple theme |
 | 6. Editor Scheme Corrections | ✅ COMPLETE | Comments now visible (brightBlack) | **CRITICAL FIX** |
 | 7. Testing & Validation | ⚠️ SKIPPED | Network issues during build | Manual validation needed |
@@ -128,13 +128,13 @@ companion object {
 
 ## Validation Results
 
-### Subagent Validation (Fase 1)
+### Subagent Validation (Phase 1)
 - **Bug Hunter**: Found 1 critical bug (redundant toColorPalette() calls) ✅ FIXED
 - **Side Effects**: Found 2 breaking changes (placeholder mismatches) ✅ FIXED
 - **Edge Cases**: Identified Unicode hex and performance issues (acceptable trade-offs)
 - **Code Quality**: Scored 5/10 → refactored to ~7/10
 
-### Subagent Validation (Fase 2)
+### Subagent Validation (Phase 2)
 - **SAFE**: Backwards compatible (default `subtle=false`)
 - **WARNING**: 1.8:1 contrast below WCAG AA, acceptable for subtle mode
 
