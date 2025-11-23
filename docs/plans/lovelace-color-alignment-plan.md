@@ -2,8 +2,22 @@
 
 **Versie**: 1.0
 **Datum**: 2025-11-23
-**Status**: Planning
+**Status**: Planning (Living Document - evolueert tijdens implementatie)
 **Eigenaar**: Theme Generation System
+
+---
+
+## Plan Changelog
+
+### v1.0 - 2025-11-23 (Initieel Plan)
+**Created:**
+- 9-fase implementatie plan voor Lovelace color alignment
+- Comprehensive analysis van 13 UI + 8 editor verschillen
+- Post-fase subagent validatie protocol
+- Plan update protocol (living document approach)
+- Subagent usage triggers en guidelines
+
+**Note:** Dit plan zal evolueren tijdens implementatie. Zie "Plan Update Protocol" sectie.
 
 ## Executive Summary
 
@@ -1790,6 +1804,221 @@ Task tool × 4 parallel calls:
   - Geen HIGH severity issues
   - LOW/MEDIUM issues gedocumenteerd voor later
   - Edge cases covered OF bewust geaccepteerd
+
+### **WHEN TO USE SUBAGENTS: Detailed Triggers**
+
+**MANDATORY - Gebruik subagents in deze situaties:**
+
+1. **Na elke fase implementatie** (zoals hierboven beschreven)
+   - Bug Hunter, Side Effects, Edge Cases, Code Quality agents
+   - 3-5 parallel agents zonder context
+
+2. **Tijdens complexe algorithme ontwikkeling**
+   - Trigger: Als je een nieuw algoritme schrijft (bijv. `detectAccentColor()`)
+   - Spawn: 2-3 agents om verschillende implementatie benaderingen te evalueren
+   - Vraag: "Implementeer accent detection met [approach A/B/C], vergelijk trade-offs"
+
+3. **Bij onverwachte test failures**
+   - Trigger: Test faalt die zou moeten slagen
+   - Spawn: Debug agent zonder context van je aannames
+   - Vraag: "Analyseer waarom test X faalt, negeer mijn verklaring, vind root cause"
+
+4. **Bij multi-file refactoring**
+   - Trigger: Wijzigingen raken >3 bestanden
+   - Spawn: Dependency analysis agent
+   - Vraag: "Map alle dependencies van [gewijzigde files], vind breaking changes"
+
+5. **Voordat je een fase als 'compleet' markeert**
+   - Trigger: Je denkt dat fase klaar is
+   - Spawn: Skeptical reviewer agent
+   - Vraag: "Review fase X implementatie, zoek wat er NIET werkt, niet wat wel werkt"
+
+6. **Bij twijfel over approach**
+   - Trigger: Je hebt 2+ mogelijke oplossingen
+   - Spawn: Architecture comparison agents (1 per approach)
+   - Vraag: "Implementeer [approach X], lijst alle nadelen en edge cases"
+
+**OPTIONAL - Gebruik subagents wanneer nuttig:**
+
+7. **Voor test case generatie**
+   - Spawn: Test scenario brainstorm agent
+   - Vraag: "Genereer 20 test cases voor [functionaliteit], focus op edge cases"
+
+8. **Voor performance analyse**
+   - Spawn: Performance profiling agent
+   - Vraag: "Analyseer [code] op performance bottlenecks, bereken big-O complexity"
+
+9. **Voor documentatie review**
+   - Spawn: Documentation clarity agent
+   - Vraag: "Lees [doc] zonder code context, lijst onduidelijkheden"
+
+### **Plan Update Protocol - Living Document Approach**
+
+**Dit plan is een LEVEND DOCUMENT dat evolueert tijdens implementatie.**
+
+**Na elke fase MOET een "Plan Retrospective" uitgevoerd worden:**
+
+#### Plan Retrospective Workflow
+
+```
+FASE COMPLEET + SUBAGENT VALIDATIE
+    ↓
+SPAWN PLAN IMPROVEMENT AGENT
+    ↓
+"Analyseer:
+ 1. Wat ging anders dan gepland in Fase X?
+ 2. Welke aannames bleken onjuist?
+ 3. Welke nieuwe inzichten hebben we?
+ 4. Hoe moeten volgende fases aangepast worden?
+ 5. Zijn de success metrics nog realistisch?"
+    ↓
+AGGREGEER BEVINDINGEN
+    ↓
+UPDATE PLAN (indien nodig)
+    ↓
+COMMIT PLAN v[X.Y] met changelog
+    ↓
+VOLGENDE FASE
+```
+
+#### Wanneer Plan Updaten?
+
+**MUST UPDATE - Plan moet bijgewerkt worden als:**
+
+1. **Algoritme aannames onjuist blijken**
+   - Voorbeeld: "Border value 0.22 breekt lichte thema's"
+   - Action: Update Fase 2 met nieuwe value, voeg light theme test toe
+
+2. **Nieuwe dependencies ontdekt**
+   - Voorbeeld: "Accent detection heeft ook cursor color nodig"
+   - Action: Voeg cursor color mapping toe aan Fase 1 scope
+
+3. **Success metrics niet haalbaar**
+   - Voorbeeld: "Delta E <3.0 niet mogelijk voor Button.default"
+   - Action: Update metrics naar realistic targets per component
+
+4. **Scope creep gedetecteerd**
+   - Voorbeeld: "Fase 3 probeert ook tab colors te fixen (not in scope)"
+   - Action: Verplaats tab colors naar Fase 3b of documenteer als out-of-scope
+
+5. **Blocking issues in volgende fases**
+   - Voorbeeld: "Fase 5 kan niet zonder Fase 1 output"
+   - Action: Wijzig volgorde of voeg dependency handling toe
+
+**SHOULD UPDATE - Plan zou bijgewerkt moeten worden als:**
+
+6. **Betere aanpak gevonden**
+   - Voorbeeld: "Accent detection via color frequency ipv saturation"
+   - Action: Documenteer alternatief, overweeg voor v3.0
+
+7. **Performance bottleneck ontdekt**
+   - Voorbeeld: "Subtiele borders 10x langzamer"
+   - Action: Voeg caching strategy toe aan plan
+
+8. **Edge cases gevonden die plan moet coveren**
+   - Voorbeeld: "Grayscale thema's hebben geen accent"
+   - Action: Voeg grayscale handling toe aan Fase 1
+
+**MAY UPDATE - Optionele plan updates:**
+
+9. **Code quality improvements**
+   - Voorbeeld: "Extract color calculation naar utility class"
+   - Action: Voeg refactoring task toe (low priority)
+
+10. **Documentation gaps**
+    - Voorbeeld: "KDoc mist examples"
+    - Action: Verbeter Fase 9 documentatie requirements
+
+#### Plan Versioning
+
+**Gebruik semantic versioning voor plan updates:**
+
+```
+Plan v1.0 - Initieel plan (huidige versie)
+Plan v1.1 - Minor update na Fase 1 (betere approach gevonden)
+Plan v1.2 - Minor update na Fase 2 (edge case toegevoegd)
+Plan v2.0 - Major update (fundamentele aanname onjuist, grote wijziging)
+```
+
+**Changelog format:**
+```markdown
+## Plan Changelog
+
+### v1.2 - 2025-11-24 (Na Fase 2)
+**Changed:**
+- Border subtle mode: value 0.22 → 0.20 (light themes fix)
+- Added light theme validation to Fase 7
+
+**Added:**
+- Fase 2b: Separate handling voor light vs dark borders
+
+**Lessons Learned:**
+- Border calculation is niet universeel, needs theme-type awareness
+```
+
+#### Voorbeeld: Plan Update Na Fase 1
+
+**Scenario:** Fase 1 implementatie van `detectAccentColor()` onthult dat:
+1. Lovelace's `#7A3A82` is inderdaad niet afleidbaar (zoals voorspeld)
+2. Maar: We ontdekken dat `brightPurple` gemengd met `purple` het WEL benadert
+3. Onverwacht: Nord theme kiest groene accent ipv blauwe
+
+**Plan Update Actie:**
+```markdown
+## Plan v1.1 Update (Na Fase 1 Implementatie)
+
+### Wijzigingen in Fase 1:
+**VOOR:**
+```kotlin
+val detectedAccent = detectAccentColor()  // Simpel kiezen
+```
+
+**NA:**
+```kotlin
+val detectedAccent = detectAccentColor()
+val refinedAccent = if (isPurpleThemed()) {
+    ColorUtils.blend(brightPurple, purple, 0.60)  // Benadering van #7A3A82
+} else {
+    detectedAccent
+}
+```
+
+**Impact op volgende fases:**
+- Fase 5 (Focus colors): Moet `refinedAccent` gebruiken ipv `detectedAccent`
+- Fase 7 (Testing): Voeg Nord accent test toe (verwacht green, krijgt blue)
+
+**Updated Success Metrics:**
+- Button.default Delta E: <3.0 → <8.0 (accepteer dat blend 60/40 niet perfect is)
+
+**New Risks:**
+- `isPurpleThemed()` detection kan falen voor edge case thema's
+- Mitigatie: Manual override in config
+```
+
+**Commit:**
+```bash
+git commit -m "docs: update plan v1.1 after Fase 1 learnings
+
+- Add purple accent blending strategy
+- Update success metrics for Button.default (Delta E <8.0)
+- Add Nord theme accent test to Fase 7
+- Document isPurpleThemed() edge case risk"
+```
+
+### **Subagent Usage Summary**
+
+| Timing | Type | Count | Purpose |
+|--------|------|-------|---------|
+| **After each phase** | Validation agents | 3-5 | Bug hunting, side effects, edge cases, quality |
+| **During algo dev** | Implementation agents | 2-3 | Explore approaches, compare trade-offs |
+| **On test failure** | Debug agent | 1 | Root cause without bias |
+| **Multi-file refactor** | Dependency agent | 1 | Map breaking changes |
+| **Before phase complete** | Skeptical reviewer | 1 | Find what doesn't work |
+| **On approach doubt** | Comparison agents | 2-4 | Evaluate alternatives |
+| **After phase (retrospective)** | Plan improvement agent | 1 | Analyze learnings, suggest updates |
+
+**Total per phase:** ~6-12 subagent invocations (validation + retrospective)
+**Total project:** 48-96 subagent analyses
 
 ---
 
