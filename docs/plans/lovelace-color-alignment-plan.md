@@ -1702,19 +1702,110 @@ fun createVisibleBorderColor(
 
 ---
 
+## **KRITIEK: Post-Fase Subagent Validatie Protocol**
+
+**Na elke geïmplementeerde fase MOETEN parallel subagents zonder context worden ingezet om:**
+1. Wijzigingen te analyseren op mogelijke bugs
+2. Gerelateerde componenten te scannen op side effects
+3. Edge cases te identificeren die gemist zijn
+4. Code quality en architecture te valideren
+
+### Subagent Validatie Workflow
+
+**Per Fase:**
+```
+IMPLEMENTATIE FASE X
+    ↓
+SPAWN 3-5 PARALLEL SUBAGENTS (ZONDER CONTEXT)
+    ↓
+┌─────────────┬──────────────┬─────────────┬──────────────┐
+│ Subagent 1  │ Subagent 2   │ Subagent 3  │ Subagent 4   │
+│ Bug Hunter  │ Side Effects │ Edge Cases  │ Code Quality │
+└─────────────┴──────────────┴─────────────┴──────────────┘
+    ↓           ↓              ↓             ↓
+AGGREGEER BEVINDINGEN
+    ↓
+FIX GEVONDEN ISSUES (indien nodig)
+    ↓
+VOLGENDE FASE
+```
+
+**Subagent Types:**
+
+1. **Bug Hunter Agent**
+   - Prompt: "Analyseer [gewijzigde bestanden] op potentiële bugs zonder context van de requirements. Zoek naar: null pointer exceptions, type mismatches, off-by-one errors, resource leaks, infinite loops."
+   - Model: `sonnet` (grondige analyse)
+
+2. **Side Effects Agent**
+   - Prompt: "Zoek alle code die [gewijzigde functie/class] GEBRUIKT. Analyseer of de wijzigingen breaking changes introduceren of unexpected behavior kunnen veroorzaken."
+   - Model: `sonnet`
+
+3. **Edge Cases Agent**
+   - Prompt: "Bedenk extreme edge cases voor [gewijzigde functionaliteit]: empty inputs, null values, extreme values (0, negative, MAX_INT), unicode, concurrent access. Test conceptueel of de implementatie deze handled."
+   - Model: `haiku` (snelle brainstorm)
+
+4. **Code Quality Agent**
+   - Prompt: "Review [gewijzigde code] op: naming conventions, documentation, complexity (cyclomatic), SOLID principles, testability. Geen context van requirements."
+   - Model: `haiku`
+
+5. **Regression Risk Agent** (optional voor kritieke fases)
+   - Prompt: "Analyseer [gewijzigde algoritme] en predict welke bestaande thema's (One Half Dark, Nord, Solarized, etc.) mogelijk negatief beïnvloed worden. Leg uit waarom."
+   - Model: `sonnet`
+
+**Voorbeeld Voor Fase 1 (Accent Detection):**
+
+Na implementatie `detectAccentColor()`:
+```bash
+# Spawn 4 parallel agents in één message:
+Task tool × 4 parallel calls:
+
+1. "Analyseer WindowsTerminalColorScheme.kt:detectAccentColor() op bugs
+    zonder requirements context. Focus: division by zero, null colors,
+    empty candidates list, tie-breaking logic."
+
+2. "Zoek alle usages van detectAccentColor() in codebase. Analyseer of
+    return value correct gehandled wordt (null checks, type safety)."
+
+3. "Edge cases voor accent detection: scheme met alle grijstinten, scheme
+    met identieke bright colors, scheme met missing colors. Handled?"
+
+4. "Review detectAccentColor() code quality: function length, magic numbers
+    (0.4, 0.3, 0.3), variable naming, documentation."
+```
+
+**Aggregatie & Action:**
+- Alle agent reports verzamelen
+- Bugs met HIGH severity → immediate fix
+- Side effects → add to test plan
+- Edge cases → add unit tests
+- Code quality → refactor indien nodig
+
+**STOP CRITERIA:**
+- ❌ Fase mag NIET doorgaan als:
+  - HIGH severity bugs gevonden
+  - Breaking changes zonder mitigatie
+  - >3 kritieke edge cases niet gehandled
+
+- ✅ Fase mag doorgaan als:
+  - Geen HIGH severity issues
+  - LOW/MEDIUM issues gedocumenteerd voor later
+  - Edge cases covered OF bewust geaccepteerd
+
+---
+
 ## Samenvatting Implementatie Volgorde
 
 ### Week 1: Core UI Theme Algorithm Changes
-- ✅ **Dag 1-2**: Fase 1 (Accent Detection)
-- ✅ **Dag 3-4**: Fase 2 (Border Colors - Subtle Mode)
-- ✅ **Dag 5**: Fase 3 (Derived Colors - Button backgrounds, selections, etc.)
+- ✅ **Dag 1-2**: Fase 1 (Accent Detection) → **+ Subagent Validatie (3-4 agents)**
+- ✅ **Dag 3-4**: Fase 2 (Border Colors - Subtle Mode) → **+ Subagent Validatie**
+- ✅ **Dag 5**: Fase 3 (Derived Colors) → **+ Subagent Validatie**
 
 ### Week 2: UI Refinements & Editor Fixes
-- ✅ **Dag 1**: Fase 4 (Info Foreground - Muted Gray)
-- ✅ **Dag 2**: Fase 5 (Focus Colors - Accent-based)
-- ✅ **Dag 3**: Fase 6 (Editor Color Scheme - Fix invisible comments) **KRITIEK**
-- ✅ **Dag 4**: Fase 6 (Editor Color Scheme - Fix syntax color mappings)
-- ✅ **Dag 5**: Fase 8 (Template Consistency - Normal/Rounded variants)
+- ✅ **Dag 1**: Fase 4 (Info Foreground - Muted Gray) → **+ Subagent Validatie**
+- ✅ **Dag 2**: Fase 5 (Focus Colors - Accent-based) → **+ Subagent Validatie**
+- ✅ **Dag 3**: Fase 6 (Editor - Fix invisible comments) **KRITIEK** → **+ Subagent Validatie**
+- ✅ **Dag 4**: Fase 6 (Editor - Fix syntax colors) → **+ Subagent Validatie**
+- ✅ **Dag 5**: Fase 8 (Template Consistency) → **+ Subagent Validatie**
 
 ### Week 3: Testing, Validation & Documentation
 - ✅ **Dag 1-2**: Fase 7 (Testing - unit tests + visual tests)
@@ -1728,6 +1819,8 @@ fun createVisibleBorderColor(
 - ✅ **Dag 3**: Release notes + changelog
 - ✅ **Dag 4**: Version bump (v2.0) + PR
 - ✅ **Dag 5**: Merge + announcement
+
+**Totaal Subagent Validaties: 8 fases × 3-5 agents = 24-40 parallel analyses**
 
 ---
 
